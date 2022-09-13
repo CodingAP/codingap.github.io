@@ -10,3 +10,5 @@ Todo:
 - Blog
 - Static site generation
 - Embedded projects
+- Animations
+- make it mobile friendly
