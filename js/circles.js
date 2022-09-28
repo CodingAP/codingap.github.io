@@ -28,7 +28,8 @@ let generateCircles = () => {
         circleContainer.appendChild(circleInfo.div);
     }
 }
-generateCircles();
+const isMobile = window.matchMedia('only screen and (max-width: 768px)').matches;
+if (!isMobile) generateCircles();
 
 window.addEventListener('resize', () => {
     let width = (document.documentElement.scrollWidth - mainContainer.clientWidth) / 2;

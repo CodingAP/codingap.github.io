@@ -126,6 +126,12 @@ body {
     background-image: url("/res/project-background-3.png");
 }
 
+@media (max-width: 760px) {
+    .background-cover {
+        background-color:rgba(0, 0, 0, 0.75);
+    }
+}
+
 #circle-container {
     z-index: -1;
 }
