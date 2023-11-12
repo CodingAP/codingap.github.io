@@ -11,7 +11,7 @@ let generateCircles = () => {
             size: Math.random(),
             alpha: Math.random(),
             left: (i % 2 == 0),
-            div: document.createElement('div') 
+            div: document.createElement('div')
         };
 
         circleInfo.div.style.position = 'absolute';

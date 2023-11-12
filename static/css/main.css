@@ -6,7 +6,7 @@
 
 @font-face {
     font-family: cascadia;
-    src: url("/res/Cascadia.ttf");
+    src: url("/static/res/Cascadia.ttf");
 }
 
 html {
@@ -115,21 +115,15 @@ body {
 }
 
 .project-1 {
-    background-image: url("/res/project-background-1.png");
+    background-image: url("/static/res/project-background-1.png");
 }
 
 .project-2 {
-    background-image: url("/res/project-background-2.png");
+    background-image: url("/static/res/project-background-2.png");
 }
 
 .project-3 {
-    background-image: url("/res/project-background-3.png");
-}
-
-@media (max-width: 760px) {
-    .background-cover {
-        background-color:rgba(0, 0, 0, 0.75);
-    }
+    background-image: url("/static/res/project-background-3.png");
 }
 
 #circle-container {
