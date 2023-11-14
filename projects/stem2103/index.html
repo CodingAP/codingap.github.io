@@ -10,11 +10,27 @@
             margin: 0;
             overflow: hidden;
         }
+
+        .container {
+            position: relative;
+        }
+
+        .container canvas,
+        .overlay {
+            position: absolute;
+        }
     </style>
 </head>
 
 <body>
-    <canvas></canvas>
+    <p>not finished, am working on it, should be done by monday 10/30</p>
+    <div class="container">
+        <canvas></canvas>
+        <div class="overlay">
+            <a href="./reflection.pdf" style="padding: 20px; font-family: cursive;">PDF</a>
+            <a href="./notes.txt" style="padding: 20px; font-family: cursive;">Notes</a>
+        </div>
+    </div>
     <script src="index.js"></script>
 </body>
 
