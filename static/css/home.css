@@ -1,0 +1,53 @@
+.jumbotron-image-div {
+    height: 200px;
+}
+
+.jumbotron-image {
+    width: 90%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    box-shadow: 7px 7px 5px 3px rgba(0, 0, 0, 0.5);
+}
+
+.project-row {
+    background-position: 0 0;
+    background-size: cover;
+    box-shadow: 10px 10px 10px 3px rgba(0, 0, 0, 0.5);
+}
+
+.project-1 {
+    background-image: url("/static/res/project-background-1.png");
+}
+
+.project-2 {
+    background-image: url("/static/res/project-background-2.png");
+}
+
+.project-3 {
+    background-image: url("/static/res/project-background-3.png");
+}
+
+.blog-nav-link {
+    margin: 5px 0;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.blog-nav-link.active {
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.blog-posts {
+    background-color: #22272c;
+    padding: 40px;
+    box-shadow: 10px 10px 10px 3px rgba(0, 0, 0, 0.5);
+}
+
+.post {
+    display: none;
+}
+
+.post.active-post {
+    display: block;
+}

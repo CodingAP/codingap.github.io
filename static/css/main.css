@@ -33,7 +33,7 @@ body {
 
 .nav-link-custom {
     color: #597387;
-    text-shadow: 0 0 5px #597387, 0 0 10px #597387;
+    text-shadow: 0 0 5px #597387;
 }
 
 .nav-link-custom:hover {
@@ -54,76 +54,19 @@ body {
     text-align: center;
 }
 
-.jumbotron-image-div {
-    height: 200px;
-}
-
-.jumbotron-image {
-    width: 80%;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    box-shadow: 7px 7px 5px 3px rgba(0, 0, 0, 0.5);
-}
-
-.social-icon {
+.glowing, .glowing-link {
     text-decoration: none;
     color: #597387;
     text-shadow: 0 0 5px #597387;
 }
 
-.social-icon:hover {
-    color: #7fa8ca;
-    cursor: pointer;
-}
-
-.simple-contact {
-    color: #597387;
-    text-shadow: 0 0 5px #597387, 0 0 10px #597387;
-}
-
-.simple-contact:hover {
+.glowing-link:hover {
     color: #7fa8ca;
     cursor: pointer;
 }
 
 .footer-custom {
     box-shadow: 0px -8px 3px -3px #597387;
-}
-
-.blog-nav-link {
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 10%;
-    color: #597387;
-    text-shadow: 0 0 5px #597387, 0 0 10px #597387;
-    margin-bottom: 5px; 
-}
-
-.blog-nav-link:hover {
-    color: #7fa8ca;
-}
-
-.blog-posts {
-    background-color: #22272c;
-    height: 500px;
-    box-shadow: 10px 10px 10px 3px rgba(0, 0, 0, 0.5);
-}
-
-.project-row {
-    background-position: 0 0;
-    background-size: cover;
-    box-shadow: 10px 10px 10px 3px rgba(0, 0, 0, 0.5);
-}
-
-.project-1 {
-    background-image: url("/static/res/project-background-1.png");
-}
-
-.project-2 {
-    background-image: url("/static/res/project-background-2.png");
-}
-
-.project-3 {
-    background-image: url("/static/res/project-background-3.png");
 }
 
 #circle-container {

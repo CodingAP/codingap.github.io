@@ -7,9 +7,10 @@ Features:
 - Portfolio
 - Contact Page
 - Static site generation
+- Blog
 - Mobile Friendly
 
-Todo:
-- Blog
+TODO:
 - Embedded projects
 - Animations
+- Make even more mobile friendly
