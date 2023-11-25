@@ -1,0 +1,28 @@
+{
+    "name": "codingap.github.io-dev",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "dependencies": {
+        "express": "^4.18.2",
+        "marked": "^10.0.0",
+        "node-html-parser": "^6.1.11",
+        "steve-template-engine": "^2.1.0",
+        "winston": "^3.11.0"
+    },
+    "scripts": {
+        "build": "node . && npx serve"
+    },
+    "type": "module",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/CodingAP/codingap.github.io.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/CodingAP/codingap.github.io/issues"
+    },
+    "homepage": "https://github.com/CodingAP/codingap.github.io#readme"
+}

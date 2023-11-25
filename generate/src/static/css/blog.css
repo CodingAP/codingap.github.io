@@ -1,0 +1,14 @@
+.post-row {
+    background-color: #22272c;
+    box-shadow: 10px 10px 10px 3px rgba(0, 0, 0, 0.5);
+}
+
+#post-name-search {
+    background: transparent;
+    border: 3px solid #22272c;
+    border-radius: 25px;
+    padding-left: 30px;
+    padding-right: 30px;
+    width: 80%;
+    color: #597387;
+}

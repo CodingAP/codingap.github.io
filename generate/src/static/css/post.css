@@ -1,0 +1,17 @@
+h1, h2, h3, h4, h5, h6, a {
+    text-decoration: none;
+    color: #597387;
+    text-shadow: 0 0 5px #597387;
+}
+
+a:hover {
+    color: #7fa8ca;
+    cursor: pointer;
+}
+
+pre {
+    background-color: #22272c;
+    padding: 20px;
+    color: white;
+    box-shadow: 10px 10px 10px 3px rgba(0, 0, 0, 0.5);
+}

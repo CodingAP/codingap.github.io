@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <steve> return Steve.include('head', { title: 'Home' }); </steve>
+    <link rel="stylesheet" href="<steve> return Steve.staticFile('/css/home.css'); </steve>">
+</head>
+
+<body>
+    <div class="container">
+        <steve> return Steve.include('navbar'); </steve>
+
+        <div id="circle-container"></div>
+
+        <div class="jumbotron jumbotron-custom pb-4">
+            <h3 class="glowing">Hello! My name is Alex.</h3>
+            <h3 class="glowing">I'm a software developer.</h3>
+            <h3 class="glowing">Check out what I've done.</h3>
+            <div class="row jumbotron-image-div pt-4">
+                <div class="col-3"></div>
+                <div class="col-3">
+                    <img class="jumbotron-image" src="<steve> return Steve.staticFile('/res/ap-image-1.png'); </steve>">
+                </div>
+                <div class="col-3">
+                    <img class="jumbotron-image" src="<steve> return Steve.staticFile('/res/ap-image-2.png'); </steve>">
+                </div>
+                <div class="col-3"></div>
+            </div>
+        </div>
+
+        <div class="row pt-5 pb-5 mb-5 project-row project-1">
+            <div class="col-md-6"></div>
+            <div class="col-md-6 background-cover">
+                <p class="text-end">
+                    This is my <a class="glowing-link" href="https://www.youtube.com/CodingAP">YouTube channel</a> where
+                    I display my tutorials and
+                    projects. While it has mostly gone inactive these days, with some live streams here and there, I
+                    still would use this as an
+                    example of my teachings and my video editing. While the content may be outdated for my knowledge, it
+                    shows a true
+                    understanding of the material at the time.
+                </p>
+            </div>
+        </div>
+
+        <div class="row pt-5 pb-5 mb-5 project-row project-2">
+            <div class="col-md-6"></div>
+            <div class="col-md-6 background-cover">
+                <p class="text-end">
+                    My web development career consists of many websites where the main focus was
+                    frontend, although there were some projects that had a custom backend (most websites are shown in
+                    <a class="glowing-link" href="/projects">Projects</a>). Throughout all of it, you can see an
+                    increase of knowledge, design wit, and overall quality.
+                </p>
+            </div>
+        </div>
+
+        <div class="row pt-5 pb-5 mb-5 project-row project-3">
+            <div class="col-md-6"></div>
+            <div class="col-md-6 background-cover">
+                <p class="text-end">
+                    My <a class="glowing-link" href="https://github.com/CodingAP">Github</a> is full of
+                    projects that range from simple games, tutorials, and even emulators! Check it out for a broad
+                    example of what I can do as a software developer, or take a look at in
+                    <a class="glowing-link" href="/projects">Projects</a>.
+                </p>
+            </div>
+        </div>
+
+        <div class="blog-posts mb-5">
+            <div class="row pb-4">
+                <h1 class="align-text-top text-center glowing">Recent Posts</h1>
+            </div>
+
+            <div class="row">
+                <div class="col-8">
+                    <steve>
+                        let content = '';
+                        const currentPosts = Steve.data.posts.slice(0, 5);
+                        for (let i = 0; i < currentPosts.length; i++) {
+                            content += Steve.include('blog/home_post', { id: i + 1, isActive: (i == 0) ? true : false, name: currentPosts[i].name, ...currentPosts[i].data });
+                        }
+                        return content;
+                    </steve>
+                </div>
+                <div class="col-4">
+                    <nav class="nav flex-column text-end">
+                        <steve>
+                            let content = '';
+                            const currentPosts = Steve.data.posts.slice(0, 5);
+                            for (let i = 0; i < currentPosts.length; i++) {
+                                content += `<a class="nav-link glowing-link blog-nav-link${(i == 0) ? ' active' : ''}" id="post-link-${i + 1}" onclick="revealArticle(${i + 1})">${currentPosts[i].data.title}</a>`;
+                            }
+                            return content;
+                        </steve>
+                        <a class="nav-link glowing-link" href="/blog">See More...</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <steve> return Steve.include('footer'); </steve>
+    </div>
+
+    <steve> return Steve.include('js'); </steve>
+    <script src="<steve> return Steve.staticFile('/js/home.js'); </steve>"></script>
+</body>
+
+</html>

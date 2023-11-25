@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <steve> return Steve.include('head', { title: Steve.data.title }); </steve>
+    <link rel="stylesheet" href="<steve> return Steve.staticFile('/css/post.css'); </steve>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <steve> return Steve.include('navbar'); </steve>
+
+        <div id="circle-container"></div>
+
+        <div class="jumbotron jumbotron-custom pb-4">
+            <h2><steve> return Steve.data.title; </steve></h2>
+            <h5>by <steve> return Steve.data.author; </steve> | <steve> return Steve.data.date; </steve></h5>
+        </div>
+
+        <article class="pb-4">
+            <steve> return Steve.data.content; </steve>
+        </article>
+
+        <steve> return Steve.include('footer'); </steve>
+    </div>
+
+    <steve> return Steve.include('js'); </steve>
+</body>
+
+</html>

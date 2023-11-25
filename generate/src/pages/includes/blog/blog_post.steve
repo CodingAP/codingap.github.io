@@ -1,0 +1,13 @@
+<div class="row p-5 mt-5 mb-5 post-row">
+    <div class="col">
+        <h2>
+            <a href="<steve> return Steve.joinPaths('/blog/posts', Steve.data.name.replace(/\./g, '/')) </steve>" class="glowing-link">
+                <steve> return Steve.data.title; </steve>
+            </a>
+        </h2>
+
+        <h5 class="glowing">by <steve> return Steve.data.author; </steve> | <steve> return Steve.data.date; </steve></h5>
+        <steve> return Steve.data.textOnly.split(' ').slice(0, 30).join(' '); </steve>...
+        <a class="glowing-link" href="<steve> return Steve.joinPaths('/blog/posts', Steve.data.name.replace(/\./g, '/')) </steve>">See More</a>
+    </div>
+</div>
