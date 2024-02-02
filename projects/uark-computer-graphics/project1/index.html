@@ -1,0 +1,235 @@
+<!--
+    index.html
+
+    This is a solution to Project #1 using WebGL.
+    The shader doesn't do much because most of the leg work
+    is done by the draw calls. It creates 5 to 10 fireworks of
+    random colors in random locations.
+
+    Author: Alex Prosser (alprosse@uark.edu)
+    Date: 2/2/2024
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project #1 - Fireworks</title>
+    <!-- we use this specific styling to make the canvas full screen -->
+    <style>
+        body {
+            margin: auto;
+            overflow: hidden;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+
+    <!-- this library provides us with a lot of methods with doing matrix and vector math -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.8.1/gl-matrix-min.js"></script>
+
+    <!-- we can put the shaders in the HTML DOM so we can easily access them -->
+    <script id="vertex-shader" type="x-shader/x-vertex">
+        attribute vec3 position;
+        uniform mat4 modelView;
+        uniform mat4 projection;
+        uniform vec4 color;
+
+        varying lowp vec4 transferColor;
+
+        void main() {
+            gl_Position = projection * modelView * vec4(position, 1.0);
+            transferColor = color;
+        }
+    </script>
+    <script id="fragment-shader" type="x-shader/x-fragment">
+        precision highp float;
+        
+        varying lowp vec4 transferColor;
+
+        void main() {
+            gl_FragColor = transferColor;
+        }
+    </script>
+</head>
+
+<body>
+    <canvas></canvas>
+    <script>
+        // global variables to make life easier
+        const canvas = document.querySelector('canvas');
+        const gl = canvas.getContext('webgl2');
+
+        // this holds all the references to the WebGL objects
+        let shaderProgram, squareBuffer, indexBuffer;
+        let positionAttributeLocation, modelViewUniformLocation, projectionUniformLocation, colorUniformLocation;
+        let orthoMatrix, horizontal, vertical;
+
+        // resizes the canvas and calculates a new projection matrix
+        const resize = () => {
+            // this resizes the canvas to full screen and works with devices with higher resolution pixels, such as phones
+            canvas.width = window.innerWidth * window.devicePixelRatio;
+            canvas.height = window.innerHeight * window.devicePixelRatio;
+            gl.viewport(0, 0, canvas.width, canvas.height);
+
+            // we create an orthographic projection matrix to create a 2d world
+            // we force the project to use the scale of -15 to 15 with aspect ratio of 1
+            // there is no reason to use 15, any number works
+            // lower numbers will make the pieces bigger though
+            horizontal = 15;
+            vertical = horizontal * (canvas.height / canvas.width);
+            orthoMatrix = mat4.create();
+            mat4.ortho(orthoMatrix, -horizontal, horizontal, -vertical, vertical, -1, 1);
+        }
+
+        // resize and redraw event listener
+        window.addEventListener('resize', () => {
+            resize();
+            draw();
+        });
+
+        // when browser is loaded, create all the webgl objects needed for rendering
+        window.addEventListener('load', () => {
+            // resize to fullscreen
+            resize();
+
+            // setup the shaders
+            // we have to individually compile the vertex and fragment shader
+            // then we have to link to a shader program that can be used to render
+            // just some basic error handling for syntax errors
+            let vertexShader = gl.createShader(gl.VERTEX_SHADER);
+            gl.shaderSource(vertexShader, document.querySelector('#vertex-shader').innerText);
+            gl.compileShader(vertexShader);
+            if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) {
+                console.error(`Vertex Shader: ${gl.getShaderInfoLog(vertexShader)}`);
+                gl.deleteShader(vertexShader);
+                return;
+            }
+
+            let fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+            gl.shaderSource(fragmentShader, document.querySelector('#fragment-shader').innerText);
+            gl.compileShader(fragmentShader);
+            if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) {
+                console.error(`Fragment Shader: ${gl.getShaderInfoLog(fragmentShader)}`);
+                gl.deleteShader(fragmentShader);
+                return;
+            }
+
+            shaderProgram = gl.createProgram();
+            gl.attachShader(shaderProgram, vertexShader);
+            gl.attachShader(shaderProgram, fragmentShader);
+            gl.linkProgram(shaderProgram);
+            if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
+                console.error(`Program Linking: ${gl.getProgramInfoLog(shaderProgram)}`);
+                return;
+            }
+
+            gl.useProgram(shaderProgram);
+
+            positionAttributeLocation = gl.getAttribLocation(shaderProgram, 'position');
+
+            // uniform locations to allow for cpu to work with shaders
+            modelViewUniformLocation = gl.getUniformLocation(shaderProgram, 'modelView');
+            projectionUniformLocation = gl.getUniformLocation(shaderProgram, 'projection');
+            colorUniformLocation = gl.getUniformLocation(shaderProgram, 'color');
+
+            // draw the scene
+            draw();
+        });
+
+        // generates a random integer between the range specified
+        const randomInt = (start, end) => {
+            return Math.floor(Math.random() * (end - start)) + start;
+        }
+
+        // generates a random float between the range specified
+        const randomFloat = (start, end) => {
+            return Math.random() * (end - start) + start;
+        } 
+
+        // normalize a vector
+        // returns the original vector if distance is 0
+        const normalize = vector => {
+            let d = Math.sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
+            if (d != 0) return { x: vector.x / d, y: vector.y / d, z: vector.z / d };
+            return vector;
+        }
+
+        // then we have to create a buffer object for all the points in the firework
+        // this provides the information to render it and returns an object to draw
+        const generateFirework = () => {
+            // generate all the firework line positions
+            // should be in a sphere around the center point
+            let positions = [];
+            let fireworkSize = randomFloat(3, 6);
+            for (let i = 0; i < 50; i++) {
+                let offsetX = randomFloat(-fireworkSize, fireworkSize);
+                let offsetY = randomFloat(-fireworkSize, fireworkSize);
+                let offsetZ = randomFloat(-fireworkSize, fireworkSize);
+                let normalized = normalize({ x: offsetX, y: offsetY, z: offsetZ });
+
+                positions.push(0, 0, 0);
+                positions.push(normalized.x * fireworkSize, normalized.y * fireworkSize, normalized.z * fireworkSize);
+            }
+
+            // create buffer
+            const fireworkBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, fireworkBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+            gl.vertexAttribPointer(positionAttributeLocation, 3, gl.FLOAT, false, 0, 0);
+            gl.enableVertexAttribArray(positionAttributeLocation);
+            gl.bindBuffer(gl.ARRAY_BUFFER, null);
+
+            return fireworkBuffer;
+        }
+
+        // this will draw a square at a specific position and color
+        const displayFirework = (position, color, buffer) => {
+            // load the project and model-view matrix (technically a model only because we have no camera)
+            let modelView = mat4.create();
+            mat4.translate(modelView, modelView, vec3.fromValues(position.x, position.y, position.z));
+            gl.uniformMatrix4fv(projectionUniformLocation, false, orthoMatrix);
+            gl.uniformMatrix4fv(modelViewUniformLocation, false, modelView);
+            gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+
+            // draw the fireworks
+            gl.uniform4f(colorUniformLocation, color.r, color.g, color.b, 1);
+            gl.drawArrays(gl.LINES, 0, 2 * 50);
+        }
+
+        // draws the entire scene
+        const draw = () => {
+            // enable depth and clear the scene
+            gl.clearColor(0.0, 0.0, 0.0, 1.0);
+            gl.clearDepth(1.0);
+            gl.enable(gl.DEPTH_TEST);
+            gl.depthFunc(gl.LEQUAL);
+            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+            // draw each piece at a random location
+            const amount = randomInt(5, 10);
+            for (let i = 0; i < amount; i++) {
+                const buffer = generateFirework();
+
+                // random point in the window space
+                const x = randomFloat(-horizontal, horizontal);
+                const y = randomFloat(-vertical, vertical);
+                const z = randomFloat(-1, 1);
+
+                // random color
+                const r = randomFloat(0, 1);
+                const g = randomFloat(0, 1);
+                const b = randomFloat(0, 1);
+
+                displayFirework({ x, y, z }, { r, g, b }, buffer);
+            }
+        }
+    </script>
+</body>
+
+</html>
