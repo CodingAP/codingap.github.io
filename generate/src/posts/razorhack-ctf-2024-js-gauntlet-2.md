@@ -249,6 +249,8 @@ console.log(finalPath);
 
 After running the script, it will give you the entire path that you can paste into the URL. Then, the flag will appear: **flag{this_isnt_a_corn_maze_28131}**.
 
+If you would like to see the visual representation of the maze, here is a [zip file](<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/maze.zip'); </steve>) with all of the layers with starts and ends labeled.
+
 @ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/we-are-doing-this-again-2.jpg'); </steve>" style="text-align: center;"/>
 
 <hr />

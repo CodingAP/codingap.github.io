@@ -341,9 +341,8 @@ window.addEventListener(&#39;keydown&#39;, event =&gt; {
 </code></pre>
                 <p>
                     Makes sense, now. However, we were given something in the
-                    form of
-                    <em>jobbin_pobbins</em>, so if we were to put that password
-                    in and encode it back to base64...
+                    form of <em>jobbin_pobbins</em>, so if we were to put that
+                    password in and encode it back to base64...
                 </p>
                 <pre><code class="language-javascript">cookie = {&quot;account_name&quot;:&quot;r3n3gad3s&quot;,&quot;account_password&quot;:&quot;jobbin_pobbins&quot;}
 btoa(cookie)
@@ -448,8 +447,7 @@ let var_03; // game paused
                     Other solutions I have seen is to disable collision,
                     somehow. I&#39;m not sure how they did that, but it works
                     so... whatever. After scoring 5 points, the flag will
-                    appear:
-                    <strong>flag{hey_stop_looking_there_23912}</strong>
+                    appear: <strong>flag{hey_stop_looking_there_23912}</strong>
                 </p>
                 <div style="text-align: center">
                     <img
@@ -490,9 +488,8 @@ let var_03; // game paused
                         problems in the future.</strong
                     >
                     In the previous 3 stages, the comment was prefixed with an
-                    IP of
-                    <em>194.242.26.157</em> (an actual Russian IP), but now it
-                    is censored.
+                    IP of <em>194.242.26.157</em> (an actual Russian IP), but
+                    now it is censored.
                 </p>
                 <div style="text-align: center">
                     <img
@@ -654,6 +651,14 @@ console.log(finalPath);
                     After running the script, it will give you the entire path
                     that you can paste into the URL. Then, the flag will appear:
                     <strong>flag{this_isnt_a_corn_maze_28131}</strong>.
+                </p>
+                <p>
+                    If you would like to see the visual representation of the
+                    maze, here is a
+                    <a href="\static\res\blog\razorhack-ctf-2024\maze.zip"
+                        >zip file</a
+                    >
+                    with all of the layers with starts and ends labeled
                 </p>
                 <div style="text-align: center">
                     <img
@@ -952,12 +957,12 @@ window.addEventListener(&#39;keydown&#39;, event =&gt; {
                 <p>
                     As the comment suggests, we need to read a file called
                     &#39;flag&#39; on the root server. If we look at the logs
-                    dropdown in the
-                    <em>Account Settings</em> dialog, we see that in order to
-                    fetch the log contents, it sends a file URL to the server.
-                    We can tell because it says <em>logs/[log_name].log</em>,
-                    which hints at a file structure of some sort. We can use
-                    this to access any file on the root server, like so...
+                    dropdown in the <em>Account Settings</em> dialog, we see
+                    that in order to fetch the log contents, it sends a file URL
+                    to the server. We can tell because it says
+                    <em>logs/[log_name].log</em>, which hints at a file
+                    structure of some sort. We can use this to access any file
+                    on the root server, like so...
                 </p>
                 <pre><code class="language-javascript">const getFile = (file) =&gt; {
     fetch(&#39;/api/stage8/show_notification&#39;, {
@@ -980,9 +985,8 @@ getFile(&#39;flag&#39;);
                 <p>
                     This gives us the first part of the flag as well as an
                     encoded string. If we decode this string from base64, we get
-                    another file path:
-                    <em>src/api.js</em>. We can continue this until we find all
-                    flag parts...
+                    another file path: <em>src/api.js</em>. We can continue this
+                    until we find all flag parts...
                 </p>
                 <pre><code class="language-javascript">getFile(&#39;src/api.js&#39;);
 // ... some code ...
@@ -1173,8 +1177,7 @@ clickedPixels = new Set(indexes)
 </code></pre>
                 <p>
                     This, along with clicking once on the image shows the flag
-                    for me:
-                    <strong>flag{pr33ty_c0l0rs!!!}</strong>. Key words:
+                    for me: <strong>flag{pr33ty_c0l0rs!!!}</strong>. Key words:
                     <em>FOR ME</em>. For some reason, this code would not
                     consistenly work on other people&#39;s devices. First, I
                     tried simulating clicks through the event dispatcher, which
