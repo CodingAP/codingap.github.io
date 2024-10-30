@@ -1,4 +1,4 @@
-{ "title": "RazorHack CTF Write-up", "author": "AP", "date": "11/20/2023" }
+{ "title": "RazorHack CTF 2023 Write-up", "author": "AP", "date": "11/20/2023" }
 
 Hello everyone! Recently I was a Game Master for the first annual Razorhack CTF event at the University of Arkansas. I created some of the challenges, mostly web-based ones. I wanted to talk about the creation and thought process behind them.
 
@@ -17,7 +17,7 @@ When I was asked about helping out with the CTF, I had two weeks to get somethin
 
 The first thing that I wanted to do was make something 90s related. Vivid but ugly colors, Comic Sans all day, annoying gifs, anything to remind people of the good ole days (said with sarcasm dripping out my mouth). I think I achieved the look with the homepage...
 
-@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf/junglecalls-homepage.png'); </steve>" style="text-align: center;"/>
+@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2023/junglecalls-homepage.png'); </steve>" style="text-align: center;"/>
 
 The actual challenges, however, was the fun part. I came up with 6 challenges that all revolved around this messaging app. Essentially, it was a sandbox for them to find as many web vulnerabilities as possible. Here is them listed out as well as there flags...
 
@@ -43,7 +43,7 @@ document.querySelector('#clippy').addEventListener("click", () => {
 
 After creating an account and signing in, you will be given a JWT token that has some info about the user. For some reason, the JWT has no signature with it and can easily be modified. In there as well is an ADMIN_MODE variable which should be set to false most of the time; however, if you change you cookie to set ADMIN_MODE to true, then you get an admin dashboard with access to all the messages (not directly) and the flag. This comes from another CTF I did a while ago where there was a web challenge named dropchat. It is pretty much the same type of challenge, and I took two of those challenges and put it in JungleCalls.
 
-@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf/junglecalls-admin.png'); </steve>" style="text-align: center;"/>
+@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2023/junglecalls-admin.png'); </steve>" style="text-align: center;"/>
 
 <br />
 <h5 style="text-align: center;">Challenge #3 - A"Cross" the River</h5>
@@ -52,7 +52,7 @@ After creating an account and signing in, you will be given a JWT token that has
 
 Obviously, sending XSS in the messaging part will work. Wonders of 90s technology. Sending images with an onerror attribute will work for this XSS stuff. To get the flag from this user, you need to access their description, which has it hidden by default. The intended way to solve this is to send a XSS payload that grabs ceo-man-123's cookie. I had so many problems getting this to work because I wanted to use puppeteer to be the "user", but it wouldn't work with basic XSS. To get around this, I created a special webpage at **/ceomanmessaging** that only ceo-man-123 can access. This page just shows all message sent to ceo-man-123, which contains the XSS. Then, I left that page on my computer (luckily XSS still works even if you are not focused on the page). 
 
-@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf/junglecalls-ceoman.png'); </steve>" style="text-align: center;"/>
+@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2023/junglecalls-ceoman.png'); </steve>" style="text-align: center;"/>
 
 <br />
 <h5 style="text-align: center;">Challenge #4 - So many Trees and Logs!</h5>
@@ -61,7 +61,7 @@ Obviously, sending XSS in the messaging part will work. Wonders of 90s technolog
 
 Each message between users will be stored in **/user_messages**. People can see that messages are stored in this URL because the website will request it to show all messages. Only admins have access to the messages in total through a route under **/user_messages**. Luckily, we already know how to turn ourselves into admins with ADMIN_MODE, but how would we know what user to look for. Well, old_ceo_123 has some messages to other accounts; however, there is so many messages between thousands of employees (10000 to be exact) that there is no way to look through manually. I intend for them to parse the entire message history with some program to find the flag. The flag is **flag{7h4ts_4l0t_0f_l0g5_32121}** and it will be under the log **ceo-man-123!employee4522.log**. This was the other challenge from dropcalls that I implemented.
 
-@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf/junglecalls-messages.png'); </steve>" style="text-align: center;"/>
+@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2023/junglecalls-messages.png'); </steve>" style="text-align: center;"/>
 
 <br />
 <h5 style="text-align: center;">Challenge #5 - Flashy Leaves</h5>
@@ -77,7 +77,7 @@ This was my favorite of the JungleCalls challenge. In the global chat, there is 
 
 In the global chat, everytime someone enters, a bot named **welcome-bot** will say hello and give the current time; however, the time is always wrong (probably some side effect of Y2K). If you message the bot that the time is wrong (specifically you have the word "wrong" in the message), you will be sent the flag. You can also find the flag by searching through all the message logs through ADMIN_MODE.
 
-@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf/junglecalls-welcomebot.png'); </steve>" style="text-align: center;"/>
+@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2023/junglecalls-welcomebot.png'); </steve>" style="text-align: center;"/>
 
 <hr />
 <h3 style="text-align: center;" id="js-gauntlet">JS Gauntlet</h3>
@@ -93,7 +93,7 @@ Funnily enough, these weren't made until after the first day (which ended at 11 
 
 This was super easy to make as it just involved looking through the HTML to find the flag. I just generated a bunch of Lorem Ipsum and turned the visibility to hidden. So, when you first looked, there was no text besides sometimes say "Oooh, I may have found it...". This was solved pretty fast, which is understandable.
 
-@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf/jsgauntlet-stage1.png'); </steve>" style="text-align: center;"/>
+@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2023/jsgauntlet-stage1.png'); </steve>" style="text-align: center;"/>
 
 <br />
 <h5 style="text-align: center;">Challenge #2 - Password Validator</h5>
@@ -130,7 +130,7 @@ Once you reached the end, you will get the flag: **flag{1t5_l1k3_a_c0rn_m4z3_329
 
 This was my favorite puzzle to make out of everything, which was weird that it only took me 30 minutes to make. This was also the puzzle with the most amount of bugs. That was fitting as I finished making it 30 minutes before day 2 started. The goal of the puzzle is to align the 1000 rainbow pieces back in their order. I give the user where the piece should go when they highlight it. I did not intend for them to solve it manually, although there was one who did. The solution is a script that simulates the key presses and moves the pieces to its spot. Sadly, only one person actually solved the puzzle that way as two cheesed it (I didn't put protection on the flag URL), and the other manually solved it. Here is the finished puzzle with the flag... 
 
-@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf/jsgauntlet-stage4.png'); </steve>" style="text-align: center;"/>
+@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2023/jsgauntlet-stage4.png'); </steve>" style="text-align: center;"/>
 
 <br />
 <h3 style="text-align: center;">Conclusion</h3>

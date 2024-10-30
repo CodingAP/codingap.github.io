@@ -16,15 +16,15 @@
 }
 
 .project-1 {
-    background-image: url("/static/res/project-background-1.png");
+    background-image: url('/static/res/project-background-1.png');
 }
 
 .project-2 {
-    background-image: url("/static/res/project-background-2.png");
+    background-image: url('/static/res/project-background-2.png');
 }
 
 .project-3 {
-    background-image: url("/static/res/project-background-3.png");
+    background-image: url('/static/res/project-background-3.png');
 }
 
 .blog-nav-link {

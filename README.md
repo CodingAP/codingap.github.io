@@ -3,6 +3,7 @@
 The development side of things for my website, https://codingap.github.io/. This contains all the source code for generating my website with blog posts, projects, everything.
 
 #### by AP
+
 ##### Last updated 11/24/2023
 
 ## How to use
@@ -21,6 +22,7 @@ Then, run `node generate` to generate and run website. The generated website sho
 ## Open Source Libraries
 
 It currently uses:
+
 - [ExpressJS](https://expressjs.com/) for a test server.
 - [steve](https://github.com/CodingAP/steve) for website generation.
 - [marked](https://marked.js.org/) for converting Markdown files to HTML.

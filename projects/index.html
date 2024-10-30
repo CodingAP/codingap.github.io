@@ -1,95 +1,176 @@
 <!doctype html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Alex Prosser - Projects</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+            crossorigin="anonymous"
+        />
+        <link href="\static\css\main.css" rel="stylesheet" />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="\static\res\favicon\apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="\static\res\favicon\favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="\static\res\favicon\favicon-16x16.png"
+        />
+        <link rel="manifest" href="\static\res\favicon\site.webmanifest" />
+        <link rel="shortcut icon" href="\static\res\favicon\favicon.ico" />
+        <meta name="msapplication-TileColor" content="#da532c" />
+        <meta
+            name="msapplication-config"
+            content="\static\res\favicon\browserconfig.xml"
+        />
+        <meta name="theme-color" content="#ffffff" />
+        <script
+            src="https://kit.fontawesome.com/b49a508af5.js"
+            crossorigin="anonymous"
+        ></script>
+        <script src="\static\js\circles.js" defer></script>
+    </head>
 
-<head>
-    <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Alex Prosser - Projects</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-<link href="\static\css\main.css" rel="stylesheet">
-<link rel="apple-touch-icon" sizes="180x180" href="\static\res\favicon\apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="\static\res\favicon\favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="\static\res\favicon\favicon-16x16.png">
-<link rel="manifest" href="\static\res\favicon\site.webmanifest">
-<link rel="shortcut icon" href="\static\res\favicon\favicon.ico">
-<meta name="msapplication-TileColor" content="#da532c">
-<meta name="msapplication-config" content="\static\res\favicon\browserconfig.xml">
-<meta name="theme-color" content="#ffffff">
-<script src="https://kit.fontawesome.com/b49a508af5.js" crossorigin="anonymous"></script>
-<script src="\static\js\circles.js" defer></script>
-</head>
+    <body>
+        <div class="container">
+            <nav class="navbar-custom navbar navbar-expand-lg">
+                <a class="navbar-brand nav-link-custom" href="/">
+                    <img
+                        src="\static\res\logo.png"
+                        alt="Logo"
+                        width="32"
+                        height="32"
+                        class="d-inline-block align-text-middle"
+                    />
+                    Alex Prosser
+                </a>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div
+                    class="collapse navbar-collapse"
+                    id="navbarSupportedContent"
+                >
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-custom" href="/blog"
+                                >Blog</a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-custom" href="/projects"
+                                >Projects</a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-custom" href="/contact"
+                                >Contact</a
+                            >
+                        </li>
+                    </ul>
+                </div>
+            </nav>
 
-<body>
-    <div class="container">
-        <nav class="navbar-custom navbar navbar-expand-lg">
-    <a class="navbar-brand nav-link-custom" href="/">
-        <img src="\static\res\logo.png" alt="Logo" width="32" height="32" class="d-inline-block align-text-middle">
-        Alex Prosser
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-                <a class="nav-link nav-link-custom" href="/blog">Blog</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link nav-link-custom" href="/projects">Projects</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link nav-link-custom" href="/contact">Contact</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+            <div id="circle-container"></div>
 
-        <div id="circle-container"></div>
+            <h1 class="text-center">
+                I haven't setup embedded projects just yet, so if you want to
+                see my projects, please go to my
+                <a class="glowing-link" href="https://github.com/CodingAP"
+                    >Github</a
+                >
+                page!
+            </h1>
 
-        <h1 class="text-center">I haven't setup embedded projects just yet, so if you want to see my projects, please go
-            to my <a class="glowing-link" href="https://github.com/CodingAP">Github</a> page!</h1>
+            <footer class="footer-custom">
+                <section
+                    class="d-flex justify-content-center justify-content-lg-between p-4"
+                >
+                    <div class="text-start">
+                        <a
+                            href="https://youtube.com/CodingAP"
+                            class="lead glowing-link"
+                        >
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a
+                            href="https://twitter.com/Coding_AP"
+                            class="lead glowing-link"
+                        >
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a
+                            href="https://www.linkedin.com/in/alex-prosser-a8524a221/"
+                            class="lead glowing-link"
+                        >
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a
+                            href="https://github.com/CodingAP"
+                            class="lead glowing-link"
+                        >
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <br />
+                        <a
+                            class="glowing-link"
+                            onclick="document.body.scrollTop = 0; document.documentElement.scrollTop = 0;"
+                        >
+                            Back to top
+                        </a>
+                    </div>
 
-        <footer class="footer-custom">
-    <section class="d-flex justify-content-center justify-content-lg-between p-4">
-        <div class="text-start">
-            <a href="https://youtube.com/CodingAP" class="lead glowing-link">
-                <i class="fab fa-youtube"></i>
-            </a>
-            <a href="https://twitter.com/Coding_AP" class="lead glowing-link">
-                <i class="fab fa-twitter"></i>
-            </a>
-            <a href="https://www.linkedin.com/in/alex-prosser-a8524a221/" class="lead glowing-link">
-                <i class="fab fa-linkedin"></i>
-            </a>
-            <a href="https://github.com/CodingAP" class="lead glowing-link">
-                <i class="fab fa-github"></i>
-            </a>
-            <br />
-            <a class="glowing-link" onclick="document.body.scrollTop = 0; document.documentElement.scrollTop = 0;">
-                Back to top
-            </a>
+                    <div class="text-end">
+                        <a class="glowing-link" href="https://discord.com"
+                            >AP#1519</a
+                        ><br />
+                        <a
+                            class="glowing-link"
+                            href="mailto:alex.prosser.uark@gmail.com"
+                            >alex.prosser.uark@gmail.com</a
+                        ><br />
+                        <span class="glowing"
+                            >© 2023 Copyright - Alex Prosser</span
+                        >
+                    </div>
+                </section>
+            </footer>
         </div>
 
-        <div class="text-end">
-            <a class="glowing-link" href="https://discord.com">AP#1519</a><br />
-            <a class="glowing-link" href="mailto:alex.prosser.uark@gmail.com">alex.prosser.uark@gmail.com</a><br />
-            <span class="glowing">© 2023 Copyright - Alex Prosser</span>
-        </div>
-    </section>
-</footer>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
-    crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-    crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
-    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
-    crossorigin="anonymous"></script>
-</body>
-
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+            integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+            integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
+            crossorigin="anonymous"
+        ></script>
+    </body>
 </html>

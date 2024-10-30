@@ -16,7 +16,7 @@ let generateCircles = () => {
 
         circleInfo.div.style.position = 'absolute';
         circleInfo.div.style.left = `${circleInfo.position.x * width + (circleInfo.left ? 0 : (mainContainer.clientWidth + width))}px`;
-        circleInfo.div.style.top = `${circleInfo.position.y * (document.documentElement.scrollHeight - 100)}px`;
+        circleInfo.div.style.top = `${circleInfo.position.y * (document.body.offsetHeight - 100)}px`;
 
         circleInfo.div.style.width = `${circleInfo.size * 60 + 40}px`;
         circleInfo.div.style.aspectRatio = '1';

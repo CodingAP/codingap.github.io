@@ -6,7 +6,7 @@
 
 @font-face {
     font-family: cascadia;
-    src: url("/static/res/Cascadia.ttf");
+    src: url('/static/res/Cascadia.ttf');
 }
 
 html {
@@ -17,7 +17,7 @@ html {
 body {
     background-color: #22272c;
     color: #8c9ea3;
-    background: radial-gradient(#2A4158, #22272c);
+    background: radial-gradient(#2a4158, #22272c);
     background-repeat: no-repeat;
     background-size: cover;
     overflow-x: hidden;
@@ -42,7 +42,9 @@ body {
 
 .nav-separator {
     color: #597387;
-    text-shadow: 0 0 5px #597387, 0 0 10px #597387;
+    text-shadow:
+        0 0 5px #597387,
+        0 0 10px #597387;
 }
 
 .nav-separator:hover {
@@ -54,7 +56,8 @@ body {
     text-align: center;
 }
 
-.glowing, .glowing-link {
+.glowing,
+.glowing-link {
     text-decoration: none;
     color: #597387;
     text-shadow: 0 0 5px #597387;

@@ -1,153 +1,294 @@
 <!doctype html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Alex Prosser - Blog</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+            crossorigin="anonymous"
+        />
+        <link href="\static\css\main.css" rel="stylesheet" />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="\static\res\favicon\apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="\static\res\favicon\favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="\static\res\favicon\favicon-16x16.png"
+        />
+        <link rel="manifest" href="\static\res\favicon\site.webmanifest" />
+        <link rel="shortcut icon" href="\static\res\favicon\favicon.ico" />
+        <meta name="msapplication-TileColor" content="#da532c" />
+        <meta
+            name="msapplication-config"
+            content="\static\res\favicon\browserconfig.xml"
+        />
+        <meta name="theme-color" content="#ffffff" />
+        <script
+            src="https://kit.fontawesome.com/b49a508af5.js"
+            crossorigin="anonymous"
+        ></script>
+        <script src="\static\js\circles.js" defer></script>
+        <link rel="stylesheet" href="\static\css\blog.css" />
+    </head>
 
-<head>
-    <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Alex Prosser - Blog</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-<link href="\static\css\main.css" rel="stylesheet">
-<link rel="apple-touch-icon" sizes="180x180" href="\static\res\favicon\apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="\static\res\favicon\favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="\static\res\favicon\favicon-16x16.png">
-<link rel="manifest" href="\static\res\favicon\site.webmanifest">
-<link rel="shortcut icon" href="\static\res\favicon\favicon.ico">
-<meta name="msapplication-TileColor" content="#da532c">
-<meta name="msapplication-config" content="\static\res\favicon\browserconfig.xml">
-<meta name="theme-color" content="#ffffff">
-<script src="https://kit.fontawesome.com/b49a508af5.js" crossorigin="anonymous"></script>
-<script src="\static\js\circles.js" defer></script>
-    <link rel="stylesheet" href="\static\css\blog.css">
-</head>
+    <body>
+        <div class="container">
+            <nav class="navbar-custom navbar navbar-expand-lg">
+                <a class="navbar-brand nav-link-custom" href="/">
+                    <img
+                        src="\static\res\logo.png"
+                        alt="Logo"
+                        width="32"
+                        height="32"
+                        class="d-inline-block align-text-middle"
+                    />
+                    Alex Prosser
+                </a>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div
+                    class="collapse navbar-collapse"
+                    id="navbarSupportedContent"
+                >
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-custom" href="/blog"
+                                >Blog</a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-custom" href="/projects"
+                                >Projects</a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-custom" href="/contact"
+                                >Contact</a
+                            >
+                        </li>
+                    </ul>
+                </div>
+            </nav>
 
-<body>
-    <div class="container">
-        <nav class="navbar-custom navbar navbar-expand-lg">
-    <a class="navbar-brand nav-link-custom" href="/">
-        <img src="\static\res\logo.png" alt="Logo" width="32" height="32" class="d-inline-block align-text-middle">
-        Alex Prosser
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-                <a class="nav-link nav-link-custom" href="/blog">Blog</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link nav-link-custom" href="/projects">Projects</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link nav-link-custom" href="/contact">Contact</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+            <div id="circle-container"></div>
 
-        <div id="circle-container"></div>
+            <div class="jumbotron jumbotron-custom pb-4">
+                <h1 class="glowing">Search for Posts</h1>
+                <input
+                    id="post-name-search"
+                    type="text"
+                    placeholder="Name of Post..."
+                />
+            </div>
 
-        <div class="jumbotron jumbotron-custom pb-4">
-            <h1 class="glowing">Search for Posts</h1>
-            <input id="post-name-search" type="text" placeholder="Name of Post...">
+            <div class="pb-4">
+                <p id="search-check" class="text-center"></p>
+                <div class="row p-5 mt-5 mb-5 post-row">
+                    <div class="col">
+                        <h2>
+                            <a
+                                href="\blog\posts\razorhack-ctf-2024-js-gauntlet-2"
+                                class="glowing-link"
+                            >
+                                RazorHack CTF 2024 - JS Gauntlet 2 Write-up
+                            </a>
+                        </h2>
+
+                        <h5 class="glowing">by Alex Prosser | 10/30/2024</h5>
+                        This post will be going over the sequel to my previous
+                        year&#39;s challenge, JS Gauntlet 2. I wanted to create
+                        more web challenges this year as I have transitioned
+                        into...
+                        <a
+                            class="glowing-link"
+                            href="\blog\posts\razorhack-ctf-2024-js-gauntlet-2"
+                            >See More</a
+                        >
+                    </div>
+                </div>
+                <div class="row p-5 mt-5 mb-5 post-row">
+                    <div class="col">
+                        <h2>
+                            <a
+                                href="\blog\posts\new-year-goals"
+                                class="glowing-link"
+                            >
+                                New Year, New Me: Goals for 2024
+                            </a>
+                        </h2>
+
+                        <h5 class="glowing">by AP | 1/14/2024</h5>
+                        2024 has hit me like a truck, but I&#39;m holding on to
+                        the front. Not to say that it has been difficult, but a
+                        new year brings new responsibilities that...
+                        <a
+                            class="glowing-link"
+                            href="\blog\posts\new-year-goals"
+                            >See More</a
+                        >
+                    </div>
+                </div>
+                <div class="row p-5 mt-5 mb-5 post-row">
+                    <div class="col">
+                        <h2>
+                            <a
+                                href="\blog\posts\advent-of-code-hub"
+                                class="glowing-link"
+                            >
+                                New Advent of Code Hub
+                            </a>
+                        </h2>
+
+                        <h5 class="glowing">by AP | 11/24/2023</h5>
+                        With December coming up, we get to reflect on the year
+                        before. I have a lot of thoughts about those, but
+                        considering this is a blog about my projects,
+                        I&#39;ll...
+                        <a
+                            class="glowing-link"
+                            href="\blog\posts\advent-of-code-hub"
+                            >See More</a
+                        >
+                    </div>
+                </div>
+                <div class="row p-5 mt-5 mb-5 post-row">
+                    <div class="col">
+                        <h2>
+                            <a
+                                href="\blog\posts\razorhack-ctf-2023"
+                                class="glowing-link"
+                            >
+                                RazorHack CTF 2023 Write-up
+                            </a>
+                        </h2>
+
+                        <h5 class="glowing">by AP | 11/20/2023</h5>
+                        Hello everyone! Recently I was a Game Master for the
+                        first annual Razorhack CTF event at the University of
+                        Arkansas. I created some of the challenges, mostly
+                        web-based ones. I...
+                        <a
+                            class="glowing-link"
+                            href="\blog\posts\razorhack-ctf-2023"
+                            >See More</a
+                        >
+                    </div>
+                </div>
+                <div class="row p-5 mt-5 mb-5 post-row">
+                    <div class="col">
+                        <h2>
+                            <a
+                                href="\blog\posts\blog-welcome"
+                                class="glowing-link"
+                            >
+                                The Blog Section is Complete
+                            </a>
+                        </h2>
+
+                        <h5 class="glowing">by AP | 11/18/2023</h5>
+                        Hello everyone! I have finally completed the blog
+                        section of the website after over a year of not touching
+                        this website (which is a bit shameful honestly, but
+                        it&#39;s done...
+                        <a class="glowing-link" href="\blog\posts\blog-welcome"
+                            >See More</a
+                        >
+                    </div>
+                </div>
+            </div>
+
+            <footer class="footer-custom">
+                <section
+                    class="d-flex justify-content-center justify-content-lg-between p-4"
+                >
+                    <div class="text-start">
+                        <a
+                            href="https://youtube.com/CodingAP"
+                            class="lead glowing-link"
+                        >
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a
+                            href="https://twitter.com/Coding_AP"
+                            class="lead glowing-link"
+                        >
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a
+                            href="https://www.linkedin.com/in/alex-prosser-a8524a221/"
+                            class="lead glowing-link"
+                        >
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a
+                            href="https://github.com/CodingAP"
+                            class="lead glowing-link"
+                        >
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <br />
+                        <a
+                            class="glowing-link"
+                            onclick="document.body.scrollTop = 0; document.documentElement.scrollTop = 0;"
+                        >
+                            Back to top
+                        </a>
+                    </div>
+
+                    <div class="text-end">
+                        <a class="glowing-link" href="https://discord.com"
+                            >AP#1519</a
+                        ><br />
+                        <a
+                            class="glowing-link"
+                            href="mailto:alex.prosser.uark@gmail.com"
+                            >alex.prosser.uark@gmail.com</a
+                        ><br />
+                        <span class="glowing"
+                            >© 2023 Copyright - Alex Prosser</span
+                        >
+                    </div>
+                </section>
+            </footer>
         </div>
 
-        <div class="pb-4">
-            <p id="search-check" class="text-center"></p>
-            <div class="row p-5 mt-5 mb-5 post-row">
-    <div class="col">
-        <h2>
-            <a href="\blog\posts\new-year-goals" class="glowing-link">
-                New Year, New Me: Goals for 2024
-            </a>
-        </h2>
-
-        <h5 class="glowing">by AP | 1/14/2024</h5>
-        2024 has hit me like a truck, but I&#39;m holding on to the front. Not to say that it has been difficult, but a new year brings new responsibilities that...
-        <a class="glowing-link" href="\blog\posts\new-year-goals">See More</a>
-    </div>
-</div><div class="row p-5 mt-5 mb-5 post-row">
-    <div class="col">
-        <h2>
-            <a href="\blog\posts\advent-of-code-hub" class="glowing-link">
-                New Advent of Code Hub
-            </a>
-        </h2>
-
-        <h5 class="glowing">by AP | 11/24/2023</h5>
-        With December coming up, we get to reflect on the year before. I have a lot of thoughts about those, but considering this is a blog about my projects, I&#39;ll...
-        <a class="glowing-link" href="\blog\posts\advent-of-code-hub">See More</a>
-    </div>
-</div><div class="row p-5 mt-5 mb-5 post-row">
-    <div class="col">
-        <h2>
-            <a href="\blog\posts\razorhack-ctf" class="glowing-link">
-                RazorHack CTF Write-up
-            </a>
-        </h2>
-
-        <h5 class="glowing">by AP | 11/20/2023</h5>
-        Hello everyone! Recently I was a Game Master for the first annual Razorhack CTF event at the University of Arkansas. I created some of the challenges, mostly web-based ones. I...
-        <a class="glowing-link" href="\blog\posts\razorhack-ctf">See More</a>
-    </div>
-</div><div class="row p-5 mt-5 mb-5 post-row">
-    <div class="col">
-        <h2>
-            <a href="\blog\posts\blog-welcome" class="glowing-link">
-                The Blog Section is Complete
-            </a>
-        </h2>
-
-        <h5 class="glowing">by AP | 11/18/2023</h5>
-        Hello everyone! I have finally completed the blog section of the website after over a year of not touching this website (which is a bit shameful honestly, but it&#39;s done...
-        <a class="glowing-link" href="\blog\posts\blog-welcome">See More</a>
-    </div>
-</div>
-        </div>
-        
-
-        <footer class="footer-custom">
-    <section class="d-flex justify-content-center justify-content-lg-between p-4">
-        <div class="text-start">
-            <a href="https://youtube.com/CodingAP" class="lead glowing-link">
-                <i class="fab fa-youtube"></i>
-            </a>
-            <a href="https://twitter.com/Coding_AP" class="lead glowing-link">
-                <i class="fab fa-twitter"></i>
-            </a>
-            <a href="https://www.linkedin.com/in/alex-prosser-a8524a221/" class="lead glowing-link">
-                <i class="fab fa-linkedin"></i>
-            </a>
-            <a href="https://github.com/CodingAP" class="lead glowing-link">
-                <i class="fab fa-github"></i>
-            </a>
-            <br />
-            <a class="glowing-link" onclick="document.body.scrollTop = 0; document.documentElement.scrollTop = 0;">
-                Back to top
-            </a>
-        </div>
-
-        <div class="text-end">
-            <a class="glowing-link" href="https://discord.com">AP#1519</a><br />
-            <a class="glowing-link" href="mailto:alex.prosser.uark@gmail.com">alex.prosser.uark@gmail.com</a><br />
-            <span class="glowing">© 2023 Copyright - Alex Prosser</span>
-        </div>
-    </section>
-</footer>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
-    crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-    crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
-    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
-    crossorigin="anonymous"></script>
-    <script src="\static\js\blog_search.js"></script>
-</body>
-
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+            integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+            integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
+            crossorigin="anonymous"
+        ></script>
+        <script src="\static\js\blog_search.js"></script>
+    </body>
 </html>
