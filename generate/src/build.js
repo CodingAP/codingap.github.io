@@ -39,7 +39,9 @@ marked.use({ extensions: [centerable] });
 
 const convertMarkdown = content => {
     const [data, ...file] = content.split('\n');
-    return { data: JSON.parse(data), content: decodeURI(marked.parse(STEVE.render(file.join('\n')))) };
+    let parsedFile = marked.parse(STEVE.render(file.join('\n')));
+    parsedFile = parsedFile.replace(/[%]/g, '%25');
+    return { data: JSON.parse(data), content: decodeURI(parsedFile) };
 }
 
 const generateSite = outputDirectory => {

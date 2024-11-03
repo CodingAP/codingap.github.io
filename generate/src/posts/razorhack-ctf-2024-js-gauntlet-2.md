@@ -1,19 +1,21 @@
-{ "title": "RazorHack CTF 2024 - JS Gauntlet 2 Write-up", "author": "Alex Prosser", "date": "10/30/2024" }
+{ "title": "RazorHack CTF 2024 - JS Gauntlet 2 and hogCAPTCHA Write-up", "author": "Alex Prosser", "date": "10/30/2024" }
 
-This post will be going over the sequel to my previous year's challenge, JS Gauntlet 2. I wanted to create more web challenges this year as I have transitioned into a web developer position at my workplace. Because of this, I decided that I would combine a traditional Web CTF challenge, with web exploits like SQL injection and request spoofing, with some of my creativity from last year, where I wanted to try to challenge people with only client-side(ish) JavaScript. The result was a 8-stage competition that, sadly, no one fully completed. I will go over the intended solutions, some stats, and what made me create such a convoluted mess.
+Hello all! This post will be going over the sequel to my previous year's challenge, JS Gauntlet 2. I wanted to create more web challenges this year as I have transitioned into a web developer position at my workplace. Because of this, I decided that I would combine a traditional Web CTF challenge, with web exploits like SQL injection and request spoofing, with some of my creativity from last year, where I wanted to try to challenge people with only client-side(ish) JavaScript. The result was a 8-stage competition that, sadly, no one fully completed. I will go over the intended solutions, some stats, and what made me create such a convoluted mess.
 
-<hr />
-<h3 style="text-align: center;" id="introduction">Introduction</h3>
+---
+
+### Introduction
 
 @ <a href="https://github.com/CodingAP/js-gauntlet-2">Link to GitHub</a>
 
-***We have received a message from a hacker group called \*R3n3gad3s\* that has seemed to taken over our communications systems. These systems allow us to not only communicate with our different power stations around the nations, but also our messages and calls as well! It seems like they are about to put it up for ransom, but we will not allow that! However, we seem to have little experience in the offensive side of this type of stuff... can you help us?***
+***We have received a message from a hacker group called R3n3gad3s that has seemed to taken over our communications systems. These systems allow us to not only communicate with our different power stations around the nations, but also our messages and calls as well! It seems like they are about to put it up for ransom, but we will not allow that! However, we seem to have little experience in the offensive side of this type of stuff... can you help us?***
 ***~ IT Team***
 
 This was the first message that people saw when looking at the work order, which was an attempt to try to turn it to an offensive attack where you save the system. Typically, I've seen it where you just attack a website because you are told to. But, I wanted it to seem like you were on the "good" side (tbf it is all relative, but that is a political can of worms that is not worth it). Also, it lined up with the main storyline of the CTF that you were being attacked by an external force. This led to the first stage...
 
-<hr />
-<h3 style="text-align: center;" id="a-secret-code">A Secret Code</h3>
+---
+
+### A Secret Code
 
 ***Well, it seems like that they expected us... They have locked our main dashboard out with a code of some sorts! How will we get around this? It has to be airtight security, right?***
 ***~ Sven from IT***
@@ -22,7 +24,7 @@ This was the first message that people saw when looking at the work order, which
 
 The first thing I wanted to point out is that there is an IT team with names here, as they are the ones presenting you with what is happening. They don't seem to do anything, they just pile your work plate up and hope that you can accomplish it all. Anyways, this first challenge shows a typical login screen with username and password inputs, but it is being covered by a hacker overlay. Spoilers, this is going to be a running theme. You cannot delete this element as it will detect it and refresh the page (although you can easily get around that, the login page doesn't work so eh). The website says: **This site has been compromised by the R3n3gad3s. Please stay put for further messages...**
 
-@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/a-secret-code-1.jpg'); </steve>" style="text-align: center;"/>
+@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/js-gauntlet-2/a-secret-code-1.jpg'); </steve>" class="blog-image"/>
 
 Looking into the page source, we see a Russian comment that says in English: **They thought they could fool us with shitty power solutions, so we had to teach them. Fortunately, since we are uber hackers, we took over. For other comrades, please use the key code provided on Telegram.**. In a script tag, we also see a large checksum value and an key event listener...
 
@@ -73,10 +75,11 @@ As you can see, the key pressed is added to the string and a *btoa()* is used to
 
 After decoding ten times, you get the keys *a, b, ArrowRight, ArrowLeft, ArrowRight, ArrowLeft, ArrowDown, ArrowDown, ArrowUp, ArrowUp*, which if you don't know is the Konami Code. It is backwards because when reversing the checksum, you get the last key pressed each time. Entering the code on the page will return the the string **Welcome comrade! flag{30_lives_for_you_38201}...**
 
-@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/a-secret-code-2.jpg'); </steve>" style="text-align: center;"/>
+@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/js-gauntlet-2/a-secret-code-2.jpg'); </steve>" class="blog-image"/>
 
-<hr />
-<h3 style="text-align: center;" id="how-did-you-get-in-here">How Did You Get In Here?</h3>
+---
+
+### How Did You Get In Here?
 
 ***Ok, now that we can actually see what is happening, I've just realized that a lot of our system is modularized, and they isolated it all. We just need to recover it all, starting with our account system. Find a way to get access to our admin accounts, and we can definitely get somewhere...***
 ***~ Justin from IT***
@@ -85,7 +88,7 @@ After decoding ten times, you get the keys *a, b, ArrowRight, ArrowLeft, ArrowRi
 
 The next challenge allows you to access the login page with a username and password, but each time you try to login, you receive an error message: **Logins have been disabled by R3n3gad3s, but don't use password 'jobbin_pobbins'!** Sadly, no matter what username or password you try to enter, though, it will not work. The Russian comment in the source says: **Hello, we have disabled the login system, so for other team members trying to log in, please use this cookie as a workaround. The typical login system won't work, so don't use it. Cookie: 'account=eyJhY2NvdW50X25hbWUiOiJyM24zZ2FkM3MiLCJhY2NvdW50X3Bhc3N3b3JkIjoiW1JFREFDVEVEXSJ9'**
 
-@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/how-did-you-get-in-here-1.jpg'); </steve>" style="text-align: center;"/>
+@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/js-gauntlet-2/how-did-you-get-in-here-1.jpg'); </steve>" class="blog-image"/>
 
 This heavily hints at a cookie modification, so opening the DevTools, we can edit the cookies on the webpage. A lot of people thought the session cookie was the one needed to be modified, but that only tracks the progress of the user and is not part of the challenge (I made sure that it was known after seeing it a couple of times). The comment aludes the the cookie needing to be called *account*, but if you just try to place the cookie in, it will not work. Decoding the cookie from base64 gives you this...
 
@@ -102,10 +105,11 @@ btoa(cookie)
 
 Setting the cookie to this shows the flag: **flag{clipping_through_the_bars_17493}**
 
-@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/how-did-you-get-in-here-2.jpg'); </steve>" style="text-align: center;"/>
+@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/js-gauntlet-2/how-did-you-get-in-here-2.jpg'); </steve>" class="blog-image"/>
 
-<hr />
-<h3 style="text-align: center;" id="irresistible-force">Irresistible Force</h3>
+---
+
+### Irresistible Force
 
 ***Ok, this seems like a crazy joke, but for us to get to our next system, we need to... play Pong. However, it seems like no one on the team can actually beat the bot they've programmed in. This feels embarassing to ask, but see what you can do.***
 ***~ John from IT***
@@ -114,7 +118,7 @@ Setting the cookie to this shows the flag: **flag{clipping_through_the_bars_1749
 
 Ok, this one was fun to make. I knew that I wanted to make a hackable game as a challenge, and it was one of my original ones to make a set of challenges. However, with all the challenges I planned, it was one of the first to be put on the cutting board. Not all my ideas were immediately shelved, as I reused them in other challenges, such as this one. The Russian comment said: **It was fun to do, but now it's time to get serious. We're not going to let those bastards get by, so I've made sure to add anti-cheat technology. I'm sure there are no cracks in the system, so use the method described in Telegram to use the system if necessary.**
 
-@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/irresistible-force-1.jpg'); </steve>" style="text-align: center;"/>
+@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/js-gauntlet-2/irresistible-force-1.jpg'); </steve>" class="blog-image"/>
 
 The page consists of a game of Pong where the player must score 5 points to continue. However, the bot in the game is unbeatable in the traditional sense. No matter what, the bot will always hit the ball, and there is no way to modify the client code as I put it in an anonymous function (you can delete it, but then you can't play the game then). There are exposed variables, however, that you can modify. They just happen to be obfuscated so you don't know what variable does what. The intended solution can go many ways as I only added a couple of anti-cheats. Those are:
 
@@ -139,10 +143,11 @@ let var_03; // game paused
 
 My personal solution is to set *var_20*, or the paddle distance to a high value to switch places with the player's paddle and the computer's paddle. I can move my paddle out of the way and score on the computer. Other solutions I have seen is to disable collision, somehow. I'm not sure how they did that, but it works so... whatever. After scoring 5 points, the flag will appear: **flag{hey_stop_looking_there_23912}**
 
-@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/irresistible-force-2.jpg'); </steve>" style="text-align: center;"/>
+@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/js-gauntlet-2/irresistible-force-2.jpg'); </steve>" class="blog-image"/>
 
-<hr />
-<h3 style="text-align: center;" id="teleportation">Teleportation</h3>
+---
+
+### Teleportation
 
 ***Who would have that they would have attached a VPN to all of our services, so now we can't access the warning services without being in the right location. While it would be cool to travel for a "vacation", I think we are going to do this on the cheap. Now the obvious question is what location, but a better question is why ask us?***
 ***~ Stanley from IT***
@@ -151,7 +156,7 @@ My personal solution is to set *var_20*, or the paddle distance to a high value 
 
 For this stage, we now have access to the IT dashboard, which for a dashboard for all of IT's functions, it is pretty bare bones (make sense why they can't do much for you). The Russian comment says: **I decided to hide my IP address now because apparently previous posts were leaked to the site. I don't know how it happened, but I hope it doesn't lead to problems in the future.** In the previous 3 stages, the comment was prefixed with an IP of *194.242.26.157* (an actual Russian IP), but now it is censored.
 
-@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/teleportation-1.jpg'); </steve>" style="text-align: center;"/>
+@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/js-gauntlet-2/teleportation-1.jpg'); </steve>" class="blog-image"/>
 
 You have 4 buttons that do different actions such as create a ticket or seeing the notifications. However, they are all disabled as alluded to in the challenge prompt because **You are not in the correct location!**. This prompts you to try to change the location somehow, especially since you have a Russian IP you can base it from. While location services could have been a cool time, because of how varied the implementations can be, I decided to go for the "X-Forwarded-For" header, which has been out of use for a little bit. This HTTP header allows the client to say from what IP the request came from. Because you can change this, it obviously became a security concern that you can so easily spoof IPs, which means that you can spoof locations. With this payload...
 
@@ -176,10 +181,11 @@ fetch('/api/stage4/request', {
 
 ...the flag will appear in the notification. Just be sure to grab it before it goes away! The flag is **flag{so_no_headers_28013}**
 
-@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/teleportation-2.jpg'); </steve>" style="text-align: center;"/>
+@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/js-gauntlet-2/teleportation-2.jpg'); </steve>" class="blog-image"/>
 
-<hr />
-<h3 style="text-align: center;" id="we-are-doing-this-again">We Are Doing This Again?</h3>
+---
+
+### We Are Doing This Again?
 
 ***I can't help feel a sense of deja vu, but maybe because I went through a lot of corn mazes as a kid. Anyways, this seems to be the megamaze of my childhood dreams because it's 3D! I couldn't get through much, so I'll let you figure it out yourself...***
 ***~ Sven from IT***
@@ -188,7 +194,7 @@ fetch('/api/stage4/request', {
 
 If you say that this one looks familar, it because it is. I decided to use some of the JS Gauntlet challenges from last year because they were not attempted or completed much (I think like 5 teams max actually attempted them). This is the maze one from Challenge #3 from last year. However, I decided to upgrade this maze from a crude 9x5 maze to a 10x10x10 3D maze! The Russian comment says: **Hello all, this 3D maze is a bit of a bitch to traverse, so I have given the solution to you here: nnnnneesene[REDACTED]**. I decided to give a hint with the first floor of the maze being done as it makes it more clear just the scope you are dealing with.
 
-@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/we-are-doing-this-again-1.jpg'); </steve>" style="text-align: center;"/>
+@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/js-gauntlet-2/we-are-doing-this-again-1.jpg'); </steve>" class="blog-image"/>
 
 Because I didn't want people to do it manually this time, I made sure that it was big enough to stop people from going all the way. I think the furthest people went manually was 3 levels before someone wrote the script for it. I also wanted it to not be too taxing of a script, so I essentially made 10 2D mazes, then stacked the exits and entrances on top of each other. Obviously, the intended solution is to write a maze solving script. Here is my script that I wrote to solve the maze with BFS, with the neighbors function essentially being a web crawler (made in NodeJS).
 
@@ -249,12 +255,13 @@ console.log(finalPath);
 
 After running the script, it will give you the entire path that you can paste into the URL. Then, the flag will appear: **flag{this_isnt_a_corn_maze_28131}**.
 
-If you would like to see the visual representation of the maze, here is a [zip file](<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/maze.zip'); </steve>) with all of the layers with starts and ends labeled.
+If you would like to see the visual representation of the maze, here is a [zip file](<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/js-gauntlet-2/maze.zip'); </steve>) with all of the layers with starts and ends labeled.
 
-@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/we-are-doing-this-again-2.jpg'); </steve>" style="text-align: center;"/>
+@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/js-gauntlet-2/we-are-doing-this-again-2.jpg'); </steve>" class="blog-image"/>
 
-<hr />
-<h3 style="text-align: center;" id="best-in-class">Best In Class</h3>
+---
+
+### Best In Class
 
 ***We have recovered a good amount of services of our stuff, and that is good and all... But I see this as an opportunity to progress further. We have an internal system that checks how many IT tickets that we have completed within the last month. Now, I am no slacker, but my number are lower than they should. In fact, I need just one more tickets to reach the quota for the role of "Good IT Boy" for the month. However, our manager is the only one who can modify when a ticket is done as to prevent misuse. Can you, you know, up that number somehow?***
 ***~ Stanley from IT***
@@ -263,15 +270,15 @@ If you would like to see the visual representation of the maze, here is a [zip f
 
 So for this challenge and the rest after, no one was able to solve it. Only one team got to this point, so they are considered the champions of JS Gauntlet 2. I didn't give them anything like last year (I was tempted to give them the hat I wore the entire time, but I don't think anyone wants a cheap sweaty tophat as a prize). The Russian comment says: **This seems like a nice system, so I didn't take it down. A bit primitive, but I like its simplicity. I could go ahead and modify everything that is here for the hell of it, but I think that is not necessary.** This is because this stage isn't even for recovery, Stanley just wants his numbers up!
 
-@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/best-in-class-1.jpg'); </steve>" style="text-align: center;"/>
+@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/js-gauntlet-2/best-in-class-1.jpg'); </steve>" class="blog-image"/>
 
 Looking into the Docker container, it seems like this challenge was actually broken! The */data* directory wasn't copied over, so it wasn't able to create databases for the users (or user). Now that sucks, but considering the how the challenges went where only one team got to this point, it seems like it went under the radar. Essentially, each user that got to this point got their own SQLite database with 100 tickets in them. All but one ticket was complete, so we just need to find a way to complete the ticket without admin access. Luckily, it seems like the inputs in the *Create Ticket* dialog aren't sanitized, client or server side. We can tell by running this payload...
 
-@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/best-in-class-2.jpg'); </steve>" style="text-align: center;"/>
+@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/js-gauntlet-2/best-in-class-2.jpg'); </steve>" class="blog-image-75"/>
 
 ...and you will get this in the table in the *List Tickets* dialog...
 
-@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/best-in-class-3.jpg'); </steve>" style="text-align: center;"/>
+@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/js-gauntlet-2/best-in-class-3.jpg'); </steve>" class="blog-image-75"/>
 
 This means that we are entering some trailing function call, most likely an INSERT as we are creating a ticket. That means that between the parenthesis and the -- (which are comments in SQL), we can put any SQL code we want, such as modifying all tickets to be complete. We can also see what the table schema looks like by looking at what data is returned when calling *list_tickets* endpoint.
 
@@ -288,10 +295,11 @@ This means that we are entering some trailing function call, most likely an INSE
 
 That payload looks like this: *'); UPDATE TICKETS SET TICKET_COMPLETE = 1 --*. Running the payload and looking back on the tables gives us the flag: **flag{legit_number_one_19373}**.
 
-@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/best-in-class-4.jpg'); </steve>" style="text-align: center;"/>
+@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/js-gauntlet-2/best-in-class-4.jpg'); </steve>" class="blog-image"/>
 
-<hr />
-<h3 style="text-align: center;" id="were-definitely-doing-this-again">We're Definitely Doing This Again...</h3>
+---
+
+### We're Definitely Doing This Again...
 
 ***Okay, now this is starting to get annoying. I have actually seen this puzzle before, but they seem to have made it 100x harder by adding a 5 minute timer! This is impossible, so I am going to call it quits...***
 ***~ John from IT***
@@ -300,7 +308,7 @@ That payload looks like this: *'); UPDATE TICKETS SET TICKET_COMPLETE = 1 --*. R
 
 This is the second challenge from last years JS Gauntlet that made a return. This one seemed more popular as it has a very simple concept: complete the jigsaw puzzle. Only problem is that now you have a time limit of 5 minutes, which means that you must write a script (I would love to see this type of thing get speedran, but I highly doubt that to be possible). The Russian comment says: **I actually took this from a guy called CodingAP. If he didn't want his puzzles being copied, then he wouldn't have put them out so easily...**. That comment is a hint that you can look at my previous write up to see the way to do it (although no one made it here for that to matter ): ).
 
-@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/were-definitely-doing-this-again-1.jpg'); </steve>" style="text-align: center;"/>
+@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/js-gauntlet-2/were-definitely-doing-this-again-1.jpg'); </steve>" class="blog-image"/>
 
 The solution is the same from last year: write a script that solves it for you. You read where the piece should go, move it there, and keep doing it until all pieces are in the right place and the flag shows up. Here is the script I used, which runs based off key inputs to allow for better control of how it is done (copy and paste into console to make it work).
 
@@ -380,10 +388,11 @@ window.addEventListener('keydown', event => {
 
 After running it (press 'r' to move piece, and 'wasd' to move selector in the right place instead of the arrow keys), the flag shows up: **flag{i_actually_wasnt_sorry_83911}**.
 
-@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/were-definitely-doing-this-again-2.jpg'); </steve>" style="text-align: center;"/>
+@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/js-gauntlet-2/were-definitely-doing-this-again-2.jpg'); </steve>" class="blog-image"/>
 
-<hr />
-<h3 style="text-align: center;" id="we-will-never-surrender">We Will Never Surrender!</h3>
+---
+
+### We Will Never Surrender!
 
 ***Ok, we got most of stuff back, but if we can get the master key, we can get access to the terminal and finally secure our systems. The problem is the only copy of the master key is on the server that the attackers have access to. After all this, it seems that they have locked it down and we cannot access any file. Please, this is the last thing I ask of you...***
 ***~ Justin from IT***
@@ -392,7 +401,7 @@ After running it (press 'r' to move piece, and 'wasd' to move selector in the ri
 
 The final challenge! This one probably the most difficult, but it does show a lot of cool stuff. This was originally going to be an XSS attack through the notification system, but it was too similar to the one in Jungle Calls last year (doesn't stop me from reusing other challenges, but I digress). The Russian comment says: **It seems like the master key is just placed in the root directory of the server application called 'flag'. What a stupid idea! I'll just, you know, spread this around to where you can't find it so easily...**.
 
-@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/we-will-never-surrender.jpg'); </steve>" style="text-align: center;"/>
+@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/js-gauntlet-2/we-will-never-surrender.jpg'); </steve>" class="blog-image"/>
 
 As the comment suggests, we need to read a file called 'flag' on the root server. If we look at the logs dropdown in the *Account Settings* dialog, we see that in order to fetch the log contents, it sends a file URL to the server. We can tell because it says *logs/[log_name].log*, which hints at a file structure of some sort. We can use this to access any file on the root server, like so...
 
@@ -435,7 +444,7 @@ getFile('public/img/congrats.png');
 // it is an image, shown below
 ```
 
-@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/congrats.jpg'); </steve>" style="text-align: center;"/>
+@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/js-gauntlet-2/congrats.jpg'); </steve>" class="blog-image-75"/>
 
 To actually get the image file, I wrote another script that fetches and stores it in a file (written in NodeJS)...
 
@@ -462,21 +471,25 @@ After all this work, we can compile all the parts together to get the final flag
 
 I wanted this to be a cool reward after completing the challenges, as you can see most of the code that handles what you did. You can even see all the other code if you wanted to, it just wouldn't have the flag involved. As said previously, though, no one made it this far.
 
-<hr />
-<h3 style="text-align: center;" id="were-definitely-doing-this-again">hogCAPTCHA</h3>
+---
+
+### hogCAPTCHA
 
 Another thing that was hosted with this web challenge was two custom CAPTCHAs that both me and my girlfriend developed. These were not in the same style as JS Gauntlet 2, but since it was hosted on the same container and they are web challenges, it makes sense to put them here.
 
 Both CAPTCHAs start out with a button that takes them to the CAPTCHA...
 
-@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/hogCAPTCHA-1.jpg'); </steve>" style="text-align: center;"/>
+@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/js-gauntlet-2/hogCAPTCHA-1.jpg'); </steve>" class="blog-image blog-image-50"/>
 
-Both were generate with ChatGPT and not created from scratch, which you can tell if you actually competed at RazorHack because they were buggy and I had to fix them.
+Both were generated with ChatGPT and not created from scratch, which you can tell if you actually competed at RazorHack because they were buggy and I had to fix them.
 
-<hr />
-<h3 style="text-align: center;" id="hog-captcha-pt1">hogCAPTCHApt1</h3>
+---
 
-@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/hogCAPTCHApt1.jpg'); </steve>" style="text-align: center;"/>
+### hogCAPTCHApt1
+
+*Solved: 33/33*
+
+@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/js-gauntlet-2/hogCAPTCHApt1.jpg'); </steve>" class="blog-image"/>
 
 This CAPTCHA consisted of filling in all the words from a letter given to all the competitors. The letter says:
 
@@ -492,10 +505,13 @@ document.querySelectorAll('input').forEach(input => {
 
 ...you will get the flag: **flag{f1rst_fl4g_0f_th3-d4y!}**.
 
-<hr />
-<h3 style="text-align: center;" id="hog-captcha-pt2">hogCAPTCHApt2</h3>
+---
 
-@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/hogCAPTCHApt2.jpg'); </steve>" style="text-align: center;"/>
+### hogCAPTCHApt2
+
+*Solved: 8/33*
+
+@ <img src="<steve> return Steve.staticFile('/res/blog/razorhack-ctf-2024/js-gauntlet-2/hogCAPTCHApt2.jpg'); </steve>" class="blog-image-75"/>
 
 This is probably the worst CTF challenge I have ever made. Made with ChatGPT and not much care, this challenge straight up didn't work. Some of it is not my fault, though. In this challenge, you need to click all pixels that have a blue component that is greater than 100, so all you would need to do is run a script that does it for you, right? I've made so many challenges like this, and they all seem to work, so why not this one? Well, I thought so to. In fact, here is a script that worked for me...
 
@@ -513,7 +529,11 @@ clickedPixels = new Set(indexes)
 
 This, along with clicking once on the image shows the flag for me: **flag{pr33ty_c0l0rs!!!}**. Key words: *FOR ME*. For some reason, this code would not consistenly work on other people's devices. First, I tried simulating clicks through the event dispatcher, which didn't work consistently. Then, Firefox and Chromium-based browsers handle images on canvases differently, meaning that there would be different pixels that would be clicked on each browser. Then, even with the same settings and everything, some computers just didn't get the right answer, even with the same script! I just decided that it wasn't worth it and just gave anyone whose answer looks correct the flag manually, which kinda sucks.
 
-<hr />
-<h3 style="text-align: center;" id="conclusion">Conclusion</h3>
+---
 
-I think in terms of last year, this year went way better. The hosting wasn't a problem, the challenges (mostly) didn't have breaking bugs. I didn't stay up until 3am the night before creating these challenges. I would say it went off without a hitch. I do wish that more people completed the challenges as I did like the further ones I did, but at least people can see it in the blog post now. Thanks for reading if you made it this far!
+### Conclusion
+
+I think in terms of last year, this year went way better. The hosting wasn't a problem, the challenges (mostly) didn't have breaking bugs. I didn't stay up until 3am the night before creating these challenges. I would say it went off without a hitch. I do wish that more people completed the challenges as I did like the further ones I did, but at least people can see it in the blog post now. Thanks for reading if you made it this far! If you haven't yet, take a look at my other write-ups for RazorHack 2024!
+
+- [Breakroom Adventure Write-Up](https://codingap.github.io/blog/posts/razorhack-ctf-2024-breakroom-adventure/)
+- [Format Frenzy Write-Up](https://codingap.github.io/blog/posts/razorhack-ctf-2024-format-frenzy/)

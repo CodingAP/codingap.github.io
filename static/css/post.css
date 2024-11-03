@@ -8,6 +8,7 @@ a {
     text-decoration: none;
     color: #597387;
     text-shadow: 0 0 5px #597387;
+    text-align: center;
 }
 
 a:hover {
@@ -20,4 +21,16 @@ pre {
     padding: 20px;
     color: white;
     box-shadow: 10px 10px 10px 3px rgba(0, 0, 0, 0.5);
+}
+
+.blog-image {
+    width: 100%;
+}
+
+.blog-image-50 {
+    width: 50%;
+}
+
+.blog-image-75 {
+    width: 75%;
 }

@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>
+            Alex Prosser - RazorHack CTF 2024 - Format Frenzy Write-up
+        </title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+            crossorigin="anonymous"
+        />
+        <link href="\static\css\main.css" rel="stylesheet" />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="\static\res\favicon\apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="\static\res\favicon\favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="\static\res\favicon\favicon-16x16.png"
+        />
+        <link rel="manifest" href="\static\res\favicon\site.webmanifest" />
+        <link rel="shortcut icon" href="\static\res\favicon\favicon.ico" />
+        <meta name="msapplication-TileColor" content="#da532c" />
+        <meta
+            name="msapplication-config"
+            content="\static\res\favicon\browserconfig.xml"
+        />
+        <meta name="theme-color" content="#ffffff" />
+        <script
+            src="https://kit.fontawesome.com/b49a508af5.js"
+            crossorigin="anonymous"
+        ></script>
+        <script src="\static\js\circles.js" defer></script>
+        <link rel="stylesheet" href="\static\css\post.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css"
+        />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    </head>
+
+    <body>
+        <div class="container">
+            <nav class="navbar-custom navbar navbar-expand-lg">
+                <a class="navbar-brand nav-link-custom" href="/">
+                    <img
+                        src="\static\res\logo.png"
+                        alt="Logo"
+                        width="32"
+                        height="32"
+                        class="d-inline-block align-text-middle"
+                    />
+                    Alex Prosser
+                </a>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div
+                    class="collapse navbar-collapse"
+                    id="navbarSupportedContent"
+                >
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-custom" href="/blog"
+                                >Blog</a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-custom" href="/projects"
+                                >Projects</a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-custom" href="/contact"
+                                >Contact</a
+                            >
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div id="circle-container"></div>
+
+            <div class="jumbotron jumbotron-custom pb-4">
+                <h2>RazorHack CTF 2024 - Format Frenzy Write-up</h2>
+                <h5>by Alex Prosser | 11/2/2024</h5>
+            </div>
+
+            <article class="pb-4">
+                <p>
+                    Hello all! This was my first set of challenges developed for
+                    RazorHack 2024, and these were also the simplest. This was a
+                    way to get a lot of ideas into the CTF because I didn&#39;t
+                    have time to flesh these all out into their own challenges
+                    (I also had to cut stuff like malware inspection and
+                    virtualization, but I can explore those ideas for another
+                    time).
+                </p>
+                <hr />
+                <h3>Introduction</h3>
+                <div style="text-align: center">
+                    <a href="https://github.com/CodingAP/format-frenzy"
+                        >Link to GitHub</a
+                    >
+                </div>
+                <p>
+                    <em
+                        ><strong
+                            >Oh, thank goodness you are here. An intern
+                            downloaded a virus while trying to fix the breakroom
+                            computer (to think that &quot;Totally Real
+                            Anti-Virus 2034&quot; would not be what it seems).
+                            We managed to recover most of the data, but we have
+                            some files that got scrubbed of all the metadata! We
+                            will have some of our team members try to remember
+                            what the data is, but can you investigate the files
+                            to see WHAT you can find?</strong
+                        ></em
+                    >
+                    <em><strong>~ IT Team</strong></em>
+                </p>
+                <p>
+                    File forensics sounds a lot cooler than what it is here.
+                    Most of the challenges consisted of trying to figure out
+                    what the file format is and putting it through the correct
+                    program to see what the flag should be. Similarly to
+                    <a
+                        href="https://codingap.github.io/blog/posts/razorhack-ctf-2024-js-gauntlet-2/"
+                        >JS Gauntlet 2</a
+                    >, this was also the IT Team giving you tasks to do.
+                </p>
+                <hr />
+                <h3>Graphics mean Everything</h3>
+                <p>
+                    <em
+                        ><strong
+                            >I think this file came from the boss&#39;s recent
+                            vacation, so I WOULD treat with the upmost respect
+                            and totally not post it in the Teams chat
+                            afterwards...</strong
+                        ></em
+                    >
+                    <em><strong>~ Stanley from IT</strong></em>
+                </p>
+                <p><em>Solved: 21/33</em></p>
+                <p>
+                    Basically, I created an image that had the flag, removed the
+                    .png extension, and that was it. Most of the challenges can
+                    be solved with <em>file</em> in Linux as most file formats
+                    have bytes at the beginning as identification. I also tried
+                    to make the storyline work throughout the challenges,
+                    especially for the last challenge. The flag is
+                    <strong>flag{oh_what_a_silly_guy_43782}</strong>.
+                </p>
+                <div style="text-align: center">
+                    <img
+                        src="\static\res\blog\razorhack-ctf-2024\format-frenzy\challenge1.png"
+                        class="blog-image-75"
+                    />
+                </div>
+                <hr />
+                <h3>Plastic, amirite?</h3>
+                <p>
+                    <em
+                        ><strong
+                            >If I remember correctly, this may be from an
+                            instruction set of some kind, but I can&#39;t put MY
+                            finger on it...</strong
+                        ></em
+                    >
+                    <em><strong>~ Sven from IT</strong></em>
+                </p>
+                <p><em>Solved: 20/33</em></p>
+                <p>
+                    This is one of the challenges that I wanted to expand upon,
+                    but chose not to due to lack of time. LEGO has an app called
+                    <a href="https://www.bricklink.com/v3/studio/download.page"
+                        >stud.io</a
+                    >
+                    where you can create builds and instructions for those
+                    builds so that you can create you own custom LEGO sets. Not
+                    only is it fun to &quot;pirate&quot; LEGO sets and build
+                    them digitally, but this can also create fun visuals. I
+                    wanted a PDF file for these challenges, and I thought it
+                    would be cute to see LEGO instructions instead of a simple
+                    Word document or something like that. The flag is
+                    <strong>flag{lego_is_fun_25539}</strong>.
+                </p>
+                <div style="text-align: center">
+                    <img
+                        src="\static\res\blog\razorhack-ctf-2024\format-frenzy\challenge2.png"
+                        class="blog-image-75"
+                    />
+                </div>
+                <hr />
+                <h3>My zipper got stuck :(</h3>
+                <p>
+                    <em
+                        ><strong
+                            >Oi oi oi, I reckon if we can crack into this
+                            bugger, we can find the true meaning of life.
+                            I&#39;m just ribbing ya, but if my NAME isn&#39;t
+                            Alfred the III Jr., you can fix this in a
+                            jiffy...</strong
+                        ></em
+                    >
+                    <em><strong>~ Alfred from IT</strong></em>
+                </p>
+                <p><em>Solved: 19/33</em></p>
+                <p>
+                    A nested ZIP file was an obvious choice for this type of
+                    challenge, especially if you choose to remove all the
+                    extensions like I did. This was a little confusing to
+                    create, especially since I couldn&#39;t rename files to the
+                    same thing, but I made due. I also chose a British guy to
+                    present this one because I thought it would be funny to
+                    subvert the Russian nesting doll joke. Speaking of the
+                    British guy, this was actually my character for the CTF. The
+                    game masters decided to dress up as employees of this
+                    fictitious company, and I wore a top hat and mustache (for
+                    the start). Anyways, the flag is
+                    <strong>flag{british_nesting_dolls_38472}</strong>.
+                </p>
+                <hr />
+                <h3>Additive Manufacturing in my Office?!?!</h3>
+                <p>
+                    <em
+                        ><strong
+                            >I really need this file to BE recovered as I have
+                            all my money in this business that specializes in
+                            creating custom parts for office desks and if this
+                            file is lost, I will lose millions!!!</strong
+                        ></em
+                    >
+                    <em><strong>~ John from IT</strong></em>
+                </p>
+                <p><em>Solved: 16/33</em></p>
+                <p>
+                    I don&#39;t remember where I saw this, but this was a
+                    previous challenge that I solved for another CTF. I liked it
+                    enough to copy it over to this set of challenges my self.
+                    All I did was using Tinkercad to create a 3D printable model
+                    that consisted of the flag. Since I knew that it was easy to
+                    see .gcode files online, I made a harder vector file
+                    challenge later on as well. The flag is
+                    <strong>flag{4d_printing_37182}</strong>.
+                </p>
+                <div style="text-align: center">
+                    <img
+                        src="\static\res\blog\razorhack-ctf-2024\format-frenzy\challenge4.png"
+                        class="blog-image-75"
+                    />
+                </div>
+                <hr />
+                <h3>Homemade Code Right Here</h3>
+                <p>
+                    <em
+                        ><strong
+                            >My mom apparently sent this to me with the message,
+                            &quot;I wanted to do something that you would be
+                            familiar with, but your technologies are too
+                            complicated. I am happy though that I made it from
+                            Scratch, so IF you like it, please call back.&quot;
+                            Maybe recover this for some happy
+                            thoughts...</strong
+                        ></em
+                    >
+                    <em><strong>~ Justin from IT</strong></em>
+                </p>
+                <p><em>Solved: 15/33</em></p>
+                <p>
+                    I just thought it would be funny to hide something in a
+                    Scratch project. People don&#39;t normally export them to
+                    files, so this was just a fun fact type of challenge. The
+                    Scratch exported file is actually a zip file with all the
+                    content needed to run it. Because of this, I had to split up
+                    the flag so that people couldn&#39;t just <em>grep</em> the
+                    flag easily (I mean you still can, but it would be harder).
+                    The flag is
+                    <strong>flag{just_like_mom_makes_it_38219}</strong>.
+                </p>
+                <div style="text-align: center">
+                    <img
+                        src="\static\res\blog\razorhack-ctf-2024\format-frenzy\challenge5.png"
+                        class="blog-image-75"
+                    />
+                </div>
+                <hr />
+                <h3>Son, Git in here!</h3>
+                <p>
+                    <em
+                        ><strong
+                            >So, it turns out that our website build was also in
+                            the files that got wiped, but we really need to get
+                            that back or else we have to start over, and we made
+                            so progress on our FIRST build that we really
+                            don&#39;t want to do that...</strong
+                        ></em
+                    >
+                    <em><strong>~ Sven from IT</strong></em>
+                </p>
+                <p><em>Solved: 15/33</em></p>
+                <p>
+                    I also saw this, but I remember getting it from picoCTF
+                    because I thought it was cool how Git keeps track of stuff
+                    not just using Github/Azure/Gitlabs, but how the git file
+                    system works as well. It is also not a simple
+                    <em>grep</em> either because I couldn&#39;t find the raw
+                    text for the commit message anywhere. I just had to use
+                    <em>git log</em> though to find the messages, so I think it
+                    is worthy enough of a challenge. Fun fact: this is the same
+                    repository as the current one used to store all the files
+                    for the challenge. I decided to repurpose it instead of
+                    deleting it. The flag is
+                    <strong>flag{im_commiting_to_be_better_54821}</strong>.
+                </p>
+                <div style="text-align: center">
+                    <img
+                        src="\static\res\blog\razorhack-ctf-2024\format-frenzy\challenge6.png"
+                        class="blog-image-75"
+                    />
+                </div>
+                <hr />
+                <h3>Back in the 80s...</h3>
+                <p>
+                    ***I remember when I was a wee lad back in 1988 when I got
+                    into developement of my first game console, but my old age
+                    has made me forget the name. This file maybe has LETTERS of
+                    my first game, but I&#39;m not for sure... ***
+                    <em><strong>~ Alfred from IT</strong></em>
+                </p>
+                <p><em>Solved: 9/33</em></p>
+                <p>
+                    Because I couldn&#39;t do a hackable game or a
+                    virtualization challenge, I decided that this was the next
+                    best thing. NES graphics are not that hard to understand
+                    after watching a 2 hour video series about them, but if you
+                    use YYCHR to view them, it makes it very easy to edit. I
+                    also added different colors to the text so that if you
+                    wanted to make a custom palette, you can! The flag is
+                    <strong>flag{now_youre_playing_with_power_07291}</strong>.
+                </p>
+                <div style="text-align: center">
+                    <img
+                        src="\static\res\blog\razorhack-ctf-2024\format-frenzy\challenge7.png"
+                        class="blog-image-75"
+                    />
+                </div>
+                <hr />
+                <h3>I&#39;m Not Taking This Litely</h3>
+                <p>
+                    <em
+                        ><strong
+                            >This malware seemed to have corrupted everything!
+                            First our website build, now our database! How are
+                            we going to produce state-of-the-art technologies if
+                            everything is gone. We WERE going to restart, but
+                            maybe you can help again...</strong
+                        ></em
+                    >
+                    <em><strong>~ John from IT</strong></em>
+                </p>
+                <p><em>Solved: 8/33</em></p>
+                <p>
+                    I actually have been using SQLite in a couple of recent
+                    projects because of how easy it is to setup. While it is not
+                    the best in terms of enterprise software (I even poke fun of
+                    that in the prose), hobby projects are a great fit for how
+                    fast it is to setup and use. Anyways, this is just a .db
+                    file with a table with 10000 entries. You have to find the
+                    flag in a sea of <em>not the flag</em>&#39;s (tbf all you
+                    need to do is ctrl-f &quot;flag{&quot;, sooooooo). The flag
+                    is <strong>flag{billions_of_rows_49812}</strong>.
+                </p>
+                <div style="text-align: center">
+                    <img
+                        src="\static\res\blog\razorhack-ctf-2024\format-frenzy\challenge8.png"
+                        class="blog-image-75"
+                    />
+                </div>
+                <hr />
+                <h3>In both Magnitude and Direction</h3>
+                <p>
+                    <em
+                        ><strong
+                            >This seems to be from some sort of vector
+                            processing unit, but it isn&#39;t from anything
+                            modern. However, our version of the arcade game
+                            Asteroids that we keep in the break room seems to be
+                            SWITCHED with a toaster, and I can&#39;t help to
+                            think those are related...</strong
+                        ></em
+                    >
+                    <em><strong>~ Justin from IT</strong></em>
+                </p>
+                <p><em>Solved: 7/33</em></p>
+                <p>
+                    This was that harder vector challenge I mentioned earlier. I
+                    actually wanted this to be the virtualization challenge,
+                    where you had to recreate the
+                    <a href="https://en.wikipedia.org/wiki/QuadraScan"
+                        >Quadrascan</a
+                    >
+                    instruction set to create a vector image, but I think that
+                    would be way too difficult for a challenge like this
+                    (although I am ready to implement something like that for a
+                    different challenge). Instead, I just created a list of
+                    points that the participant would have to parse and draw
+                    manually, which is still more difficult that all the other
+                    challenges as they actually have to program stuff. The flag
+                    is
+                    <strong>flag{despicable_me_16_is_the_best_38103}</strong>
+                    (lot of Vector from Despicable Me jokes obviously).
+                </p>
+                <div style="text-align: center">
+                    <img
+                        src="\static\res\blog\razorhack-ctf-2024\format-frenzy\challenge9.svg"
+                        class="blog-image-75"
+                    />
+                </div>
+                <hr />
+                <h3>Under Lock and Key</h3>
+                <p>
+                    <em
+                        ><strong
+                            >This last file is really important, and we have
+                            identified it... but it seems that the malware
+                            specifically targetted it and locked it under out
+                            noses. That pesky intern said, &quot;The malware
+                            seemed to PASSWORD-encode the file and placed a
+                            riddle around to figure it out&quot;. Can you help
+                            us one last time?</strong
+                        ></em
+                    >
+                    <em><strong>~ Stanley from IT</strong></em>
+                </p>
+                <p><em>Solved: 3/33</em></p>
+                <p>
+                    The final challenge is one where I wanted to utilize all the
+                    other challenges before. I was thinking metadata between the
+                    9 previous files to construct one final file, but I
+                    couldn&#39;t think of a clean way to do that. Instead, I
+                    went with a final riddle that had to be constructed out of
+                    all the previous proses. If you notice, there are words that
+                    are CAPITALIZED, and if you put them together, you get
+                    <em
+                        ><strong
+                            >WHAT WOULD MY NAME BE IF FIRST LETTERS WERE
+                            SWITCHED PASSWORD</strong
+                        ></em
+                    >. Because I put my author name in all of the challenges,
+                    hopefully they realize that the password is
+                    <em>plexarosser</em> (I would also imagine some would use a
+                    password cracker, but that is no fun). I didn&#39;t put a
+                    challenge after that as I thought it would be a nice ending.
+                    The flag is
+                    <strong>flag{conglaturation_a_winner_is_you_73281}</strong>.
+                </p>
+                <hr />
+                <h3 style="text-align: center" id="conclusion">Conclusion</h3>
+
+                <p>
+                    Thank you all for reading! If you haven&#39;t yet, take a
+                    look at my other write-ups for RazorHack 2024!
+                </p>
+                <ul>
+                    <li>
+                        <a
+                            href="https://codingap.github.io/blog/posts/razorhack-ctf-2024-js-gauntlet-2/"
+                            >JS Gauntlet 2 Write-Up</a
+                        >
+                    </li>
+                    <li>
+                        <a
+                            href="https://codingap.github.io/blog/posts/razorhack-ctf-2024-breakroom-adventure/"
+                            >Breakroom Adventure Write-Up</a
+                        >
+                    </li>
+                </ul>
+            </article>
+
+            <footer class="footer-custom">
+                <section
+                    class="d-flex justify-content-center justify-content-lg-between p-4"
+                >
+                    <div class="text-start">
+                        <a
+                            href="https://youtube.com/CodingAP"
+                            class="lead glowing-link"
+                        >
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a
+                            href="https://twitter.com/Coding_AP"
+                            class="lead glowing-link"
+                        >
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a
+                            href="https://www.linkedin.com/in/alex-prosser-a8524a221/"
+                            class="lead glowing-link"
+                        >
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a
+                            href="https://github.com/CodingAP"
+                            class="lead glowing-link"
+                        >
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <br />
+                        <a
+                            class="glowing-link"
+                            onclick="document.body.scrollTop = 0; document.documentElement.scrollTop = 0;"
+                        >
+                            Back to top
+                        </a>
+                    </div>
+
+                    <div class="text-end">
+                        <a class="glowing-link" href="https://discord.com"
+                            >AP#1519</a
+                        ><br />
+                        <a
+                            class="glowing-link"
+                            href="mailto:alex.prosser.uark@gmail.com"
+                            >alex.prosser.uark@gmail.com</a
+                        ><br />
+                        <span class="glowing"
+                            >© 2023 Copyright - Alex Prosser</span
+                        >
+                    </div>
+                </section>
+            </footer>
+        </div>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+            integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+            integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
+            crossorigin="anonymous"
+        ></script>
+    </body>
+</html>
