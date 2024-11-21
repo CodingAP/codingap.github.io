@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <steve> return steve.include('head.steve', { title: 'Contact' }); </steve>
+</head>
+
+<body>
+    <div class="container">
+        <steve> return steve.include('navbar.steve'); </steve>
+
+        <div id="circle-container"></div>
+
+        <div class="row text-center mt-4 mb-4">
+            <h3>For professional conversations, contact me through my email.</h3>
+            <h5>
+                <i class="fa fa-envelope"></i> <a class="glowing-link" href="mailto:alex.prosser.uark@gmail.com">alex.prosser.uark@gmail.com</a>
+            </h5>
+            <h3>The best way to contact me is through Discord.</h3>
+            <h5>
+                <i class="fab fa-discord"></i> <a class="glowing-link" href="https://discord.com">ExcellentAP (formally AP#1519)</a>
+            </h5>
+            <h3>Here is my other social media</h3>
+            <h5>
+                YouTube <i class="fab fa-youtube"></i>: <a class="glowing-link" href="https://youtube.com/CodingAP">CodingAP</a>
+            </h5>
+            <h5>
+                Twitter <i class="fab fa-twitter"></i>: <a class="glowing-link"
+                    href="https://twitter.com/Coding_AP">@Coding_AP</a>
+            </h5>
+            <h5>
+                LinkedIn <i class="fab fa-linkedin"></i>: <a class="glowing-link"
+                    href="https://www.linkedin.com/in/alex-prosser-a8524a221/">Alex Prosser</a>
+            </h5>
+            <h5>
+                Github <i class="fab fa-github"></i>: <a class="glowing-link" href="https://github.com/CodingAP">CodingAP</a>
+            </h5>
+        </div>
+
+        <steve> return steve.include('footer.steve'); </steve>
+    </div>
+
+    <steve> return steve.include('js.steve'); </steve>
+</body>
+
+</html>

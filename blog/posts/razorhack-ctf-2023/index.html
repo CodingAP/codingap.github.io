@@ -101,7 +101,7 @@
 
             <div class="jumbotron jumbotron-custom pb-4">
                 <h2>RazorHack CTF 2023 Write-up</h2>
-                <h5>by AP | 11/20/2023</h5>
+                <h5>by Alex Prosser | 11/20/2023</h5>
             </div>
 
             <article class="pb-4">
@@ -113,12 +113,13 @@
                     them.
                 </p>
                 <hr />
-                <h3 style="text-align: center" id="junglecalls">JungleCalls</h3>
-
+                <h3>JungleCalls</h3>
                 <div style="text-align: center">
-                    <a href="https://github.com/CodingAP/junglecalls"
-                        >Link to GitHub</a
-                    >
+                    <p>
+                        <a href="https://github.com/CodingAP/junglecalls"
+                            >Link to GitHub</a
+                        >
+                    </p>
                 </div>
                 <p>
                     When I was asked about helping out with the CTF, I had two
@@ -129,37 +130,36 @@
                     Here was the prose that I wrote up for it...
                 </p>
                 <p>
-                    &quot;Back in the 90s, a messaging app called Jungle Calls
-                    was used by RazorPower Co. in the late 90s to communicate
+                    "Back in the 90s, a messaging app called Jungle Calls was
+                    used by RazorPower Co. in the late 90s to communicate
                     between different stations. It seemed to be top of the class
-                    back in the day, but now we can&#39;t seem to know how to
-                    use it. We have a partially tore off page of some marketing
+                    back in the day, but now we can't seem to know how to use
+                    it. We have a partially tore off page of some marketing
                     material that reads:
                 </p>
                 <p>
                     <em
                         ><strong
-                            >Thank you for purchasing &#39;Jungle Calls
-                            Messaging Service&#39; for use in your company! We
-                            are delighted that you chose us for your
-                            communication needs. We provide many solutions to
-                            all of your problems, including instant text
-                            messages reliably coming through all channels,
-                            automatic replys, and the all-new server features
-                            that allow the chats to be responded to by any
-                            device (physical or otherwise). To find more
-                            information about this service and how to use it,
-                            simply dial...</strong
+                            >Thank you for purchasing 'Jungle Calls Messaging
+                            Service' for use in your company! We are delighted
+                            that you chose us for your communication needs. We
+                            provide many solutions to all of your problems,
+                            including instant text messages reliably coming
+                            through all channels, automatic replys, and the
+                            all-new server features that allow the chats to be
+                            responded to by any device (physical or otherwise).
+                            To find more information about this service and how
+                            to use it, simply dial...</strong
                         ></em
                     >
                 </p>
                 <p>
                     ...and that was all that we have on us. We somehow got it
                     converted into a modern language to be useful again, but the
-                    code isn&#39;t the best. Your goal is to look through this
-                    web service and find any tid bits that may be important to
-                    us. Anything that has the format flag{insert flag here} will
-                    definitely suffice. Good luck!&quot;
+                    code isn't the best. Your goal is to look through this web
+                    service and find any tid bits that may be important to us.
+                    Anything that has the format flag{insert flag here} will
+                    definitely suffice. Good luck!"
                 </p>
                 <p>
                     The first thing that I wanted to do was make something 90s
@@ -168,10 +168,10 @@
                     with sarcasm dripping out my mouth). I think I achieved the
                     look with the homepage...
                 </p>
-                <div style="text-align: center">
+                <div style="text-align: center; padding-bottom: 20px">
                     <img
                         src="\static\res\blog\razorhack-ctf-2023\junglecalls-homepage.png"
-                        style="text-align: center"
+                        style="width: 75%"
                     />
                 </div>
                 <p>
@@ -181,16 +181,12 @@
                     web vulnerabilities as possible. Here is them listed out as
                     well as there flags...
                 </p>
-                <br />
-                <h5 style="text-align: center">
-                    Challenge #1 - Hidden in the Forest
-                </h5>
-
+                <h5>Challenge #1 - Hidden in the Forest</h5>
                 <p>
                     <em
                         ><strong
                             >Wow, we really did a bad job at converting this
-                            code! Well, that&#39;s what happens when using a
+                            code! Well, that's what happens when using a
                             COBOL-Fortran-C++-Java-Malbolge-JavaScript
                             converter...</strong
                         ></em
@@ -211,17 +207,13 @@
                     as it allows for very easy deobfuscation. The deobfuscated
                     code looks like this...
                 </p>
-                <pre><code class="language-javascript">document.querySelector(&#39;#clippy&#39;).addEventListener(&quot;click&quot;, () =&gt; {
-    alert(sentences[Math.floor(Math.random() * sentences.length)]);
-    console.log = () =&gt; {};
-    console.log(&quot;flag{h4ck_4nd_5l45h_43872}&quot;);
+                <pre><code class="hljs language-javascript"><span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">'#clippy'</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">"click"</span>, <span class="hljs-function">() =></span> {
+    <span class="hljs-title function_">alert</span>(sentences[<span class="hljs-title class_">Math</span>.<span class="hljs-title function_">floor</span>(<span class="hljs-title class_">Math</span>.<span class="hljs-title function_">random</span>() * sentences.<span class="hljs-property">length</span>)]);
+    <span class="hljs-variable language_">console</span>.<span class="hljs-property">log</span> = <span class="hljs-function">() =></span> {};
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">"flag{h4ck_4nd_5l45h_43872}"</span>);
 });
 </code></pre>
-                <br />
-                <h5 style="text-align: center">
-                    Challenge #2 - King of the Jungle
-                </h5>
-
+                <h5>Challenge #2 - King of the Jungle</h5>
                 <p>
                     <em
                         ><strong
@@ -244,23 +236,19 @@
                     is pretty much the same type of challenge, and I took two of
                     those challenges and put it in JungleCalls.
                 </p>
-                <div style="text-align: center">
+                <div style="text-align: center; padding-bottom: 20px">
                     <img
                         src="\static\res\blog\razorhack-ctf-2023\junglecalls-admin.png"
-                        style="text-align: center"
+                        style="width: 50%"
                     />
                 </div>
-                <br />
-                <h5 style="text-align: center">
-                    Challenge #3 - A"Cross" the River
-                </h5>
-
+                <h5>Challenge #3 - A"Cross" the River</h5>
                 <p>
                     <em
                         ><strong
                             >You know, I think the old CEO would have an account
                             on here, here let me see... Ah yes! His username is
-                            &quot;ceo-man-123&quot; still...</strong
+                            "ceo-man-123" still...</strong
                         ></em
                     >
                 </p>
@@ -270,33 +258,28 @@
                     attribute will work for this XSS stuff. To get the flag from
                     this user, you need to access their description, which has
                     it hidden by default. The intended way to solve this is to
-                    send a XSS payload that grabs ceo-man-123&#39;s cookie. I
-                    had so many problems getting this to work because I wanted
-                    to use puppeteer to be the &quot;user&quot;, but it
-                    wouldn&#39;t work with basic XSS. To get around this, I
-                    created a special webpage at
+                    send a XSS payload that grabs ceo-man-123's cookie. I had so
+                    many problems getting this to work because I wanted to use
+                    puppeteer to be the "user", but it wouldn't work with basic
+                    XSS. To get around this, I created a special webpage at
                     <strong>/ceomanmessaging</strong> that only ceo-man-123 can
                     access. This page just shows all message sent to
                     ceo-man-123, which contains the XSS. Then, I left that page
                     on my computer (luckily XSS still works even if you are not
                     focused on the page).
                 </p>
-                <div style="text-align: center">
+                <div style="text-align: center; padding-bottom: 20px">
                     <img
                         src="\static\res\blog\razorhack-ctf-2023\junglecalls-ceoman.png"
-                        style="text-align: center"
+                        style="width: 50%"
                     />
                 </div>
-                <br />
-                <h5 style="text-align: center">
-                    Challenge #4 - So many Trees and Logs!
-                </h5>
-
+                <h5>Challenge #4 - So many Trees and Logs!</h5>
                 <p>
                     <em
                         ><strong
-                            >You know, for a service that hasn&#39;t been used
-                            in a long time, there is still a lot of stuff left
+                            >You know, for a service that hasn't been used in a
+                            long time, there is still a lot of stuff left
                             behind... It seems like it has been online for
                             years!</strong
                         ></em
@@ -321,15 +304,13 @@
                     <strong>ceo-man-123!employee4522.log</strong>. This was the
                     other challenge from dropcalls that I implemented.
                 </p>
-                <div style="text-align: center">
+                <div style="text-align: center; padding-bottom: 20px">
                     <img
                         src="\static\res\blog\razorhack-ctf-2023\junglecalls-messages.png"
-                        style="text-align: center"
+                        style="width: 75%"
                     />
                 </div>
-                <br />
-                <h5 style="text-align: center">Challenge #5 - Flashy Leaves</h5>
-
+                <h5>Challenge #5 - Flashy Leaves</h5>
                 <p>
                     <em
                         ><strong
@@ -342,8 +323,8 @@
                 <p>
                     This was my favorite of the JungleCalls challenge. In the
                     global chat, there is a feature to send a random emoji to
-                    the chat. Hopefully people spam it because it&#39;s cool,
-                    but that will also send a request to the page
+                    the chat. Hopefully people spam it because it's cool, but
+                    that will also send a request to the page
                     <strong>/flag</strong>, which a computer is connected to as
                     well as a speaker that tries to draw people to it. There,
                     the flag is written on it. That computer is also covered by
@@ -354,17 +335,13 @@
                     solved all my web challenge, kind of like a trophy. The flag
                     is <strong>flag{ju57_a5_I_pl4nn3d_32187}</strong>.
                 </p>
-                <br />
-                <h5 style="text-align: center">
-                    Challenge #6 - Timing is Everything
-                </h5>
-
+                <h5>Challenge #6 - Timing is Everything</h5>
                 <p>
                     <em
                         ><strong
                             >A very nice bot seems to welcome you everytime you
-                            join the global chat, but it&#39;s always off with
-                            the time...</strong
+                            join the global chat, but it's always off with the
+                            time...</strong
                         ></em
                     >
                 </p>
@@ -373,46 +350,43 @@
                     <strong>welcome-bot</strong> will say hello and give the
                     current time; however, the time is always wrong (probably
                     some side effect of Y2K). If you message the bot that the
-                    time is wrong (specifically you have the word
-                    &quot;wrong&quot; in the message), you will be sent the
-                    flag. You can also find the flag by searching through all
-                    the message logs through ADMIN_MODE.
+                    time is wrong (specifically you have the word "wrong" in the
+                    message), you will be sent the flag. You can also find the
+                    flag by searching through all the message logs through
+                    ADMIN_MODE.
                 </p>
-                <div style="text-align: center">
+                <div style="text-align: center; padding-bottom: 20px">
                     <img
                         src="\static\res\blog\razorhack-ctf-2023\junglecalls-welcomebot.png"
-                        style="text-align: center"
+                        style="width: 100%"
                     />
                 </div>
                 <hr />
-                <h3 style="text-align: center" id="js-gauntlet">JS Gauntlet</h3>
-
+                <h3>JS Gauntlet</h3>
                 <div style="text-align: center">
-                    <a href="https://github.com/CodingAP/js-gauntlet"
-                        >Link to GitHub</a
-                    >
+                    <p>
+                        <a href="https://github.com/CodingAP/js-gauntlet"
+                            >Link to GitHub</a
+                        >
+                    </p>
                 </div>
                 <p>
-                    Funnily enough, these weren&#39;t made until after the first
-                    day (which ended at 11 pm). So these challenges only had
-                    about 5 hours of development. This meant that there was
-                    nearly no testing and some of these challenges had bugs
-                    (especially the 4th one). I made these challenges because
-                    people were having a hard time with the JungleCalls
-                    challenges. Those web attacks were as common as looking in
-                    the DevTools console, so I made these so that people felt
-                    better about my web challenges.
+                    Funnily enough, these weren't made until after the first day
+                    (which ended at 11 pm). So these challenges only had about 5
+                    hours of development. This meant that there was nearly no
+                    testing and some of these challenges had bugs (especially
+                    the 4th one). I made these challenges because people were
+                    having a hard time with the JungleCalls challenges. Those
+                    web attacks were as common as looking in the DevTools
+                    console, so I made these so that people felt better about my
+                    web challenges.
                 </p>
-                <br />
-                <h5 style="text-align: center">
-                    Challenge #1 - Where is Anything?
-                </h5>
-
+                <h5>Challenge #1 - Where is Anything?</h5>
                 <p>
                     <em
                         ><strong
-                            >I would give you a hint, but I don&#39;t think I
-                            see anything on this site.</strong
+                            >I would give you a hint, but I don't think I see
+                            anything on this site.</strong
                         ></em
                     >
                 </p>
@@ -421,58 +395,51 @@
                     through the HTML to find the flag. I just generated a bunch
                     of Lorem Ipsum and turned the visibility to hidden. So, when
                     you first looked, there was no text besides sometimes say
-                    &quot;Oooh, I may have found it...&quot;. This was solved
-                    pretty fast, which is understandable.
+                    "Oooh, I may have found it...". This was solved pretty fast,
+                    which is understandable.
                 </p>
-                <div style="text-align: center">
+                <div style="text-align: center; padding-bottom: 20px">
                     <img
                         src="\static\res\blog\razorhack-ctf-2023\jsgauntlet-stage1.png"
-                        style="text-align: center"
+                        style="width: 75%"
                     />
                 </div>
-                <br />
-                <h5 style="text-align: center">
-                    Challenge #2 - Password Validator
-                </h5>
-
+                <h5>Challenge #2 - Password Validator</h5>
                 <p>
                     <em
                         ><strong
                             >Try logging in to the system with the username
-                            &quot;razorpower&quot;. Seems pretty
-                            simple...</strong
+                            "razorpower". Seems pretty simple...</strong
                         ></em
                     >
                 </p>
                 <p>
                     I wanted to make a client-side password validator, but I
-                    didn&#39;t want to make it super simple to break. Lots of
-                    times, it would just be rearranging a hardcoded text or
-                    unhashing a password. I wanted something that people
-                    haven&#39;t seen before. That is where making the password
-                    out of the script itself would come into play. I generated
-                    15 random indexes into the script&#39;s content, and chose
-                    that character to be the password (any whitespace or
-                    non-alphanumeric characters would be &quot;.&quot;). To
-                    reverse it, you take the random numbers in the script (the
-                    array is called &quot;wtf&quot;) and generate the password
-                    yourself. Then, if the password was correct, you would get
-                    the flag: <strong>flag{t00_m4ny_l3tt3r5_83201}</strong>.
+                    didn't want to make it super simple to break. Lots of times,
+                    it would just be rearranging a hardcoded text or unhashing a
+                    password. I wanted something that people haven't seen
+                    before. That is where making the password out of the script
+                    itself would come into play. I generated 15 random indexes
+                    into the script's content, and chose that character to be
+                    the password (any whitespace or non-alphanumeric characters
+                    would be "."). To reverse it, you take the random numbers in
+                    the script (the array is called "wtf") and generate the
+                    password yourself. Then, if the password was correct, you
+                    would get the flag:
+                    <strong>flag{t00_m4ny_l3tt3r5_83201}</strong>.
                 </p>
-                <br />
-                <h5 style="text-align: center">Challenge #3 - Button Maze</h5>
-
+                <h5>Challenge #3 - Button Maze</h5>
                 <p>
                     <em
                         ><strong
                             >Oooooo, this looks like one of the old style
-                            text-based RPGs. Why don&#39;t you try it?</strong
+                            text-based RPGs. Why don't you try it?</strong
                         ></em
                     >
                 </p>
                 <p>
-                    This wasn&#39;t much of a challenge, it was just something
-                    fun that they could do. Funnily enough, people tried to
+                    This wasn't much of a challenge, it was just something fun
+                    that they could do. Funnily enough, people tried to
                     bruteforce by looking through all directions with a program,
                     but I told them it was a complicated maze. All I did was
                     generate the maze below and added buttons to traverse it. It
@@ -494,9 +461,7 @@
                     Once you reached the end, you will get the flag:
                     <strong>flag{1t5_l1k3_a_c0rn_m4z3_32901}</strong>.
                 </p>
-                <br />
-                <h5 style="text-align: center">Challenge #4 - Puzzle Pieces</h5>
-
+                <h5>Challenge #4 - Puzzle Pieces</h5>
                 <p>
                     <em
                         ><strong
@@ -517,38 +482,40 @@
                     solution is a script that simulates the key presses and
                     moves the pieces to its spot. Sadly, only one person
                     actually solved the puzzle that way as two cheesed it (I
-                    didn&#39;t put protection on the flag URL), and the other
+                    didn't put protection on the flag URL), and the other
                     manually solved it. Here is the finished puzzle with the
                     flag...
                 </p>
-                <div style="text-align: center">
+                <div style="text-align: center; padding-bottom: 20px">
                     <img
                         src="\static\res\blog\razorhack-ctf-2023\jsgauntlet-stage4.png"
-                        style="text-align: center"
+                        style="width: 100%"
                     />
                 </div>
-                <br />
-                <h3 style="text-align: center">Conclusion</h3>
-                Overall I am happy with the creation of these puzzles. I does
-                suck a little that I only had two weeks to work on it all, but I
-                think it pushed me to get something working faster than if I had
-                a longer time period. There was some regrets with the puzzles,
-                though. I wanted to do another challenge in JungleCalls where
-                there would be some file traversing through a linux server, but
-                I didn't have enough time to implement it correctly. I could
-                allow them to access all files, but I didn't want server code to
-                be exposed. So I scrapped it so I could focus on getting the
-                above 6 done. The only major problem with the challenges was the
-                hosting. I used my student Azure account to host the website,
-                but the guest WiFi that everyone was on did not like it. I had
-                to use many ngrok instances to try and fix the issues, but they
-                never went away. Next time I will get those details ironed out
-                and make even better challenges. Thank you so much for reading!
-
-                <div style="text-align: center">
+                <h3>Conclusion</h3>
+                <p>
+                    Overall I am happy with the creation of these puzzles. It
+                    does suck a little that I only had two weeks to work on it
+                    all, but I think it pushed me to get something working
+                    faster than if I had a longer time period. There was some
+                    regrets with the puzzles, though. I wanted to do another
+                    challenge in JungleCalls where there would be some file
+                    traversing through a Linux server, but I didn't have enough
+                    time to implement it correctly. I could allow them to access
+                    all files, but I didn't want server code to be exposed. So I
+                    scrapped it so I could focus on getting the above 6 done.
+                    The only major problem with the challenges was the hosting.
+                    I used my student Azure account to host the website, but the
+                    guest Wi-Fi that everyone was on did not like it. I had to
+                    use many ngrok instances to try and fix the issues, but they
+                    never went away. Next time I will get those details ironed
+                    out and make even better challenges. Thank you so much for
+                    reading!
+                </p>
+                <div style="text-align: center; padding-bottom: 20px">
                     <img
-                        src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmiro.medium.com%2Fmax%2F1000%2F1*1DiqbO9tSH3YAkAKzza3gA.gif&f=1&nofb=1&ipt=fc7743ff8b1b791eb6dd1c51e67402e39bc08142f4764ff1fce461bb2062fb79&ipo=images"
-                        style="text-align: center"
+                        src="\static\res\blog\razorhack-ctf-2023\thanks-for-reading.gif"
+                        style="width: 50%"
                     />
                 </div>
             </article>
@@ -593,7 +560,7 @@
 
                     <div class="text-end">
                         <a class="glowing-link" href="https://discord.com"
-                            >AP#1519</a
+                            >excellentap</a
                         ><br />
                         <a
                             class="glowing-link"
@@ -601,7 +568,7 @@
                             >alex.prosser.uark@gmail.com</a
                         ><br />
                         <span class="glowing"
-                            >© 2023 Copyright - Alex Prosser</span
+                            >© 2024 Copyright - Alex Prosser</span
                         >
                     </div>
                 </section>

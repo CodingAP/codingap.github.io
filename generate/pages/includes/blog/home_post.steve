@@ -1,0 +1,12 @@
+<div class="post<steve> return steve.data.isActive ? ' active-post' : ''; </steve>" id="post-<steve> return steve.data.id; </steve>">
+    <h2>
+        <a href="<steve> return steve.joinPaths('/blog/posts', steve.data.name.replace(/\./g, '/')) </steve>"
+            class="glowing-link">
+            <steve> return steve.data.title; </steve>
+        </a>
+    </h2>
+    
+    <h5 class="glowing">by <steve> return steve.data.author; </steve> | <steve> return steve.data.date; </steve></h5>
+    <steve> return steve.data.textOnly.split(' ').slice(0, 30).join(' '); </steve>...
+    <a class="glowing-link" href="<steve> return steve.joinPaths('/blog/posts', steve.data.name.replace(/\./g, '/')) </steve>">See More</a>
+</div>

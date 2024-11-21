@@ -10,9 +10,7 @@ const searchForPosts = (search) => {
     const allPosts = document.querySelectorAll('.post-row');
     for (let i = 0; i < allPosts.length; i++) {
         if (
-            allPosts[i]
-                .querySelector('div > h2 > a')
-                .innerHTML.trim()
+            allPosts[i].querySelector('div > h2 > a').innerHTML.trim()
                 .toLowerCase()
                 .includes(search.toLowerCase())
         ) {
@@ -23,8 +21,9 @@ const searchForPosts = (search) => {
         }
     }
 
-    searchCheckSpan.innerHTML =
-        found == 0 ? "Sorry, couldn't find any posts :(" : '';
+    searchCheckSpan.innerHTML = (found == 0)
+        ? "Sorry, couldn't find any posts :("
+        : '';
 };
 
 window.addEventListener('load', () => {

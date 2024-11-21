@@ -112,10 +112,10 @@
             <article class="pb-4">
                 <p>
                     Hello all! This post will be going over the sequel to my
-                    previous year&#39;s challenge, JS Gauntlet 2. I wanted to
-                    create more web challenges this year as I have transitioned
-                    into a web developer position at my workplace. Because of
-                    this, I decided that I would combine a traditional Web CTF
+                    previous year's challenge, JS Gauntlet 2. I wanted to create
+                    more web challenges this year as I have transitioned into a
+                    web developer position at my workplace. Because of this, I
+                    decided that I would combine a traditional Web CTF
                     challenge, with web exploits like SQL injection and request
                     spoofing, with some of my creativity from last year, where I
                     wanted to try to challenge people with only client-side(ish)
@@ -127,9 +127,11 @@
                 <hr />
                 <h3>Introduction</h3>
                 <div style="text-align: center">
-                    <a href="https://github.com/CodingAP/js-gauntlet-2"
-                        >Link to GitHub</a
-                    >
+                    <p>
+                        <a href="https://github.com/CodingAP/js-gauntlet-2"
+                            >Link to GitHub</a
+                        >
+                    </p>
                 </div>
                 <p>
                     <em
@@ -151,14 +153,13 @@
                 <p>
                     This was the first message that people saw when looking at
                     the work order, which was an attempt to try to turn it to an
-                    offensive attack where you save the system. Typically,
-                    I&#39;ve seen it where you just attack a website because you
-                    are told to. But, I wanted it to seem like you were on the
-                    &quot;good&quot; side (tbf it is all relative, but that is a
-                    political can of worms that is not worth it). Also, it lined
-                    up with the main storyline of the CTF that you were being
-                    attacked by an external force. This led to the first
-                    stage...
+                    offensive attack where you save the system. Typically, I've
+                    seen it where you just attack a website because you are told
+                    to. But, I wanted it to seem like you were on the "good"
+                    side (tbf it is all relative, but that is a political can of
+                    worms that is not worth it). Also, it lined up with the main
+                    storyline of the CTF that you were being attacked by an
+                    external force. This led to the first stage...
                 </p>
                 <hr />
                 <h3>A Secret Code</h3>
@@ -177,24 +178,24 @@
                 <p>
                     The first thing I wanted to point out is that there is an IT
                     team with names here, as they are the ones presenting you
-                    with what is happening. They don&#39;t seem to do anything,
-                    they just pile your work plate up and hope that you can
+                    with what is happening. They don't seem to do anything, they
+                    just pile your work plate up and hope that you can
                     accomplish it all. Anyways, this first challenge shows a
                     typical login screen with username and password inputs, but
                     it is being covered by a hacker overlay. Spoilers, this is
                     going to be a running theme. You cannot delete this element
                     as it will detect it and refresh the page (although you can
-                    easily get around that, the login page doesn&#39;t work so
-                    eh). The website says:
+                    easily get around that, the login page doesn't work so eh).
+                    The website says:
                     <strong
                         >This site has been compromised by the R3n3gad3s. Please
                         stay put for further messages...</strong
                     >
                 </p>
-                <div style="text-align: center">
+                <div style="text-align: center; padding-bottom: 20px">
                     <img
                         src="\static\res\blog\razorhack-ctf-2024\js-gauntlet-2\a-secret-code-1.jpg"
-                        class="blog-image"
+                        style="width: 100%"
                     />
                 </div>
                 <p>
@@ -208,27 +209,27 @@
                     >. In a script tag, we also see a large checksum value and
                     an key event listener...
                 </p>
-                <pre><code class="language-javascript">const checksum = &#39;Vm0wd2QyVkZOVWRpUm1ScFVtMW9WVll3Wkc...&#39;;
-let currentCode = &#39;&#39;, currentKeys = [];
+                <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> checksum = <span class="hljs-string">'Vm0wd2QyVkZOVWRpUm1ScFVtMW9WVll3Wkc...'</span>;
+<span class="hljs-keyword">let</span> currentCode = <span class="hljs-string">''</span>, currentKeys = [];
 
-window.addEventListener(&#39;keydown&#39;, event =&gt; {
-    currentCode += event.key;
-    currentKeys.push(event.key);
-    currentCode = btoa(currentCode);
+<span class="hljs-variable language_">window</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">'keydown'</span>, <span class="hljs-function"><span class="hljs-params">event</span> =></span> {
+    currentCode += event.<span class="hljs-property">key</span>;
+    currentKeys.<span class="hljs-title function_">push</span>(event.<span class="hljs-property">key</span>);
+    currentCode = <span class="hljs-title function_">btoa</span>(currentCode);
 
-    if (checksum == currentCode) {
-        fetch(&#39;/api/stage1/check&#39;, {
-            method: &#39;post&#39;,
-            headers: {
-                &#39;content-type&#39;: &#39;application/json&#39;
+    <span class="hljs-keyword">if</span> (checksum == currentCode) {
+        <span class="hljs-title function_">fetch</span>(<span class="hljs-string">'/api/stage1/check'</span>, {
+            <span class="hljs-attr">method</span>: <span class="hljs-string">'post'</span>,
+            <span class="hljs-attr">headers</span>: {
+                <span class="hljs-string">'content-type'</span>: <span class="hljs-string">'application/json'</span>
             },
-            body: JSON.stringify(currentKeys)
+            <span class="hljs-attr">body</span>: <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(currentKeys)
         })
-        .then(response =&gt; response.json())
-        .then(data =&gt; {
-            if (data.flag != null) {
-                document.querySelector(&#39;#flag-response&#39;).innerHTML =
-                `Welcome comrade! ${data.flag}...`;
+        .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">response</span> =></span> response.<span class="hljs-title function_">json</span>())
+        .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">data</span> =></span> {
+            <span class="hljs-keyword">if</span> (data.<span class="hljs-property">flag</span> != <span class="hljs-literal">null</span>) {
+                <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">'#flag-response'</span>).<span class="hljs-property">innerHTML</span> =
+                <span class="hljs-string">`Welcome comrade! <span class="hljs-subst">${data.flag}</span>...`</span>;
             }
         });
     }
@@ -241,30 +242,30 @@ window.addEventListener(&#39;keydown&#39;, event =&gt; {
                     <em>currentCode</em> equals the large checksum, it sends a
                     request for the flag. The keys that were pressed are also
                     sent in the request to make sure you actually figured out
-                    the keys and can&#39;t just abuse the endpoint. The intended
+                    the keys and can't just abuse the endpoint. The intended
                     solution is to reverse the checksum with <em>atob()</em> and
                     getting each key after each decode. So, it would look
                     something like this...
                 </p>
-                <pre><code class="language-javascript">&gt; atob(checksum)
-&#39;Vm0wd2VFNUdiRmRp...hV2RvZEE9PWI=a&#39; // the key is &#39;a&#39;
-// remove &#39;a&#39; from checksum
-&gt; atob(checksum)
-&#39;Vm0weE5GbFdiRmhU...yb3dSaWdodA==b&#39; // the key is &#39;b&#39;
-// remove &#39;b&#39; from checksum
-// ...
-&gt; atob(checksum)
-&#39;QXJyb3dVcA==ArrowUp&#39; // the key is the up arrow
-// remove &#39;ArrowUp&#39; from checksum
-&gt; atob(checksum)
-&#39;ArrowUp&#39; // the key is the up arrow
+                <pre><code class="hljs language-javascript">> <span class="hljs-title function_">atob</span>(checksum)
+<span class="hljs-string">'Vm0wd2VFNUdiRmRp...hV2RvZEE9PWI=a'</span> <span class="hljs-comment">// the key is 'a'</span>
+<span class="hljs-comment">// remove 'a' from checksum</span>
+> <span class="hljs-title function_">atob</span>(checksum)
+<span class="hljs-string">'Vm0weE5GbFdiRmhU...yb3dSaWdodA==b'</span> <span class="hljs-comment">// the key is 'b'</span>
+<span class="hljs-comment">// remove 'b' from checksum</span>
+<span class="hljs-comment">// ...</span>
+> <span class="hljs-title function_">atob</span>(checksum)
+<span class="hljs-string">'QXJyb3dVcA==ArrowUp'</span> <span class="hljs-comment">// the key is the up arrow</span>
+<span class="hljs-comment">// remove 'ArrowUp' from checksum</span>
+> <span class="hljs-title function_">atob</span>(checksum)
+<span class="hljs-string">'ArrowUp'</span> <span class="hljs-comment">// the key is the up arrow</span>
 </code></pre>
                 <p>
                     After decoding ten times, you get the keys
                     <em
                         >a, b, ArrowRight, ArrowLeft, ArrowRight, ArrowLeft,
                         ArrowDown, ArrowDown, ArrowUp, ArrowUp</em
-                    >, which if you don&#39;t know is the Konami Code. It is
+                    >, which if you don't know is the Konami Code. It is
                     backwards because when reversing the checksum, you get the
                     last key pressed each time. Entering the code on the page
                     will return the the string
@@ -273,10 +274,10 @@ window.addEventListener(&#39;keydown&#39;, event =&gt; {
                         flag{30_lives_for_you_38201}...</strong
                     >
                 </p>
-                <div style="text-align: center">
+                <div style="text-align: center; padding-bottom: 20px">
                     <img
                         src="\static\res\blog\razorhack-ctf-2024\js-gauntlet-2\a-secret-code-2.jpg"
-                        class="blog-image"
+                        style="width: 100%"
                     />
                 </div>
                 <hr />
@@ -285,7 +286,7 @@ window.addEventListener(&#39;keydown&#39;, event =&gt; {
                     <em
                         ><strong
                             >Ok, now that we can actually see what is happening,
-                            I&#39;ve just realized that a lot of our system is
+                            I've just realized that a lot of our system is
                             modularized, and they isolated it all. We just need
                             to recover it all, starting with our account system.
                             Find a way to get access to our admin accounts, and
@@ -300,8 +301,8 @@ window.addEventListener(&#39;keydown&#39;, event =&gt; {
                     a username and password, but each time you try to login, you
                     receive an error message:
                     <strong
-                        >Logins have been disabled by R3n3gad3s, but don&#39;t
-                        use password &#39;jobbin_pobbins&#39;!</strong
+                        >Logins have been disabled by R3n3gad3s, but don't use
+                        password 'jobbin_pobbins'!</strong
                     >
                     Sadly, no matter what username or password you try to enter,
                     though, it will not work. The Russian comment in the source
@@ -309,15 +310,15 @@ window.addEventListener(&#39;keydown&#39;, event =&gt; {
                     <strong
                         >Hello, we have disabled the login system, so for other
                         team members trying to log in, please use this cookie as
-                        a workaround. The typical login system won&#39;t work,
-                        so don&#39;t use it. Cookie:
-                        &#39;account=eyJhY2NvdW50X25hbWUiOiJyM24zZ2FkM3MiLCJhY2NvdW50X3Bhc3N3b3JkIjoiW1JFREFDVEVEXSJ9&#39;</strong
+                        a workaround. The typical login system won't work, so
+                        don't use it. Cookie:
+                        'account=eyJhY2NvdW50X25hbWUiOiJyM24zZ2FkM3MiLCJhY2NvdW50X3Bhc3N3b3JkIjoiW1JFREFDVEVEXSJ9'</strong
                     >
                 </p>
-                <div style="text-align: center">
+                <div style="text-align: center; padding-bottom: 20px">
                     <img
                         src="\static\res\blog\razorhack-ctf-2024\js-gauntlet-2\how-did-you-get-in-here-1.jpg"
-                        class="blog-image"
+                        style="width: 100%"
                     />
                 </div>
                 <p>
@@ -331,25 +332,25 @@ window.addEventListener(&#39;keydown&#39;, event =&gt; {
                     just try to place the cookie in, it will not work. Decoding
                     the cookie from base64 gives you this...
                 </p>
-                <pre><code class="language-json">{&quot;account_name&quot;:&quot;r3n3gad3s&quot;,&quot;account_password&quot;:&quot;[REDACTED]&quot;}
+                <pre><code class="hljs language-json"><span class="hljs-punctuation">{</span><span class="hljs-attr">"account_name"</span><span class="hljs-punctuation">:</span><span class="hljs-string">"r3n3gad3s"</span><span class="hljs-punctuation">,</span><span class="hljs-attr">"account_password"</span><span class="hljs-punctuation">:</span><span class="hljs-string">"[REDACTED]"</span><span class="hljs-punctuation">}</span>
 </code></pre>
                 <p>
                     Makes sense, now. However, we were given something in the
                     form of <em>jobbin_pobbins</em>, so if we were to put that
                     password in and encode it back to base64...
                 </p>
-                <pre><code class="language-javascript">cookie = {&quot;account_name&quot;:&quot;r3n3gad3s&quot;,&quot;account_password&quot;:&quot;jobbin_pobbins&quot;}
-btoa(cookie)
-// eyJhY2NvdW50X25hbWUiOiJyM24zZ2FkM3MiLCJhY2NvdW50X3Bhc3N3b3JkIjoiam9iYmluX3BvYmJpbnMifQ==
+                <pre><code class="hljs language-javascript">cookie = {<span class="hljs-string">"account_name"</span>:<span class="hljs-string">"r3n3gad3s"</span>,<span class="hljs-string">"account_password"</span>:<span class="hljs-string">"jobbin_pobbins"</span>}
+<span class="hljs-title function_">btoa</span>(cookie)
+<span class="hljs-comment">// eyJhY2NvdW50X25hbWUiOiJyM24zZ2FkM3MiLCJhY2NvdW50X3Bhc3N3b3JkIjoiam9iYmluX3BvYmJpbnMifQ==</span>
 </code></pre>
                 <p>
                     Setting the cookie to this shows the flag:
                     <strong>flag{clipping_through_the_bars_17493}</strong>
                 </p>
-                <div style="text-align: center">
+                <div style="text-align: center; padding-bottom: 20px">
                     <img
                         src="\static\res\blog\razorhack-ctf-2024\js-gauntlet-2\how-did-you-get-in-here-2.jpg"
-                        class="blog-image"
+                        style="width: 100%"
                     />
                 </div>
                 <hr />
@@ -360,8 +361,8 @@ btoa(cookie)
                             >Ok, this seems like a crazy joke, but for us to get
                             to our next system, we need to... play Pong.
                             However, it seems like no one on the team can
-                            actually beat the bot they&#39;ve programmed in.
-                            This feels embarassing to ask, but see what you can
+                            actually beat the bot they've programmed in. This
+                            feels embarassing to ask, but see what you can
                             do.</strong
                         ></em
                     >
@@ -377,18 +378,17 @@ btoa(cookie)
                     shelved, as I reused them in other challenges, such as this
                     one. The Russian comment said:
                     <strong
-                        >It was fun to do, but now it&#39;s time to get serious.
-                        We&#39;re not going to let those bastards get by, so
-                        I&#39;ve made sure to add anti-cheat technology. I&#39;m
-                        sure there are no cracks in the system, so use the
-                        method described in Telegram to use the system if
-                        necessary.</strong
+                        >It was fun to do, but now it's time to get serious.
+                        We're not going to let those bastards get by, so I've
+                        made sure to add anti-cheat technology. I'm sure there
+                        are no cracks in the system, so use the method described
+                        in Telegram to use the system if necessary.</strong
                     >
                 </p>
-                <div style="text-align: center">
+                <div style="text-align: center; padding-bottom: 20px">
                     <img
                         src="\static\res\blog\razorhack-ctf-2024\js-gauntlet-2\irresistible-force-1.jpg"
-                        class="blog-image"
+                        style="width: 100%"
                     />
                 </div>
                 <p>
@@ -397,16 +397,16 @@ btoa(cookie)
                     unbeatable in the traditional sense. No matter what, the bot
                     will always hit the ball, and there is no way to modify the
                     client code as I put it in an anonymous function (you can
-                    delete it, but then you can&#39;t play the game then). There
-                    are exposed variables, however, that you can modify. They
-                    just happen to be obfuscated so you don&#39;t know what
-                    variable does what. The intended solution can go many ways
-                    as I only added a couple of anti-cheats. Those are:
+                    delete it, but then you can't play the game then). There are
+                    exposed variables, however, that you can modify. They just
+                    happen to be obfuscated so you don't know what variable does
+                    what. The intended solution can go many ways as I only added
+                    a couple of anti-cheats. Those are:
                 </p>
                 <ul>
                     <li>
-                        Changing the player or computer&#39;s score by more than
-                        one point
+                        Changing the player or computer's score by more than one
+                        point
                     </li>
                     <li>Moving the ball too far or out of bounds</li>
                     <li>Trying to use the endpoint without proper fields</li>
@@ -421,29 +421,29 @@ btoa(cookie)
                     did it right!
                 </p>
                 <p>Here is the mapping for the variables:</p>
-                <pre><code class="language-javascript">let var_46, var_70; // player paddle position, computer paddle position
-let var_68, var_04, var_20; // paddle width, paddle height, paddle distance from edge
-let var_29, var_77; // ball x position, ball y position
-let var_01, var_75; // ball x speed, ball y speed
-let var_80; // ball size
-let var_07, var_45; // player input up, player input down
-let var_62, var_95; // player score, computer score
-let var_03; // game paused
+                <pre><code class="hljs language-javascript"><span class="hljs-keyword">let</span> var_46, var_70; <span class="hljs-comment">// player paddle position, computer paddle position</span>
+<span class="hljs-keyword">let</span> var_68, var_04, var_20; <span class="hljs-comment">// paddle width, paddle height, paddle distance from edge</span>
+<span class="hljs-keyword">let</span> var_29, var_77; <span class="hljs-comment">// ball x position, ball y position</span>
+<span class="hljs-keyword">let</span> var_01, var_75; <span class="hljs-comment">// ball x speed, ball y speed</span>
+<span class="hljs-keyword">let</span> var_80; <span class="hljs-comment">// ball size</span>
+<span class="hljs-keyword">let</span> var_07, var_45; <span class="hljs-comment">// player input up, player input down</span>
+<span class="hljs-keyword">let</span> var_62, var_95; <span class="hljs-comment">// player score, computer score</span>
+<span class="hljs-keyword">let</span> var_03; <span class="hljs-comment">// game paused</span>
 </code></pre>
                 <p>
                     My personal solution is to set <em>var_20</em>, or the
                     paddle distance to a high value to switch places with the
-                    player&#39;s paddle and the computer&#39;s paddle. I can
-                    move my paddle out of the way and score on the computer.
-                    Other solutions I have seen is to disable collision,
-                    somehow. I&#39;m not sure how they did that, but it works
-                    so... whatever. After scoring 5 points, the flag will
-                    appear: <strong>flag{hey_stop_looking_there_23912}</strong>
+                    player's paddle and the computer's paddle. I can move my
+                    paddle out of the way and score on the computer. Other
+                    solutions I have seen is to disable collision, somehow. I'm
+                    not sure how they did that, but it works so... whatever.
+                    After scoring 5 points, the flag will appear:
+                    <strong>flag{hey_stop_looking_there_23912}</strong>
                 </p>
-                <div style="text-align: center">
+                <div style="text-align: center; padding-bottom: 20px">
                     <img
                         src="\static\res\blog\razorhack-ctf-2024\js-gauntlet-2\irresistible-force-2.jpg"
-                        class="blog-image"
+                        style="width: 100%"
                     />
                 </div>
                 <hr />
@@ -452,13 +452,12 @@ let var_03; // game paused
                     <em
                         ><strong
                             >Who would have that they would have attached a VPN
-                            to all of our services, so now we can&#39;t access
-                            the warning services without being in the right
+                            to all of our services, so now we can't access the
+                            warning services without being in the right
                             location. While it would be cool to travel for a
-                            &quot;vacation&quot;, I think we are going to do
-                            this on the cheap. Now the obvious question is what
-                            location, but a better question is why ask
-                            us?</strong
+                            "vacation", I think we are going to do this on the
+                            cheap. Now the obvious question is what location,
+                            but a better question is why ask us?</strong
                         ></em
                     >
                     <em><strong>~ Stanley from IT</strong></em>
@@ -466,23 +465,23 @@ let var_03; // game paused
                 <p><em>Solved: 3/33</em></p>
                 <p>
                     For this stage, we now have access to the IT dashboard,
-                    which for a dashboard for all of IT&#39;s functions, it is
-                    pretty bare bones (make sense why they can&#39;t do much for
+                    which for a dashboard for all of IT's functions, it is
+                    pretty bare bones (make sense why they can't do much for
                     you). The Russian comment says:
                     <strong
                         >I decided to hide my IP address now because apparently
-                        previous posts were leaked to the site. I don&#39;t know
-                        how it happened, but I hope it doesn&#39;t lead to
-                        problems in the future.</strong
+                        previous posts were leaked to the site. I don't know how
+                        it happened, but I hope it doesn't lead to problems in
+                        the future.</strong
                     >
                     In the previous 3 stages, the comment was prefixed with an
                     IP of <em>194.242.26.157</em> (an actual Russian IP), but
                     now it is censored.
                 </p>
-                <div style="text-align: center">
+                <div style="text-align: center; padding-bottom: 20px">
                     <img
                         src="\static\res\blog\razorhack-ctf-2024\js-gauntlet-2\teleportation-1.jpg"
-                        class="blog-image"
+                        style="width: 100%"
                     />
                 </div>
                 <p>
@@ -494,27 +493,27 @@ let var_03; // game paused
                     especially since you have a Russian IP you can base it from.
                     While location services could have been a cool time, because
                     of how varied the implementations can be, I decided to go
-                    for the &quot;X-Forwarded-For&quot; header, which has been
-                    out of use for a little bit. This HTTP header allows the
-                    client to say from what IP the request came from. Because
-                    you can change this, it obviously became a security concern
-                    that you can so easily spoof IPs, which means that you can
-                    spoof locations. With this payload...
+                    for the "X-Forwarded-For" header, which has been out of use
+                    for a little bit. This HTTP header allows the client to say
+                    from what IP the request came from. Because you can change
+                    this, it obviously became a security concern that you can so
+                    easily spoof IPs, which means that you can spoof locations.
+                    With this payload...
                 </p>
-                <pre><code class="language-javascript">fetch(&#39;/api/stage4/request&#39;, {
-    method: &#39;post&#39;,
-    headers: {
-        &#39;content-type&#39;: &#39;application/json&#39;,
-        &#39;x-forwarded-for&#39;: &#39;194.242.26.157&#39;
+                <pre><code class="hljs language-javascript"><span class="hljs-title function_">fetch</span>(<span class="hljs-string">'/api/stage4/request'</span>, {
+    <span class="hljs-attr">method</span>: <span class="hljs-string">'post'</span>,
+    <span class="hljs-attr">headers</span>: {
+        <span class="hljs-string">'content-type'</span>: <span class="hljs-string">'application/json'</span>,
+        <span class="hljs-string">'x-forwarded-for'</span>: <span class="hljs-string">'194.242.26.157'</span>
     },
-    body: JSON.stringify({ id: &#39;lol&#39; })
+    <span class="hljs-attr">body</span>: <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>({ <span class="hljs-attr">id</span>: <span class="hljs-string">'lol'</span> })
 })
-.then(response =&gt; response.json())
-.then(data =&gt; { 
-    if (data.error) {
-        sendNotification(true, data.error);
-    } else {
-        sendNotification(false, data.flag);
+.<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">response</span> =></span> response.<span class="hljs-title function_">json</span>())
+.<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">data</span> =></span> { 
+    <span class="hljs-keyword">if</span> (data.<span class="hljs-property">error</span>) {
+        <span class="hljs-title function_">sendNotification</span>(<span class="hljs-literal">true</span>, data.<span class="hljs-property">error</span>);
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-title function_">sendNotification</span>(<span class="hljs-literal">false</span>, data.<span class="hljs-property">flag</span>);
     }
 });
 </code></pre>
@@ -523,10 +522,10 @@ let var_03; // game paused
                     grab it before it goes away! The flag is
                     <strong>flag{so_no_headers_28013}</strong>
                 </p>
-                <div style="text-align: center">
+                <div style="text-align: center; padding-bottom: 20px">
                     <img
                         src="\static\res\blog\razorhack-ctf-2024\js-gauntlet-2\teleportation-2.jpg"
-                        class="blog-image"
+                        style="width: 100%"
                     />
                 </div>
                 <hr />
@@ -534,11 +533,11 @@ let var_03; // game paused
                 <p>
                     <em
                         ><strong
-                            >I can&#39;t help feel a sense of deja vu, but maybe
+                            >I can't help feel a sense of deja vu, but maybe
                             because I went through a lot of corn mazes as a kid.
                             Anyways, this seems to be the megamaze of my
-                            childhood dreams because it&#39;s 3D! I couldn&#39;t
-                            get through much, so I&#39;ll let you figure it out
+                            childhood dreams because it's 3D! I couldn't get
+                            through much, so I'll let you figure it out
                             yourself...</strong
                         ></em
                     >
@@ -561,76 +560,76 @@ let var_03; // game paused
                     being done as it makes it more clear just the scope you are
                     dealing with.
                 </p>
-                <div style="text-align: center">
+                <div style="text-align: center; padding-bottom: 20px">
                     <img
                         src="\static\res\blog\razorhack-ctf-2024\js-gauntlet-2\we-are-doing-this-again-1.jpg"
-                        class="blog-image"
+                        style="width: 100%"
                     />
                 </div>
                 <p>
-                    Because I didn&#39;t want people to do it manually this
-                    time, I made sure that it was big enough to stop people from
-                    going all the way. I think the furthest people went manually
-                    was 3 levels before someone wrote the script for it. I also
-                    wanted it to not be too taxing of a script, so I essentially
-                    made 10 2D mazes, then stacked the exits and entrances on
-                    top of each other. Obviously, the intended solution is to
-                    write a maze solving script. Here is my script that I wrote
-                    to solve the maze with BFS, with the neighbors function
-                    essentially being a web crawler (made in NodeJS).
+                    Because I didn't want people to do it manually this time, I
+                    made sure that it was big enough to stop people from going
+                    all the way. I think the furthest people went manually was 3
+                    levels before someone wrote the script for it. I also wanted
+                    it to not be too taxing of a script, so I essentially made
+                    10 2D mazes, then stacked the exits and entrances on top of
+                    each other. Obviously, the intended solution is to write a
+                    maze solving script. Here is my script that I wrote to solve
+                    the maze with BFS, with the neighbors function essentially
+                    being a web crawler (made in NodeJS).
                 </p>
-                <pre><code class="language-javascript">const getPaths = async (currentPath) =&gt; {
-    const response = await fetch(`https://razorhack-js-gauntlet-2.chals.io/stage/5/${currentPath}`, {
-        headers: { cookie }
+                <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> <span class="hljs-title function_">getPaths</span> = <span class="hljs-keyword">async</span> (<span class="hljs-params">currentPath</span>) => {
+    <span class="hljs-keyword">const</span> response = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">`https://razorhack-js-gauntlet-2.chals.io/stage/5/<span class="hljs-subst">${currentPath}</span>`</span>, {
+        <span class="hljs-attr">headers</span>: { cookie }
     })
-    const html = await response.text();
+    <span class="hljs-keyword">const</span> html = <span class="hljs-keyword">await</span> response.<span class="hljs-title function_">text</span>();
 
-    let paths = [];
-    if (html.toLowerCase().includes(&#39;north&#39;)) paths.push(&#39;n&#39;);
-    if (html.toLowerCase().includes(&#39;south&#39;)) paths.push(&#39;s&#39;);
-    if (html.toLowerCase().includes(&#39;east&#39;)) paths.push(&#39;e&#39;);
-    if (html.toLowerCase().includes(&#39;west&#39;)) paths.push(&#39;w&#39;);
-    if (html.toLowerCase().includes(&#39;down&#39;)) paths.push(&#39;E&#39;);
-    return paths;
+    <span class="hljs-keyword">let</span> paths = [];
+    <span class="hljs-keyword">if</span> (html.<span class="hljs-title function_">toLowerCase</span>().<span class="hljs-title function_">includes</span>(<span class="hljs-string">'north'</span>)) paths.<span class="hljs-title function_">push</span>(<span class="hljs-string">'n'</span>);
+    <span class="hljs-keyword">if</span> (html.<span class="hljs-title function_">toLowerCase</span>().<span class="hljs-title function_">includes</span>(<span class="hljs-string">'south'</span>)) paths.<span class="hljs-title function_">push</span>(<span class="hljs-string">'s'</span>);
+    <span class="hljs-keyword">if</span> (html.<span class="hljs-title function_">toLowerCase</span>().<span class="hljs-title function_">includes</span>(<span class="hljs-string">'east'</span>)) paths.<span class="hljs-title function_">push</span>(<span class="hljs-string">'e'</span>);
+    <span class="hljs-keyword">if</span> (html.<span class="hljs-title function_">toLowerCase</span>().<span class="hljs-title function_">includes</span>(<span class="hljs-string">'west'</span>)) paths.<span class="hljs-title function_">push</span>(<span class="hljs-string">'w'</span>);
+    <span class="hljs-keyword">if</span> (html.<span class="hljs-title function_">toLowerCase</span>().<span class="hljs-title function_">includes</span>(<span class="hljs-string">'down'</span>)) paths.<span class="hljs-title function_">push</span>(<span class="hljs-string">'E'</span>);
+    <span class="hljs-keyword">return</span> paths;
 }
 
-const directions = {
-    n: { x: 0, y: 1 },
-    s: { x: 0, y: -1 },
-    e: { x: 1, y: 0 },
-    w: { x: -1, y: 0 }
+<span class="hljs-keyword">const</span> directions = {
+    <span class="hljs-attr">n</span>: { <span class="hljs-attr">x</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">y</span>: <span class="hljs-number">1</span> },
+    <span class="hljs-attr">s</span>: { <span class="hljs-attr">x</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">y</span>: -<span class="hljs-number">1</span> },
+    <span class="hljs-attr">e</span>: { <span class="hljs-attr">x</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">y</span>: <span class="hljs-number">0</span> },
+    <span class="hljs-attr">w</span>: { <span class="hljs-attr">x</span>: -<span class="hljs-number">1</span>, <span class="hljs-attr">y</span>: <span class="hljs-number">0</span> }
 }
 
-let queue = [{ x: 0, y: 0, path: &#39;&#39; }];
-let visited = { &#39;0,0&#39;: true };
-let finalPath = &#39;&#39;;
-let level = 1;
+<span class="hljs-keyword">let</span> queue = [{ <span class="hljs-attr">x</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">y</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">path</span>: <span class="hljs-string">''</span> }];
+<span class="hljs-keyword">let</span> visited = { <span class="hljs-string">'0,0'</span>: <span class="hljs-literal">true</span> };
+<span class="hljs-keyword">let</span> finalPath = <span class="hljs-string">''</span>;
+<span class="hljs-keyword">let</span> level = <span class="hljs-number">1</span>;
 
-while (queue.length != 0) {
-    let item = queue.shift();
+<span class="hljs-keyword">while</span> (queue.<span class="hljs-property">length</span> != <span class="hljs-number">0</span>) {
+    <span class="hljs-keyword">let</span> item = queue.<span class="hljs-title function_">shift</span>();
 
-    const paths = await getPaths(finalPath + item.path);
-    if (paths.includes(&#39;E&#39;)) {
-        finalPath += item.path + &#39;E&#39;; 
-        queue = [{ x: item.x, y: item.y, path: &#39;&#39; }];
-        visited = { [`${item.x},${item.y}`]: true };
+    <span class="hljs-keyword">const</span> paths = <span class="hljs-keyword">await</span> <span class="hljs-title function_">getPaths</span>(finalPath + item.<span class="hljs-property">path</span>);
+    <span class="hljs-keyword">if</span> (paths.<span class="hljs-title function_">includes</span>(<span class="hljs-string">'E'</span>)) {
+        finalPath += item.<span class="hljs-property">path</span> + <span class="hljs-string">'E'</span>; 
+        queue = [{ <span class="hljs-attr">x</span>: item.<span class="hljs-property">x</span>, <span class="hljs-attr">y</span>: item.<span class="hljs-property">y</span>, <span class="hljs-attr">path</span>: <span class="hljs-string">''</span> }];
+        visited = { [<span class="hljs-string">`<span class="hljs-subst">${item.x}</span>,<span class="hljs-subst">${item.y}</span>`</span>]: <span class="hljs-literal">true</span> };
 
-        console.log(&#39;On Level:&#39;, ++level);
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'On Level:'</span>, ++level);
 
-        continue;
+        <span class="hljs-keyword">continue</span>;
     }
 
-    for (let i = 0; i &lt; paths.length; i++) {
-        let newPosition = { x: item.x + directions[paths[i]].x, y: item.y + directions[paths[i]].y };
-        if (!visited[newPosition.x + &#39;,&#39; + newPosition.y]) {
-            visited[newPosition.x + &#39;,&#39; + newPosition.y] = true;
-            queue.push({ x: newPosition.x, y: newPosition.y, path: item.path + paths[i] });
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i < paths.<span class="hljs-property">length</span>; i++) {
+        <span class="hljs-keyword">let</span> newPosition = { <span class="hljs-attr">x</span>: item.<span class="hljs-property">x</span> + directions[paths[i]].<span class="hljs-property">x</span>, <span class="hljs-attr">y</span>: item.<span class="hljs-property">y</span> + directions[paths[i]].<span class="hljs-property">y</span> };
+        <span class="hljs-keyword">if</span> (!visited[newPosition.<span class="hljs-property">x</span> + <span class="hljs-string">','</span> + newPosition.<span class="hljs-property">y</span>]) {
+            visited[newPosition.<span class="hljs-property">x</span> + <span class="hljs-string">','</span> + newPosition.<span class="hljs-property">y</span>] = <span class="hljs-literal">true</span>;
+            queue.<span class="hljs-title function_">push</span>({ <span class="hljs-attr">x</span>: newPosition.<span class="hljs-property">x</span>, <span class="hljs-attr">y</span>: newPosition.<span class="hljs-property">y</span>, <span class="hljs-attr">path</span>: item.<span class="hljs-property">path</span> + paths[i] });
         }
     }
 }
 
-finalPath = finalPath.slice(0, finalPath.length - 1);
-console.log(finalPath);
+finalPath = finalPath.<span class="hljs-title function_">slice</span>(<span class="hljs-number">0</span>, finalPath.<span class="hljs-property">length</span> - <span class="hljs-number">1</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(finalPath);
 </code></pre>
                 <p>
                     After running the script, it will give you the entire path
@@ -641,15 +640,15 @@ console.log(finalPath);
                     If you would like to see the visual representation of the
                     maze, here is a
                     <a
-                        href="%5Cstatic%5Cres%5Cblog%5Crazorhack-ctf-2024%5Cjs-gauntlet-2%5Cmaze.zip"
+                        href="\static\res\blog\razorhack-ctf-2024\js-gauntlet-2\maze.zip"
                         >zip file</a
                     >
                     with all of the layers with starts and ends labeled.
                 </p>
-                <div style="text-align: center">
+                <div style="text-align: center; padding-bottom: 20px">
                     <img
                         src="\static\res\blog\razorhack-ctf-2024\js-gauntlet-2\we-are-doing-this-again-2.jpg"
-                        class="blog-image"
+                        style="width: 100%"
                     />
                 </div>
                 <hr />
@@ -664,10 +663,10 @@ console.log(finalPath);
                             we have completed within the last month. Now, I am
                             no slacker, but my number are lower than they
                             should. In fact, I need just one more tickets to
-                            reach the quota for the role of &quot;Good IT
-                            Boy&quot; for the month. However, our manager is the
-                            only one who can modify when a ticket is done as to
-                            prevent misuse. Can you, you know, up that number
+                            reach the quota for the role of "Good IT Boy" for
+                            the month. However, our manager is the only one who
+                            can modify when a ticket is done as to prevent
+                            misuse. Can you, you know, up that number
                             somehow?</strong
                         ></em
                     >
@@ -677,56 +676,55 @@ console.log(finalPath);
                 <p>
                     So for this challenge and the rest after, no one was able to
                     solve it. Only one team got to this point, so they are
-                    considered the champions of JS Gauntlet 2. I didn&#39;t give
+                    considered the champions of JS Gauntlet 2. I didn't give
                     them anything like last year (I was tempted to give them the
-                    hat I wore the entire time, but I don&#39;t think anyone
-                    wants a cheap sweaty tophat as a prize). The Russian comment
-                    says:
+                    hat I wore the entire time, but I don't think anyone wants a
+                    cheap sweaty tophat as a prize). The Russian comment says:
                     <strong
-                        >This seems like a nice system, so I didn&#39;t take it
+                        >This seems like a nice system, so I didn't take it
                         down. A bit primitive, but I like its simplicity. I
                         could go ahead and modify everything that is here for
                         the hell of it, but I think that is not
                         necessary.</strong
                     >
-                    This is because this stage isn&#39;t even for recovery,
-                    Stanley just wants his numbers up!
+                    This is because this stage isn't even for recovery, Stanley
+                    just wants his numbers up!
                 </p>
-                <div style="text-align: center">
+                <div style="text-align: center; padding-bottom: 20px">
                     <img
                         src="\static\res\blog\razorhack-ctf-2024\js-gauntlet-2\best-in-class-1.jpg"
-                        class="blog-image"
+                        style="width: 100%"
                     />
                 </div>
                 <p>
                     Looking into the Docker container, it seems like this
                     challenge was actually broken! The <em>/data</em> directory
-                    wasn&#39;t copied over, so it wasn&#39;t able to create
-                    databases for the users (or user). Now that sucks, but
-                    considering the how the challenges went where only one team
-                    got to this point, it seems like it went under the radar.
-                    Essentially, each user that got to this point got their own
-                    SQLite database with 100 tickets in them. All but one ticket
-                    was complete, so we just need to find a way to complete the
+                    wasn't copied over, so it wasn't able to create databases
+                    for the users (or user). Now that sucks, but considering the
+                    how the challenges went where only one team got to this
+                    point, it seems like it went under the radar. Essentially,
+                    each user that got to this point got their own SQLite
+                    database with 100 tickets in them. All but one ticket was
+                    complete, so we just need to find a way to complete the
                     ticket without admin access. Luckily, it seems like the
-                    inputs in the <em>Create Ticket</em> dialog aren&#39;t
+                    inputs in the <em>Create Ticket</em> dialog aren't
                     sanitized, client or server side. We can tell by running
                     this payload...
                 </p>
-                <div style="text-align: center">
+                <div style="text-align: center; padding-bottom: 20px">
                     <img
                         src="\static\res\blog\razorhack-ctf-2024\js-gauntlet-2\best-in-class-2.jpg"
-                        class="blog-image-75"
+                        style="width: 75%"
                     />
                 </div>
                 <p>
                     ...and you will get this in the table in the
                     <em>List Tickets</em> dialog...
                 </p>
-                <div style="text-align: center">
+                <div style="text-align: center; padding-bottom: 20px">
                     <img
                         src="\static\res\blog\razorhack-ctf-2024\js-gauntlet-2\best-in-class-3.jpg"
-                        class="blog-image-75"
+                        style="width: 75%"
                     />
                 </div>
                 <p>
@@ -738,29 +736,29 @@ console.log(finalPath);
                     the table schema looks like by looking at what data is
                     returned when calling <em>list_tickets</em> endpoint.
                 </p>
-                <pre><code class="language-json">{
-    &quot;TICKET_ID&quot;: 1,
-    &quot;TICKET_SUMMARY&quot;: &quot;Network latency in office network&quot;,
-    &quot;TICKET_DESCRIPTION&quot;: &quot;The office network is experiencing significant latency affecting all users.&quot;,
-    &quot;TICKET_AUTHOR&quot;: &quot;John&quot;,
-    &quot;TICKET_DATE&quot;: &quot;2023-05-09&quot;,
-    &quot;TICKET_COMPLETE&quot;: 1
-}
+                <pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"TICKET_ID"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"TICKET_SUMMARY"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"Network latency in office network"</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"TICKET_DESCRIPTION"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"The office network is experiencing significant latency affecting all users."</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"TICKET_AUTHOR"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"John"</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"TICKET_DATE"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"2023-05-09"</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"TICKET_COMPLETE"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span>
+<span class="hljs-punctuation">}</span>
 </code></pre>
                 <p>
                     That payload looks like this:
-                    <em>&#39;); UPDATE TICKETS SET TICKET_COMPLETE = 1 --</em>.
+                    <em>'); UPDATE TICKETS SET TICKET_COMPLETE = 1 --</em>.
                     Running the payload and looking back on the tables gives us
                     the flag: <strong>flag{legit_number_one_19373}</strong>.
                 </p>
-                <div style="text-align: center">
+                <div style="text-align: center; padding-bottom: 20px">
                     <img
                         src="\static\res\blog\razorhack-ctf-2024\js-gauntlet-2\best-in-class-4.jpg"
-                        class="blog-image"
+                        style="width: 100%"
                     />
                 </div>
                 <hr />
-                <h3>We&#39;re Definitely Doing This Again...</h3>
+                <h3>We're Definitely Doing This Again...</h3>
                 <p>
                     <em
                         ><strong
@@ -784,16 +782,16 @@ console.log(finalPath);
                     to be possible). The Russian comment says:
                     <strong
                         >I actually took this from a guy called CodingAP. If he
-                        didn&#39;t want his puzzles being copied, then he
-                        wouldn&#39;t have put them out so easily...</strong
+                        didn't want his puzzles being copied, then he wouldn't
+                        have put them out so easily...</strong
                     >. That comment is a hint that you can look at my previous
                     write up to see the way to do it (although no one made it
                     here for that to matter ): ).
                 </p>
-                <div style="text-align: center">
+                <div style="text-align: center; padding-bottom: 20px">
                     <img
                         src="\static\res\blog\razorhack-ctf-2024\js-gauntlet-2\were-definitely-doing-this-again-1.jpg"
-                        class="blog-image"
+                        style="width: 100%"
                     />
                 </div>
                 <p>
@@ -805,88 +803,88 @@ console.log(finalPath);
                     control of how it is done (copy and paste into console to
                     make it work).
                 </p>
-                <pre><code class="language-javascript">current = { x: 0, y: 0 };
+                <pre><code class="hljs language-javascript">current = { <span class="hljs-attr">x</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">y</span>: <span class="hljs-number">0</span> };
 
-const parseLocation = () =&gt; {
-    let str = document.querySelector(&#39;#piece-location&#39;).innerHTML;
-    let numbers = str.split(/[\(\)]/g)[1].split(&#39;, &#39;).map(Number);
-    return { x: numbers[0], y: numbers[1] }
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">parseLocation</span> = (<span class="hljs-params"></span>) => {
+    <span class="hljs-keyword">let</span> str = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">'#piece-location'</span>).<span class="hljs-property">innerHTML</span>;
+    <span class="hljs-keyword">let</span> numbers = str.<span class="hljs-title function_">split</span>(<span class="hljs-regexp">/[\(\)]/g</span>)[<span class="hljs-number">1</span>].<span class="hljs-title function_">split</span>(<span class="hljs-string">', '</span>).<span class="hljs-title function_">map</span>(<span class="hljs-title class_">Number</span>);
+    <span class="hljs-keyword">return</span> { <span class="hljs-attr">x</span>: numbers[<span class="hljs-number">0</span>], <span class="hljs-attr">y</span>: numbers[<span class="hljs-number">1</span>] }
 }
 
-const moveTo = (x, y) =&gt; {
-    let dx = Math.abs(current.x - x);
-    let dy = Math.abs(current.y - y);
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">moveTo</span> = (<span class="hljs-params">x, y</span>) => {
+    <span class="hljs-keyword">let</span> dx = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">abs</span>(current.<span class="hljs-property">x</span> - x);
+    <span class="hljs-keyword">let</span> dy = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">abs</span>(current.<span class="hljs-property">y</span> - y);
 
-    window.dispatchEvent(new KeyboardEvent(&#39;keydown&#39;, { key: &#39; &#39; }));
+    <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">dispatchEvent</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">KeyboardEvent</span>(<span class="hljs-string">'keydown'</span>, { <span class="hljs-attr">key</span>: <span class="hljs-string">' '</span> }));
 
-    for (let i = 0; i &lt; dx; i++) {
-        window.dispatchEvent(new KeyboardEvent(&#39;keydown&#39;, { key: (current.x &lt; x) ? &#39;ArrowRight&#39; : &#39;ArrowLeft&#39; }));
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i < dx; i++) {
+        <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">dispatchEvent</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">KeyboardEvent</span>(<span class="hljs-string">'keydown'</span>, { <span class="hljs-attr">key</span>: (current.<span class="hljs-property">x</span> < x) ? <span class="hljs-string">'ArrowRight'</span> : <span class="hljs-string">'ArrowLeft'</span> }));
     }
 
-    for (let i = 0; i &lt; dy; i++) {
-        window.dispatchEvent(new KeyboardEvent(&#39;keydown&#39;, { key: (current.y &lt; y) ? &#39;ArrowDown&#39; : &#39;ArrowUp&#39; }));
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i < dy; i++) {
+        <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">dispatchEvent</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">KeyboardEvent</span>(<span class="hljs-string">'keydown'</span>, { <span class="hljs-attr">key</span>: (current.<span class="hljs-property">y</span> < y) ? <span class="hljs-string">'ArrowDown'</span> : <span class="hljs-string">'ArrowUp'</span> }));
     }
 
-    window.dispatchEvent(new KeyboardEvent(&#39;keydown&#39;, { key: &#39; &#39; }));
+    <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">dispatchEvent</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">KeyboardEvent</span>(<span class="hljs-string">'keydown'</span>, { <span class="hljs-attr">key</span>: <span class="hljs-string">' '</span> }));
 
-    for (let i = 0; i &lt; dx; i++) {
-        window.dispatchEvent(new KeyboardEvent(&#39;keydown&#39;, { key: (current.x &lt; x) ? &#39;ArrowLeft&#39; : &#39;ArrowRight&#39; }));
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i < dx; i++) {
+        <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">dispatchEvent</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">KeyboardEvent</span>(<span class="hljs-string">'keydown'</span>, { <span class="hljs-attr">key</span>: (current.<span class="hljs-property">x</span> < x) ? <span class="hljs-string">'ArrowLeft'</span> : <span class="hljs-string">'ArrowRight'</span> }));
     }
 
-    for (let i = 0; i &lt; dy; i++) {
-        window.dispatchEvent(new KeyboardEvent(&#39;keydown&#39;, { key: (current.y &lt; y) ? &#39;ArrowUp&#39; : &#39;ArrowDown&#39; }));
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i < dy; i++) {
+        <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">dispatchEvent</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">KeyboardEvent</span>(<span class="hljs-string">'keydown'</span>, { <span class="hljs-attr">key</span>: (current.<span class="hljs-property">y</span> < y) ? <span class="hljs-string">'ArrowUp'</span> : <span class="hljs-string">'ArrowDown'</span> }));
     }
 }
 
-const setCurrent = (x, y) =&gt; {
-    let dx = Math.abs(current.x - x);
-    let dy = Math.abs(current.y - y);
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">setCurrent</span> = (<span class="hljs-params">x, y</span>) => {
+    <span class="hljs-keyword">let</span> dx = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">abs</span>(current.<span class="hljs-property">x</span> - x);
+    <span class="hljs-keyword">let</span> dy = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">abs</span>(current.<span class="hljs-property">y</span> - y);
 
-    for (let i = 0; i &lt; dx; i++) {
-        window.dispatchEvent(new KeyboardEvent(&#39;keydown&#39;, { key: (current.x &lt; x) ? &#39;ArrowRight&#39; : &#39;ArrowLeft&#39; }));
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i < dx; i++) {
+        <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">dispatchEvent</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">KeyboardEvent</span>(<span class="hljs-string">'keydown'</span>, { <span class="hljs-attr">key</span>: (current.<span class="hljs-property">x</span> < x) ? <span class="hljs-string">'ArrowRight'</span> : <span class="hljs-string">'ArrowLeft'</span> }));
     }
 
-    for (let i = 0; i &lt; dy; i++) {
-        window.dispatchEvent(new KeyboardEvent(&#39;keydown&#39;, { key: (current.y &lt; y) ? &#39;ArrowDown&#39; : &#39;ArrowUp&#39; }));
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i < dy; i++) {
+        <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">dispatchEvent</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">KeyboardEvent</span>(<span class="hljs-string">'keydown'</span>, { <span class="hljs-attr">key</span>: (current.<span class="hljs-property">y</span> < y) ? <span class="hljs-string">'ArrowDown'</span> : <span class="hljs-string">'ArrowUp'</span> }));
     }
 
-    current.x = x;
-    current.y = y;
+    current.<span class="hljs-property">x</span> = x;
+    current.<span class="hljs-property">y</span> = y;
 }
 
-window.addEventListener(&#39;keydown&#39;, event =&gt; {
-    let pos = parseLocation();
-    if (event.key == &#39;r&#39; &amp;&amp; (current.x !== pos.x || current.y !== pos.y)) {
-        moveTo(pos.x, pos.y);
+<span class="hljs-variable language_">window</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">'keydown'</span>, <span class="hljs-function"><span class="hljs-params">event</span> =></span> {
+    <span class="hljs-keyword">let</span> pos = <span class="hljs-title function_">parseLocation</span>();
+    <span class="hljs-keyword">if</span> (event.<span class="hljs-property">key</span> == <span class="hljs-string">'r'</span> && (current.<span class="hljs-property">x</span> !== pos.<span class="hljs-property">x</span> || current.<span class="hljs-property">y</span> !== pos.<span class="hljs-property">y</span>)) {
+        <span class="hljs-title function_">moveTo</span>(pos.<span class="hljs-property">x</span>, pos.<span class="hljs-property">y</span>);
     }
 
-    if (event.key == &#39;w&#39; &amp;&amp; current.y != 0) {
-        setCurrent(current.x, current.y - 1);
+    <span class="hljs-keyword">if</span> (event.<span class="hljs-property">key</span> == <span class="hljs-string">'w'</span> && current.<span class="hljs-property">y</span> != <span class="hljs-number">0</span>) {
+        <span class="hljs-title function_">setCurrent</span>(current.<span class="hljs-property">x</span>, current.<span class="hljs-property">y</span> - <span class="hljs-number">1</span>);
     }
 
-    if (event.key == &#39;a&#39; &amp;&amp; current.x != 0) {
-        setCurrent(current.x - 1, current.y);
+    <span class="hljs-keyword">if</span> (event.<span class="hljs-property">key</span> == <span class="hljs-string">'a'</span> && current.<span class="hljs-property">x</span> != <span class="hljs-number">0</span>) {
+        <span class="hljs-title function_">setCurrent</span>(current.<span class="hljs-property">x</span> - <span class="hljs-number">1</span>, current.<span class="hljs-property">y</span>);
     }
 
-    if (event.key == &#39;s&#39; &amp;&amp; current.y != 19) {
-        setCurrent(current.x, current.y + 1);
+    <span class="hljs-keyword">if</span> (event.<span class="hljs-property">key</span> == <span class="hljs-string">'s'</span> && current.<span class="hljs-property">y</span> != <span class="hljs-number">19</span>) {
+        <span class="hljs-title function_">setCurrent</span>(current.<span class="hljs-property">x</span>, current.<span class="hljs-property">y</span> + <span class="hljs-number">1</span>);
     }
 
-    if (event.key == &#39;d&#39; &amp;&amp; current.x != 31) {
-        setCurrent(current.x + 1, current.y);
+    <span class="hljs-keyword">if</span> (event.<span class="hljs-property">key</span> == <span class="hljs-string">'d'</span> && current.<span class="hljs-property">x</span> != <span class="hljs-number">31</span>) {
+        <span class="hljs-title function_">setCurrent</span>(current.<span class="hljs-property">x</span> + <span class="hljs-number">1</span>, current.<span class="hljs-property">y</span>);
     }
 });
 </code></pre>
                 <p>
-                    After running it (press &#39;r&#39; to move piece, and
-                    &#39;wasd&#39; to move selector in the right place instead
-                    of the arrow keys), the flag shows up:
+                    After running it (press 'r' to move piece, and 'wasd' to
+                    move selector in the right place instead of the arrow keys),
+                    the flag shows up:
                     <strong>flag{i_actually_wasnt_sorry_83911}</strong>.
                 </p>
-                <div style="text-align: center">
+                <div style="text-align: center; padding-bottom: 20px">
                     <img
                         src="\static\res\blog\razorhack-ctf-2024\js-gauntlet-2\were-definitely-doing-this-again-2.jpg"
-                        class="blog-image"
+                        style="width: 100%"
                     />
                 </div>
                 <hr />
@@ -912,49 +910,48 @@ window.addEventListener(&#39;keydown&#39;, event =&gt; {
                     but it does show a lot of cool stuff. This was originally
                     going to be an XSS attack through the notification system,
                     but it was too similar to the one in Jungle Calls last year
-                    (doesn&#39;t stop me from reusing other challenges, but I
+                    (doesn't stop me from reusing other challenges, but I
                     digress). The Russian comment says:
                     <strong
                         >It seems like the master key is just placed in the root
-                        directory of the server application called
-                        &#39;flag&#39;. What a stupid idea! I&#39;ll just, you
-                        know, spread this around to where you can&#39;t find it
-                        so easily...</strong
+                        directory of the server application called 'flag'. What
+                        a stupid idea! I'll just, you know, spread this around
+                        to where you can't find it so easily...</strong
                     >.
                 </p>
-                <div style="text-align: center">
+                <div style="text-align: center; padding-bottom: 20px">
                     <img
                         src="\static\res\blog\razorhack-ctf-2024\js-gauntlet-2\we-will-never-surrender.jpg"
-                        class="blog-image"
+                        style="width: 100%"
                     />
                 </div>
                 <p>
                     As the comment suggests, we need to read a file called
-                    &#39;flag&#39; on the root server. If we look at the logs
-                    dropdown in the <em>Account Settings</em> dialog, we see
-                    that in order to fetch the log contents, it sends a file URL
-                    to the server. We can tell because it says
+                    'flag' on the root server. If we look at the logs dropdown
+                    in the <em>Account Settings</em> dialog, we see that in
+                    order to fetch the log contents, it sends a file URL to the
+                    server. We can tell because it says
                     <em>logs/[log_name].log</em>, which hints at a file
                     structure of some sort. We can use this to access any file
                     on the root server, like so...
                 </p>
-                <pre><code class="language-javascript">const getFile = (file) =&gt; {
-    fetch(&#39;/api/stage8/show_notification&#39;, {
-        method: &#39;post&#39;,
-        headers: {
-            &#39;content-type&#39;: &#39;application/json&#39;
+                <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> <span class="hljs-title function_">getFile</span> = (<span class="hljs-params">file</span>) => {
+    <span class="hljs-title function_">fetch</span>(<span class="hljs-string">'/api/stage8/show_notification'</span>, {
+        <span class="hljs-attr">method</span>: <span class="hljs-string">'post'</span>,
+        <span class="hljs-attr">headers</span>: {
+            <span class="hljs-string">'content-type'</span>: <span class="hljs-string">'application/json'</span>
         },
-        body: JSON.stringify({ file })
-    }).then(response =&gt; response.json())
-    .then(data =&gt; {
-        // ew, data.data.data
-        console.log(data.data.data.map(byte =&gt; String.fromCharCode(byte)).join(&#39;&#39;))
+        <span class="hljs-attr">body</span>: <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>({ file })
+    }).<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">response</span> =></span> response.<span class="hljs-title function_">json</span>())
+    .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">data</span> =></span> {
+        <span class="hljs-comment">// ew, data.data.data</span>
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(data.<span class="hljs-property">data</span>.<span class="hljs-property">data</span>.<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">byte</span> =></span> <span class="hljs-title class_">String</span>.<span class="hljs-title function_">fromCharCode</span>(byte)).<span class="hljs-title function_">join</span>(<span class="hljs-string">''</span>))
     })
 }
 
-getFile(&#39;flag&#39;);
-// flag{we
-// c3JjL2FwaS5qcw==
+<span class="hljs-title function_">getFile</span>(<span class="hljs-string">'flag'</span>);
+<span class="hljs-comment">// flag{we</span>
+<span class="hljs-comment">// c3JjL2FwaS5qcw==</span>
 </code></pre>
                 <p>
                     This gives us the first part of the flag as well as an
@@ -962,46 +959,46 @@ getFile(&#39;flag&#39;);
                     another file path: <em>src/api.js</em>. We can continue this
                     until we find all flag parts...
                 </p>
-                <pre><code class="language-javascript">getFile(&#39;src/api.js&#39;);
-// ... some code ...
-// _have_bea
-// aW5kZXguanM= (base64 decode: index.js)
-// ... some code ...
+                <pre><code class="hljs language-javascript"><span class="hljs-title function_">getFile</span>(<span class="hljs-string">'src/api.js'</span>);
+<span class="hljs-comment">// ... some code ...</span>
+<span class="hljs-comment">// _have_bea</span>
+<span class="hljs-comment">// aW5kZXguanM= (base64 decode: index.js)</span>
+<span class="hljs-comment">// ... some code ...</span>
 
-getFile(&#39;index.js&#39;);
-// ... some code ...
-// ten_them
-// cHVibGljL2ltZy9jb25ncmF0cy5wbmc= (base64 decode: public/img/congrats.png)
-// ... some code ...
+<span class="hljs-title function_">getFile</span>(<span class="hljs-string">'index.js'</span>);
+<span class="hljs-comment">// ... some code ...</span>
+<span class="hljs-comment">// ten_them</span>
+<span class="hljs-comment">// cHVibGljL2ltZy9jb25ncmF0cy5wbmc= (base64 decode: public/img/congrats.png)</span>
+<span class="hljs-comment">// ... some code ...</span>
 
-getFile(&#39;public/img/congrats.png&#39;);
-// it is an image, shown below
+<span class="hljs-title function_">getFile</span>(<span class="hljs-string">'public/img/congrats.png'</span>);
+<span class="hljs-comment">// it is an image, shown below</span>
 </code></pre>
-                <div style="text-align: center">
+                <div style="text-align: center; padding-bottom: 20px">
                     <img
                         src="\static\res\blog\razorhack-ctf-2024\js-gauntlet-2\congrats.jpg"
-                        class="blog-image-75"
+                        style="width: 75%"
                     />
                 </div>
                 <p>
                     To actually get the image file, I wrote another script that
                     fetches and stores it in a file (written in NodeJS)...
                 </p>
-                <pre><code class="language-javascript">import fs from &#39;node:fs&#39;;
+                <pre><code class="hljs language-javascript"><span class="hljs-keyword">import</span> fs <span class="hljs-keyword">from</span> <span class="hljs-string">'node:fs'</span>;
 
-const file = &#39;public/img/congrats.png&#39;;
+<span class="hljs-keyword">const</span> file = <span class="hljs-string">'public/img/congrats.png'</span>;
 
-fetch(&#39;http://razorhack-js-gauntlet-2.chals.io/api/stage8/show_notification&#39;, {
-    method: &#39;post&#39;,
-    headers: {
-        &#39;content-type&#39;: &#39;application/json&#39;,
-        cookie: cookie
+<span class="hljs-title function_">fetch</span>(<span class="hljs-string">'http://razorhack-js-gauntlet-2.chals.io/api/stage8/show_notification'</span>, {
+    <span class="hljs-attr">method</span>: <span class="hljs-string">'post'</span>,
+    <span class="hljs-attr">headers</span>: {
+        <span class="hljs-string">'content-type'</span>: <span class="hljs-string">'application/json'</span>,
+        <span class="hljs-attr">cookie</span>: cookie
     },
-    body: JSON.stringify({ file })
+    <span class="hljs-attr">body</span>: <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>({ file })
 })
-.then(response =&gt; response.json())
-.then(data =&gt; {
-    fs.writeFileSync(file, Buffer.from(data.data.data));
+.<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">response</span> =></span> response.<span class="hljs-title function_">json</span>())
+.<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">data</span> =></span> {
+    fs.<span class="hljs-title function_">writeFileSync</span>(file, <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(data.<span class="hljs-property">data</span>.<span class="hljs-property">data</span>));
 })
 </code></pre>
                 <p>
@@ -1013,8 +1010,8 @@ fetch(&#39;http://razorhack-js-gauntlet-2.chals.io/api/stage8/show_notification&
                     I wanted this to be a cool reward after completing the
                     challenges, as you can see most of the code that handles
                     what you did. You can even see all the other code if you
-                    wanted to, it just wouldn&#39;t have the flag involved. As
-                    said previously, though, no one made it this far.
+                    wanted to, it just wouldn't have the flag involved. As said
+                    previously, though, no one made it this far.
                 </p>
                 <hr />
                 <h3>hogCAPTCHA</h3>
@@ -1029,10 +1026,10 @@ fetch(&#39;http://razorhack-js-gauntlet-2.chals.io/api/stage8/show_notification&
                     Both CAPTCHAs start out with a button that takes them to the
                     CAPTCHA...
                 </p>
-                <div style="text-align: center">
+                <div style="text-align: center; padding-bottom: 20px">
                     <img
                         src="\static\res\blog\razorhack-ctf-2024\js-gauntlet-2\hogCAPTCHA-1.jpg"
-                        class="blog-image blog-image-50"
+                        style="width: 50%"
                     />
                 </div>
                 <p>
@@ -1043,10 +1040,10 @@ fetch(&#39;http://razorhack-js-gauntlet-2.chals.io/api/stage8/show_notification&
                 <hr />
                 <h3>hogCAPTCHApt1</h3>
                 <p><em>Solved: 33/33</em></p>
-                <div style="text-align: center">
+                <div style="text-align: center; padding-bottom: 20px">
                     <img
                         src="\static\res\blog\razorhack-ctf-2024\js-gauntlet-2\hogCAPTCHApt1.jpg"
-                        class="blog-image"
+                        style="width: 100%"
                     />
                 </div>
                 <p>
@@ -1071,7 +1068,7 @@ fetch(&#39;http://razorhack-js-gauntlet-2.chals.io/api/stage8/show_notification&
                         system audits and updates, but your real task is much
                         more critical. You’ll be granted high-level access under
                         the radar, which should allow you to monitor the plant’s
-                        network traffic and internal communications. We&#39;ve
+                        network traffic and internal communications. We've
                         already identified some data that should help you get
                         started in your investigation. You’ll need to confirm if
                         we’re dealing with a skilled saboteur or just someone
@@ -1091,18 +1088,18 @@ fetch(&#39;http://razorhack-js-gauntlet-2.chals.io/api/stage8/show_notification&
                     and painstakingly copy it down, or b.) make a script because
                     all the answers were in the code. Some of the bugs include
                     punctuation being included, which confused people; weird
-                    characters from the letter being included (apparently &#39;
-                    and ’ are not the same character, as is - and —); and the
-                    input not correctly encoding the words the same way as you
-                    type them. And we made this the first challenge of the
-                    entire CTF and you had to complete this before you can try
-                    the other challenges! Luckily, it only took about 5 minutes
-                    to fix, and most people found workarounds, so it wasn&#39;t
-                    the worst thing. After entering all the words, or using the
-                    script below...
+                    characters from the letter being included (apparently ' and
+                    ’ are not the same character, as is - and —); and the input
+                    not correctly encoding the words the same way as you type
+                    them. And we made this the first challenge of the entire CTF
+                    and you had to complete this before you can try the other
+                    challenges! Luckily, it only took about 5 minutes to fix,
+                    and most people found workarounds, so it wasn't the worst
+                    thing. After entering all the words, or using the script
+                    below...
                 </p>
-                <pre><code class="language-javascript">document.querySelectorAll(&#39;input&#39;).forEach(input =&gt; {
-    input.value = input.getAttribute(&#39;data-answer&#39;);
+                <pre><code class="hljs language-javascript"><span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">'input'</span>).<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">input</span> =></span> {
+    input.<span class="hljs-property">value</span> = input.<span class="hljs-title function_">getAttribute</span>(<span class="hljs-string">'data-answer'</span>);
 });
 </code></pre>
                 <p>
@@ -1112,62 +1109,60 @@ fetch(&#39;http://razorhack-js-gauntlet-2.chals.io/api/stage8/show_notification&
                 <hr />
                 <h3>hogCAPTCHApt2</h3>
                 <p><em>Solved: 8/33</em></p>
-                <div style="text-align: center">
+                <div style="text-align: center; padding-bottom: 20px">
                     <img
                         src="\static\res\blog\razorhack-ctf-2024\js-gauntlet-2\hogCAPTCHApt2.jpg"
-                        class="blog-image-75"
+                        style="width: 75%"
                     />
                 </div>
                 <p>
                     This is probably the worst CTF challenge I have ever made.
                     Made with ChatGPT and not much care, this challenge straight
-                    up didn&#39;t work. Some of it is not my fault, though. In
-                    this challenge, you need to click all pixels that have a
-                    blue component that is greater than 100, so all you would
-                    need to do is run a script that does it for you, right?
-                    I&#39;ve made so many challenges like this, and they all
-                    seem to work, so why not this one? Well, I thought so to. In
-                    fact, here is a script that worked for me...
+                    up didn't work. Some of it is not my fault, though. In this
+                    challenge, you need to click all pixels that have a blue
+                    component that is greater than 100, so all you would need to
+                    do is run a script that does it for you, right? I've made so
+                    many challenges like this, and they all seem to work, so why
+                    not this one? Well, I thought so to. In fact, here is a
+                    script that worked for me...
                 </p>
-                <pre><code class="language-javascript">indexes = []
-imageData = document.querySelector(&#39;canvas&#39;).getContext(&#39;2d&#39;).getImageData(0, 0, 200, 200);
-for (let y = 0; y &lt; canvas.height; y++) {
-    for (let x = 0; x &lt; canvas.width; x++) {
-        let index = 4 * (y * canvas.width + x);
-        if (imageData.data[index + 2] &gt; 100) indexes.push(index / 4)
+                <pre><code class="hljs language-javascript">indexes = []
+imageData = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">'canvas'</span>).<span class="hljs-title function_">getContext</span>(<span class="hljs-string">'2d'</span>).<span class="hljs-title function_">getImageData</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">200</span>, <span class="hljs-number">200</span>);
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> y = <span class="hljs-number">0</span>; y < canvas.<span class="hljs-property">height</span>; y++) {
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> x = <span class="hljs-number">0</span>; x < canvas.<span class="hljs-property">width</span>; x++) {
+        <span class="hljs-keyword">let</span> index = <span class="hljs-number">4</span> * (y * canvas.<span class="hljs-property">width</span> + x);
+        <span class="hljs-keyword">if</span> (imageData.<span class="hljs-property">data</span>[index + <span class="hljs-number">2</span>] > <span class="hljs-number">100</span>) indexes.<span class="hljs-title function_">push</span>(index / <span class="hljs-number">4</span>)
     }
 }
-clickedPixels = new Set(indexes)
+clickedPixels = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>(indexes)
 </code></pre>
                 <p>
                     This, along with clicking once on the image shows the flag
                     for me: <strong>flag{pr33ty_c0l0rs!!!}</strong>. Key words:
                     <em>FOR ME</em>. For some reason, this code would not
-                    consistenly work on other people&#39;s devices. First, I
-                    tried simulating clicks through the event dispatcher, which
-                    didn&#39;t work consistently. Then, Firefox and
-                    Chromium-based browsers handle images on canvases
-                    differently, meaning that there would be different pixels
-                    that would be clicked on each browser. Then, even with the
-                    same settings and everything, some computers just didn&#39;t
-                    get the right answer, even with the same script! I just
-                    decided that it wasn&#39;t worth it and just gave anyone
-                    whose answer looks correct the flag manually, which kinda
-                    sucks.
+                    consistenly work on other people's devices. First, I tried
+                    simulating clicks through the event dispatcher, which didn't
+                    work consistently. Then, Firefox and Chromium-based browsers
+                    handle images on canvases differently, meaning that there
+                    would be different pixels that would be clicked on each
+                    browser. Then, even with the same settings and everything,
+                    some computers just didn't get the right answer, even with
+                    the same script! I just decided that it wasn't worth it and
+                    just gave anyone whose answer looks correct the flag
+                    manually, which kinda sucks.
                 </p>
                 <hr />
                 <h3>Conclusion</h3>
                 <p>
                     I think in terms of last year, this year went way better.
-                    The hosting wasn&#39;t a problem, the challenges (mostly)
-                    didn&#39;t have breaking bugs. I didn&#39;t stay up until
-                    3am the night before creating these challenges. I would say
-                    it went off without a hitch. I do wish that more people
-                    completed the challenges as I did like the further ones I
-                    did, but at least people can see it in the blog post now.
-                    Thanks for reading if you made it this far! If you
-                    haven&#39;t yet, take a look at my other write-ups for
-                    RazorHack 2024!
+                    The hosting wasn't a problem, the challenges (mostly) didn't
+                    have breaking bugs. I didn't stay up until 3am the night
+                    before creating these challenges. I would say it went off
+                    without a hitch. I do wish that more people completed the
+                    challenges as I did like the further ones I did, but at
+                    least people can see it in the blog post now. Thanks for
+                    reading if you made it this far! If you haven't yet, take a
+                    look at my other write-ups for RazorHack 2024!
                 </p>
                 <ul>
                     <li>
@@ -1225,7 +1220,7 @@ clickedPixels = new Set(indexes)
 
                     <div class="text-end">
                         <a class="glowing-link" href="https://discord.com"
-                            >AP#1519</a
+                            >excellentap</a
                         ><br />
                         <a
                             class="glowing-link"
@@ -1233,7 +1228,7 @@ clickedPixels = new Set(indexes)
                             >alex.prosser.uark@gmail.com</a
                         ><br />
                         <span class="glowing"
-                            >© 2023 Copyright - Alex Prosser</span
+                            >© 2024 Copyright - Alex Prosser</span
                         >
                     </div>
                 </section>

@@ -8,21 +8,21 @@ let generateCircles = () => {
 
     for (
         let i = 0;
-        i < 10 * Math.round(document.documentElement.scrollHeight / 1000);
+        i < (10 * Math.round(document.documentElement.scrollHeight / 1000));
         i++
     ) {
         let circleInfo = {
             position: { x: Math.random(), y: Math.random() },
             size: Math.random(),
             alpha: Math.random(),
-            left: i % 2 == 0,
+            left: (i % 2 == 0),
             div: document.createElement('div'),
         };
 
         circleInfo.div.style.position = 'absolute';
         circleInfo.div.style.left = `${
             circleInfo.position.x * width +
-            (circleInfo.left ? 0 : mainContainer.clientWidth + width)
+            (circleInfo.left ? 0 : (mainContainer.clientWidth + width))
         }px`;
         circleInfo.div.style.top = `${
             circleInfo.position.y * (document.body.offsetHeight - 100)
@@ -40,20 +40,19 @@ let generateCircles = () => {
         circleContainer.appendChild(circleInfo.div);
     }
 };
-const isMobile = window.matchMedia(
-    'only screen and (max-width: 768px)'
-).matches;
+const isMobile =
+    window.matchMedia('only screen and (max-width: 768px)').matches;
 if (!isMobile) generateCircles();
 
 window.addEventListener('resize', () => {
     let width =
         (document.documentElement.scrollWidth - mainContainer.clientWidth) / 2;
-    console.log(document.documentElement.scrollHeight);
+    console.log(document.documentElement.scrollHeight)
 
     for (let i = 0; i < circleDivs.length; i++) {
         circleDivs[i].div.style.left = `${
             circleDivs[i].position.x * width +
-            (circleDivs[i].left ? 0 : mainContainer.clientWidth + width)
+            (circleDivs[i].left ? 0 : (mainContainer.clientWidth + width))
         }px`;
         circleDivs[i].div.style.top = `${
             circleDivs[i].position.y *

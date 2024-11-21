@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <steve> return steve.include('head.steve', { title: 'Projects' }); </steve>
+</head>
+
+<body>
+    <div class="container">
+        <steve> return steve.include('navbar.steve'); </steve>
+
+        <div id="circle-container"></div>
+
+        <h1 class="text-center">I haven't setup embedded projects just yet, so if you want to see my projects, please go
+            to my <a class="glowing-link" href="https://github.com/CodingAP">Github</a> page!</h1>
+
+        <steve> return steve.include('footer.steve'); </steve>
+    </div>
+
+    <steve> return steve.include('js.steve'); </steve>
+</body>
+
+</html>

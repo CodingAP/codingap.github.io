@@ -1,0 +1,18 @@
+{
+    "tasks": {
+        "dev": "deno run --allow-read --allow-write index.ts"
+    },
+    "imports": {
+        "@b-fuze/deno-dom": "jsr:@b-fuze/deno-dom@^0.1.48",
+        "@codingap/steve": "jsr:@codingap/steve@^2.0.9",
+        "@libs/markdown": "jsr:@libs/markdown@^2.0.0",
+        "@std/fs": "jsr:@std/fs@^1.0.5",
+        "@std/html": "jsr:@std/html@^1.0.3",
+        "@std/path": "jsr:@std/path@^1.0.7"
+    },
+    "fmt": {
+        "indentWidth": 4,
+        "singleQuote": true,
+        "exclude": ["**/*.md"]
+    }
+}
